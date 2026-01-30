@@ -47,5 +47,6 @@ jobs:
             echo "No changes to docs — skipping commit"
           else
             git commit -m "chore(deploy): update site output [skip ci]"
-            git push origin HEAD:main
+            # Use token-authenticated push so the runner can write to the repo
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:main
           fi
