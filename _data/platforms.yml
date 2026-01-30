@@ -1,0 +1,15 @@
+- name: YouTube Channel
+  url: "https://www.youtube.com/playlist?list=PLwy3nuo0MMdVzBE8FsYUe51JhVRCZfMTG"
+  description: "CodEnity YouTube playlist — tutorials and demos."
+- name: Google Play
+  url: "#"
+  description: "Android apps on Google Play."
+- name: Chrome Web Store
+  url: "#"
+  description: "Browser extensions for Chrome."
+- name: Mozilla Add-ons
+  url: "#"
+  description: "Firefox extensions."
+- name: Edge Add-ons
+  url: "#"
+  description: "Microsoft Edge extensions."

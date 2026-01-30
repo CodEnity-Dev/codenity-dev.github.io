@@ -1,0 +1,20 @@
+{%- assign a = include.app -%}
+{%- if a -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ a.title | default: a.name }}",
+  "applicationCategory": "Utilities",
+  "operatingSystem": "ANDROID, Windows, macOS, Linux",
+  "description": "{{ a.description | strip_newlines | escape }}",
+  "url": "{{ site.url }}{{ site.baseurl }}{{ a.url | default: ( '/apps/' | append: a.slug | append: '/' ) }}",
+  "softwareVersion": "{{ a.version }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{%- endif -%}

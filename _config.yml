@@ -1,0 +1,15 @@
+title: CodEnity
+email: contact@codenity.example
+description: "Bridging the Gap Between Code and Craft"
+baseurl: ""
+url: "https://your-org.github.io"
+theme: minima
+plugins:
+  - jekyll-sitemap
+markdown: kramdown
+permalink: pretty
+analytics:
+  ga4: "G-WNMLS47N0J"
+  plausible:
+    enabled: false
+    domain: "codenity.example"

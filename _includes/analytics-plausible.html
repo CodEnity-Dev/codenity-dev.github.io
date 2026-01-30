@@ -1,0 +1,4 @@
+{%- if site.analytics and site.analytics.plausible and site.analytics.plausible.enabled -%}
+<!-- Plausible Analytics -->
+<script async defer data-domain="{{ site.analytics.plausible.domain }}" src="https://plausible.io/js/plausible.js"></script>
+{%- endif -%}

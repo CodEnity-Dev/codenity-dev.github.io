@@ -1,0 +1,27 @@
+{%- if site.analytics and site.analytics.ga4 -%}
+<script>
+  (function(){
+    function loadGA(id){
+      if (document.getElementById('gtag-script')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id='+id;
+      s.async = true;
+      s.id = 'gtag-script';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { 'anonymize_ip': true });
+    }
+
+    // Load GA immediately if consent previously given
+    try{
+      var consent = localStorage.getItem('codenity_consent');
+      if (consent === 'accept') loadGA('{{ site.analytics.ga4 }}');
+    }catch(e){/* ignore */}
+
+    // Expose loader to other scripts (cookie banner)
+    window.codenityLoadGA = function(){ loadGA('{{ site.analytics.ga4 }}'); };
+  })();
+</script>
+{%- endif -%}
