@@ -34,3 +34,21 @@ jobs:
           publish_dir: ./_site
           publish_branch: gh-pages
           keep_files: false
+
+      - name: Ensure GitHub Pages site is configured to use `gh-pages`
+        env:
+          REPO: ${{ github.repository }}
+          TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          echo "Setting Pages source to gh-pages branch for $REPO"
+          PAYLOAD=$(jq -n '{source: {branch: "gh-pages", path: "/"}}')
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X PUT \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token $TOKEN" \
+            https://api.github.com/repos/$REPO/pages -d "$PAYLOAD")
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 300 ]; then
+            echo "Pages source updated (HTTP $STATUS)"
+          else
+            echo "Failed to update Pages source (HTTP $STATUS)" >&2
+            exit 1
+          fi
