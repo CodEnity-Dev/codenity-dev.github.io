@@ -1,0 +1,34 @@
+name: Set GitHub Pages source to gh-pages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  set-pages-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure DEPLOY_TOKEN is available
+        run: |
+          if [ -z "${{ secrets.DEPLOY_TOKEN }}" ]; then
+            echo "DEPLOY_TOKEN secret is not set. Please add it in repository settings." >&2
+            exit 1
+          fi
+
+      - name: Set Pages source to gh-pages (no jq)
+        env:
+          REPO: ${{ github.repository }}
+          TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          echo "Setting Pages source to gh-pages for $REPO"
+          PAYLOAD='{"source":{"branch":"gh-pages","path":"/"}}'
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X PUT \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token $TOKEN" \
+            https://api.github.com/repos/$REPO/pages -d "$PAYLOAD")
+          echo "Pages API response HTTP $STATUS"
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 300 ]; then
+            echo "Pages source updated to gh-pages"
+          else
+            echo "Failed to update Pages source (HTTP $STATUS)" >&2
+            exit 1
+          fi
