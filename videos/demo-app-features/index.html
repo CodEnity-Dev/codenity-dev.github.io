@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: App Features</title>
+<meta name="description" content="Feature demo and user manual highlights.">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="CodEnity">
+<meta property="og:title" content="Demo: App Features">
+<meta property="og:description" content="Feature demo and user manual highlights.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://your-org.github.io/videos/demo-app-features/">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/images/ce.png" sizes="32x32">
+
+<!-- Basic Meta -->
+<meta name="description" content="Feature demo and user manual highlights.">
+<link rel="canonical" href="https://your-org.github.io/videos/demo-app-features/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Demo: App Features">
+<meta property="og:description" content="Feature demo and user manual highlights.">
+<meta property="og:url" content="https://your-org.github.io/videos/demo-app-features/">
+<meta property="og:image" content="/assets/images/og-image.svg">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Demo: App Features">
+<meta name="twitter:description" content="Feature demo and user manual highlights.">
+<meta name="twitter:image" content="/assets/images/og-image.svg">
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CodEnity",
+  "url": "https://your-org.github.io",
+  "logo": "/assets/images/ce.png"
+}
+</script>
+
+
+<script>
+  (function(){
+    function loadGA(id){
+      if (document.getElementById('gtag-script')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id='+id;
+      s.async = true;
+      s.id = 'gtag-script';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { 'anonymize_ip': true });
+    }
+
+    // Load GA immediately if consent previously given
+    try{
+      var consent = localStorage.getItem('codenity_consent');
+      if (consent === 'accept') loadGA('G-WNMLS47N0J');
+    }catch(e){/* ignore */}
+
+    // Expose loader to other scripts (cookie banner)
+    window.codenityLoadGA = function(){ loadGA('G-WNMLS47N0J'); };
+  })();
+</script>
+
+  </head>
+  <body>
+    <header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/assets/images/ce.png" alt="CodEnity logo" class="logo" />
+      <span class="brand-title">CodEnity</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0F1724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#apps">Apps</a>
+      <a href="/youtube/">YouTube</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-cta" href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+    <main class="site-main">
+      <div class="container">
+        <article class="card">
+  <h1>Demo: App Features</h1>
+  <p>Feature demo and user manual highlights.</p>
+  <div>
+    <iframe width="100%" height="480" src="https://www.youtube.com/embed/ICwI5ggo6D4" title="Demo App Features" frameborder="0" allowfullscreen=""></iframe>
+  </div>
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+  <div class="container">
+    <div class="footer-left">
+      <p>&copy; CodEnity 2026 — Bridging the Gap Between Code and Craft.</p>
+    </div>
+    <div class="footer-right">
+      <nav>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+        <a href="#" target="_blank" rel="noopener">Google Play</a>
+        <a href="#" target="_blank" rel="noopener">Chrome Web Store</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+    <div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+    <div>
+      <strong>We use cookies</strong>
+      <p style="margin:.25rem 0 0 0;color:var(--color-muted);">We use analytics to improve the site. You can accept or manage preferences.</p>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;">
+      <a class="btn" href="/privacy/">Privacy</a>
+      <button id="cookie-accept" class="btn btn-cta">Accept</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  </html>

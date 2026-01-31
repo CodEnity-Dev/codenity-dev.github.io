@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodEditor</title>
+<meta name="description" content="CodEditor is a fast, lightweight code editor aimed at learners and developers who need quick editing tools on the go. Supports syntax highlight, snippets, and quick sharing.">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="CodEnity">
+<meta property="og:title" content="CodEditor">
+<meta property="og:description" content="CodEditor is a fast, lightweight code editor aimed at learners and developers who need quick editing tools on the go. Supports syntax highlight, snippets, and quick sharing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://your-org.github.io/apps/codeditor/">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/images/ce.png" sizes="32x32">
+
+<!-- Basic Meta -->
+<meta name="description" content="CodEditor is a fast, lightweight code editor aimed at learners and developers who need quick editing tools on the go. Supports syntax highlight, snippets, and quick sharing.">
+<link rel="canonical" href="https://your-org.github.io/apps/codeditor/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="CodEditor">
+<meta property="og:description" content="CodEditor is a fast, lightweight code editor aimed at learners and developers who need quick editing tools on the go. Supports syntax highlight, snippets, and quick sharing.">
+<meta property="og:url" content="https://your-org.github.io/apps/codeditor/">
+<meta property="og:image" content="/assets/images/og-image.svg">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CodEditor">
+<meta name="twitter:description" content="CodEditor is a fast, lightweight code editor aimed at learners and developers who need quick editing tools on the go. Supports syntax highlight, snippets, and quick sharing.">
+<meta name="twitter:image" content="/assets/images/og-image.svg">
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CodEnity",
+  "url": "https://your-org.github.io",
+  "logo": "/assets/images/ce.png"
+}
+</script>
+
+
+<script>
+  (function(){
+    function loadGA(id){
+      if (document.getElementById('gtag-script')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id='+id;
+      s.async = true;
+      s.id = 'gtag-script';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { 'anonymize_ip': true });
+    }
+
+    // Load GA immediately if consent previously given
+    try{
+      var consent = localStorage.getItem('codenity_consent');
+      if (consent === 'accept') loadGA('G-WNMLS47N0J');
+    }catch(e){/* ignore */}
+
+    // Expose loader to other scripts (cookie banner)
+    window.codenityLoadGA = function(){ loadGA('G-WNMLS47N0J'); };
+  })();
+</script>
+
+  </head>
+  <body>
+    <header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/assets/images/ce.png" alt="CodEnity logo" class="logo" />
+      <span class="brand-title">CodEnity</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0F1724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#apps">Apps</a>
+      <a href="/youtube/">YouTube</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-cta" href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+    <main class="site-main">
+      <div class="container">
+        <article class="card">
+  <header>
+    <h1>CodEditor</h1>
+    <p class="muted">Version 1.2.0</p>
+  </header>
+
+  <section class="app-meta">
+    <p>CodEditor is a fast, lightweight code editor aimed at learners and developers who need quick editing tools on the go. Supports syntax highlight, snippets, and quick sharing.</p>
+    <p>
+      
+        <a class="store-badge" href="#" target="_blank" rel="noopener">
+  <span class="store-icon" aria-hidden="true">
+    
+      <svg width="20" height="20" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M325 256L104 431c-8 6-21 1-21-10V91c0-11 13-16 21-10L325 256z" fill="#3DDC84"/></svg>
+    
+  </span>
+  <span class="store-label">Google Play</span>
+</a>
+
+      
+        <a class="store-badge" href="#" target="_blank" rel="noopener">
+  <span class="store-icon" aria-hidden="true">
+    
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#4285F4"/></svg>
+    
+  </span>
+  <span class="store-label">Chrome Web Store</span>
+</a>
+
+      
+        <a class="store-badge" href="#" target="_blank" rel="noopener">
+  <span class="store-icon" aria-hidden="true">
+    
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="3" fill="#FF7139"/></svg>
+    
+  </span>
+  <span class="store-label">Mozilla Add-ons</span>
+</a>
+
+      
+        <a class="store-badge" href="#" target="_blank" rel="noopener">
+  <span class="store-icon" aria-hidden="true">
+    
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12c0-5.5 4.5-10 10-10h8v8c0 5.5-4.5 10-10 10H2v-8z" fill="#0078D7"/></svg>
+    
+  </span>
+  <span class="store-label">Edge Add-ons</span>
+</a>
+
+      
+    </p>
+  </section>
+
+  
+  <section class="app-screenshots">
+    <div class="cards">
+      
+        <div class="card"><img src="/assets/images/sample-app-1.png" alt="CodEditor screenshot" style="width:100%;border-radius:8px;"/></div>
+      
+        <div class="card"><img src="/assets/images/sample-app-2.png" alt="CodEditor screenshot" style="width:100%;border-radius:8px;"/></div>
+      
+    </div>
+  </section>
+  
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CodEditor",
+  "applicationCategory": "Utilities",
+  "operatingSystem": "ANDROID, Windows, macOS, Linux",
+  "description": "CodEditor is a fast, lightweight code editor aimed at learners and developers who need quick editing tools on the go. Supports syntax highlight, snippets, and quick sharing.",
+  "url": "https://your-org.github.io/apps/codeditor/codeditor/",
+  "softwareVersion": "1.2.0",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+  <div class="container">
+    <div class="footer-left">
+      <p>&copy; CodEnity 2026 — Bridging the Gap Between Code and Craft.</p>
+    </div>
+    <div class="footer-right">
+      <nav>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+        <a href="#" target="_blank" rel="noopener">Google Play</a>
+        <a href="#" target="_blank" rel="noopener">Chrome Web Store</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+    <div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+    <div>
+      <strong>We use cookies</strong>
+      <p style="margin:.25rem 0 0 0;color:var(--color-muted);">We use analytics to improve the site. You can accept or manage preferences.</p>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;">
+      <a class="btn" href="/privacy/">Privacy</a>
+      <button id="cookie-accept" class="btn btn-cta">Accept</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  </html>
