@@ -24,8 +24,8 @@ jobs:
           gem install bundler --no-document
           bundle install
 
-      - name: Build the site with Jekyll
-        run: bundle exec jekyll build --destination ./_site
+      - name: Build the site with Jekyll (explicit source/config)
+        run: bundle exec jekyll build --source . --config _config.yml --destination ./_site
 
       - name: Deploy to gh-pages using PAT
         uses: peaceiris/actions-gh-pages@v3
