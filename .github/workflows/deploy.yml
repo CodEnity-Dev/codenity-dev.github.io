@@ -27,31 +27,10 @@ jobs:
       - name: Build the site with Jekyll (explicit source/config)
         run: bundle exec jekyll build --source . --config _config.yml --destination ./_site
 
-      - name: Prepare repo for publishing to `main/docs`
-        run: |
-          # ensure clean state
-          git status --porcelain || true
-
-      - name: Checkout `main` with PAT for push
-        uses: actions/checkout@v4
+      - name: Deploy generated site to `gh-pages` branch using PAT
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          ref: main
-          token: ${{ secrets.DEPLOY_TOKEN }}
-
-      - name: Copy generated site into `docs/`
-        run: |
-          rm -rf docs || true
-          mkdir -p docs
-          cp -a _site/. docs/
-
-      - name: Commit and push `docs/` to `main`
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs
-          if git diff --cached --quiet; then
-            echo "No changes to docs; skipping commit"
-          else
-            git commit -m "ci: update GitHub Pages site (docs/) from workflow"
-            git push origin main
-          fi
+          github_token: ${{ secrets.DEPLOY_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages
+          keep_files: false
