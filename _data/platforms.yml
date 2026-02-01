@@ -1,15 +1,15 @@
 - name: YouTube Channel
-  url: "https://www.youtube.com/playlist?list=PLwy3nuo0MMdVzBE8FsYUe51JhVRCZfMTG"
-  description: "CodEnity YouTube playlist — tutorials and demos."
+  url: "https://www.youtube.com/@codenity-iki"
+  description: "CodEnity YouTube channel — tutorials and demos."
 - name: Google Play
   url: "#"
   description: "Android apps on Google Play."
 - name: Chrome Web Store
-  url: "#"
+  url: "https://chromewebstore.google.com/detail/the-researcher/llbjpocoibimamoaehplmkhdgplcaclg"
   description: "Browser extensions for Chrome."
 - name: Mozilla Add-ons
-  url: "#"
+  url: "https://addons.mozilla.org/en-US/firefox/addon/the-researcher/"
   description: "Firefox extensions."
 - name: Edge Add-ons
-  url: "#"
+  url: "https://microsoftedge.microsoft.com/addons/detail/the-researcher/hphlmgmlcikbommoofnehkjoidgidide"
   description: "Microsoft Edge extensions."

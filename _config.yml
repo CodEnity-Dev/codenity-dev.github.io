@@ -1,8 +1,9 @@
+# Site settings
 title: CodEnity
 email: contact@codenity.example
 description: "Bridging the Gap Between Code and Craft"
 baseurl: ""
-url: "https://your-org.github.io"
+url: "https://codenity-dev.github.io"
 theme: minima
 plugins:
   - jekyll-sitemap

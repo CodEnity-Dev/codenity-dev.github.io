@@ -7,11 +7,11 @@
     - name: Google Play
       url: "#"
     - name: Chrome Web Store
-      url: "#"
+      url: "https://chromewebstore.google.com/detail/the-researcher/llbjpocoibimamoaehplmkhdgplcaclg"
     - name: Mozilla Add-ons
-      url: "#"
+      url: "https://addons.mozilla.org/en-US/firefox/addon/the-researcher/"
     - name: Edge Add-ons
-      url: "#"
+      url: "https://microsoftedge.microsoft.com/addons/detail/the-researcher/hphlmgmlcikbommoofnehkjoidgidide"
   screenshots:
     - /assets/images/sample-app-1.png
     - /assets/images/sample-app-2.png
@@ -23,8 +23,8 @@
   version: "0.9.4"
   platforms:
     - name: Chrome Web Store
-      url: "#"
+      url: "https://chromewebstore.google.com/detail/the-researcher/llbjpocoibimamoaehplmkhdgplcaclg"
     - name: Mozilla Add-ons
-      url: "#"
+      url: "https://addons.mozilla.org/en-US/firefox/addon/the-researcher/"
   screenshots:
     - /assets/images/sample-ext-1.png
