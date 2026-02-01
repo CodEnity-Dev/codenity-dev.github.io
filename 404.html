@@ -1,0 +1,342 @@
+---
+layout: default
+title: "Page Not Found"
+description: "The page you're looking for doesn't exist. Let's get you back on track."
+permalink: /404.html
+---
+
+<style>
+.error-container {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.error-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.error-code {
+    font-size: 8rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    line-height: 1;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(11, 95, 255, 0.1);
+}
+
+.error-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    font-size: 1.1rem;
+    color: var(--neutral);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.error-suggestions {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    border-left: 4px solid var(--primary-blue);
+}
+
+.error-suggestions h3 {
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.suggestions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.suggestion-item {
+    text-align: left;
+}
+
+.suggestion-item a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.suggestion-item a:hover {
+    background: var(--primary-blue);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(11, 95, 255, 0.2);
+}
+
+.suggestion-icon {
+    font-size: 1.2rem;
+}
+
+.search-container {
+    margin: 2rem 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-box {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.animated-element {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.floating-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.shape {
+    position: absolute;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    top: 70%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.shape:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 80%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .error-code {
+        font-size: 6rem;
+    }
+    
+    .error-title {
+        font-size: 2rem;
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .suggestions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="error-container">
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <div class="error-content animated-element">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Oops! Page Not Found</h1>
+        <p class="error-message">
+            The page you're looking for seems to have vanished into the digital void. 
+            But don't worry – we'll help you find your way back to the good stuff!
+        </p>
+        
+        <div class="error-actions">
+            <a href="/" class="btn">🏠 Go Home</a>
+            <a href="/apps/" class="btn btn-secondary">📱 Browse Apps</a>
+            <a href="/youtube/" class="btn">🎥 Watch Videos</a>
+        </div>
+        
+        <div class="search-container">
+            <input 
+                type="text" 
+                class="search-box" 
+                placeholder="🔍 Search for something specific..."
+                onkeypress="if(event.key==='Enter') performSearch(this.value)"
+            >
+        </div>
+        
+        <div class="error-suggestions">
+            <h3>Popular destinations:</h3>
+            <div class="suggestions-grid">
+                <div class="suggestion-item">
+                    <a href="/">
+                        <span class="suggestion-icon">🏠</span>
+                        <span>Homepage</span>
+                    </a>
+                </div>
+                <div class="suggestion-item">
+                    <a href="/apps/">
+                        <span class="suggestion-icon">📱</span>
+                        <span>Mobile Apps</span>
+                    </a>
+                </div>
+                <div class="suggestion-item">
+                    <a href="/youtube/">
+                        <span class="suggestion-icon">🎥</span>
+                        <span>Video Tutorials</span>
+                    </a>
+                </div>
+                <div class="suggestion-item">
+                    <a href="/contact/">
+                        <span class="suggestion-icon">📧</span>
+                        <span>Get in Touch</span>
+                    </a>
+                </div>
+                <div class="suggestion-item">
+                    <a href="/privacy/">
+                        <span class="suggestion-icon">🛡️</span>
+                        <span>Privacy Policy</span>
+                    </a>
+                </div>
+                <div class="suggestion-item">
+                    <a href="https://github.com/CodEnity-Dev" target="_blank" rel="noopener">
+                        <span class="suggestion-icon">💻</span>
+                        <span>GitHub Projects</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; color: var(--neutral);">
+            <small>
+                <strong>For developers:</strong> If you believe this is an error, please 
+                <a href="/contact/" style="color: var(--primary-blue);">report this issue</a> 
+                with the URL you were trying to access.
+            </small>
+        </div>
+    </div>
+</div>
+
+<script>
+function performSearch(query) {
+    if (query.trim()) {
+        // Simple search logic - you can enhance this
+        const searchTerm = encodeURIComponent(query.trim().toLowerCase());
+        
+        // Check for common terms and redirect accordingly
+        const redirects = {
+            'app': '/apps/',
+            'apps': '/apps/',
+            'application': '/apps/',
+            'video': '/youtube/',
+            'videos': '/youtube/',
+            'youtube': '/youtube/',
+            'tutorial': '/youtube/',
+            'contact': '/contact/',
+            'about': '/#about',
+            'home': '/',
+            'privacy': '/privacy/',
+            'policy': '/privacy/'
+        };
+        
+        for (const [term, url] of Object.entries(redirects)) {
+            if (query.toLowerCase().includes(term)) {
+                window.location.href = url;
+                return;
+            }
+        }
+        
+        // If no direct match, go to homepage with search parameter
+        window.location.href = `/?search=${searchTerm}`;
+    }
+}
+
+// Add some interactive flair
+document.addEventListener('DOMContentLoaded', function() {
+    const shapes = document.querySelectorAll('.shape');
+    shapes.forEach((shape, index) => {
+        shape.style.animationDelay = `${index * 2}s`;
+    });
+    
+    // Track 404 errors for analytics if available
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            page_title: '404 - Page Not Found',
+            page_location: window.location.href,
+            custom_map: {'custom_parameter_1': 'error_page'}
+        });
+    }
+});
+</script>
