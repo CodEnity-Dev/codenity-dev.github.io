@@ -8,6 +8,18 @@ logo_url: "/assets/images/ce.png"
 site_url: "https://codenity-dev.github.io"
 display_url: "https://codenity-dev.github.io"
 
+# Slug Configuration
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# Additional Features
+search: true
+local_backend: true
+show_preview_links: true
+show_preview_date: true
+
 # Collections Configuration
 collections:
   # Blog Posts Collection
@@ -113,20 +125,3 @@ collections:
           - {label: "Chrome Store URL", name: "chrome_store", widget: "string"}
           - {label: "Firefox Store URL", name: "firefox_store", widget: "string"}
           - {label: "Edge Store URL", name: "edge_store", widget: "string"}
-
-# Global Configuration
-media_folder: "assets/images/blog"
-public_folder: "/assets/images/blog"
-publish_mode: editorial_workflow
-
-# Slug Configuration
-slug:
-  encoding: "ascii"
-  clean_accents: true
-  sanitize_replacement: "-"
-
-# Additional Features
-search: true
-local_backend: true
-show_preview_links: true
-show_preview_date: true
