@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tag: {{ page.tag }}</title>
+<meta name="description" content="Browse all posts tagged with {{ page.tag }} on CodEnity Blog">
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="CodEnity RSS Feed" href="https://codenity-dev.github.io/feed.xml">
+<link rel="alternate" type="application/json" title="CodEnity JSON Feed" href="https://codenity-dev.github.io/feed.json">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="CodEnity">
+<meta property="og:title" content="Tag: {{ page.tag }}">
+<meta property="og:description" content="Browse all posts tagged with {{ page.tag }} on CodEnity Blog">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://codenity-dev.github.io/blog/tags/:name/">
+
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tag: {{ page.tag }}">
+<meta name="twitter:description" content="Browse all posts tagged with {{ page.tag }} on CodEnity Blog">
+
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/images/ce.png" sizes="32x32">
+
+<!-- Basic Meta -->
+<meta name="description" content="Browse all posts tagged with {{ page.tag }} on CodEnity Blog">
+<link rel="canonical" href="https://codenity-dev.github.io/blog/tags/:name/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Tag: {{ page.tag }}">
+<meta property="og:description" content="Browse all posts tagged with {{ page.tag }} on CodEnity Blog">
+<meta property="og:url" content="https://codenity-dev.github.io/blog/tags/:name/">
+<meta property="og:image" content="/assets/images/og-image.svg">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tag: {{ page.tag }}">
+<meta name="twitter:description" content="Browse all posts tagged with {{ page.tag }} on CodEnity Blog">
+<meta name="twitter:image" content="/assets/images/og-image.svg">
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CodEnity",
+  "url": "https://codenity-dev.github.io",
+  "logo": "/assets/images/ce.png"
+}
+</script>
+
+
+<script>
+  (function(){
+    function loadGA(id){
+      if (document.getElementById('gtag-script')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id='+id;
+      s.async = true;
+      s.id = 'gtag-script';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { 'anonymize_ip': true });
+    }
+
+    // Load GA immediately if consent previously given
+    try{
+      var consent = localStorage.getItem('codenity_consent');
+      if (consent === 'accept') loadGA('G-WNMLS47N0J');
+    }catch(e){/* ignore */}
+
+    // Expose loader to other scripts (cookie banner)
+    window.codenityLoadGA = function(){ loadGA('G-WNMLS47N0J'); };
+  })();
+</script>
+
+  </head>
+  <body>
+    <header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/assets/images/ce.png" alt="CodEnity logo" class="logo" />
+      <span class="brand-title">CodEnity</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0F1724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#apps">Apps</a>
+      <a href="/youtube/">YouTube</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-cta" href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+    <main class="site-main">
+      <div class="container">
+        <div class="blog-container">
+  <header class="tag-header">
+    <nav class="breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">→</span>
+      <a href="/blog/" class="breadcrumb-link">Blog</a>
+      <span class="breadcrumb-separator">→</span>
+      <span class="breadcrumb-current">#</span>
+    </nav>
+    
+    <h1 class="tag-title">
+      <span class="tag-symbol">#</span>
+    </h1>
+    
+    
+    <p class="tag-description">
+      0 posts tagged with this topic
+    </p>
+  </header>
+
+  <div class="tag-content">
+    
+      <div class="no-posts">
+        <div class="no-posts-icon">🏷️</div>
+        <h3>No posts with this tag yet</h3>
+        <p>We haven't published any content with the tag "#" yet. Check back later!</p>
+        <div class="no-posts-actions">
+          <a href="/blog/" class="btn btn-primary">Browse All Posts</a>
+          <a href="/" class="btn btn-secondary">← Back to Home</a>
+        </div>
+      </div>
+    
+  </div>
+</div>
+
+<style>
+/* Tag Page Styles */
+.blog-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.tag-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--bg-light);
+}
+
+.breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-link {
+  color: var(--neutral);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+  color: var(--primary-blue);
+}
+
+.breadcrumb-separator {
+  margin: 0 0.75rem;
+  color: var(--neutral);
+}
+
+.breadcrumb-current {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.tag-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.tag-symbol {
+  color: var(--primary-blue);
+  font-size: 3.5rem;
+  margin-right: 0.25rem;
+}
+
+.tag-description {
+  color: var(--neutral);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Timeline Layout */
+.posts-timeline {
+  position: relative;
+}
+
+.timeline-year {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.timeline-year::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary-blue), var(--accent-orange, #FF6A00));
+  border-radius: 2px;
+}
+
+.year-title {
+  color: var(--text-dark);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  position: relative;
+}
+
+.year-title::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  background: var(--primary-blue);
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--primary-blue);
+}
+
+.timeline-month {
+  margin-bottom: 2rem;
+}
+
+.month-title {
+  color: var(--neutral);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.timeline-posts {
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.timeline-post {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.timeline-post::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 1.5rem;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-orange, #FF6A00);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px var(--accent-orange, #FF6A00);
+}
+
+.timeline-post:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.timeline-post-date {
+  text-align: center;
+}
+
+.date-day {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  line-height: 1;
+}
+
+.date-month {
+  font-size: 0.8rem;
+  color: var(--neutral);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+}
+
+.timeline-post-content {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.timeline-post-image {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.timeline-post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.timeline-post:hover .timeline-post-image img {
+  transform: scale(1.05);
+}
+
+.timeline-post-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.post-category {
+  align-self: flex-start;
+}
+
+.post-category a {
+  background: var(--primary-blue);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeline-post-title {
+  margin: 0;
+}
+
+.timeline-post-title a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.timeline-post-title a:hover {
+  color: var(--primary-blue);
+}
+
+.timeline-post-excerpt {
+  color: var(--neutral);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.timeline-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-link, .tag-highlight {
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.tag-link {
+  background: var(--bg-light);
+  color: var(--neutral);
+  transition: all 0.3s ease;
+}
+
+.tag-link:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.tag-highlight {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.timeline-post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.read-time {
+  color: var(--neutral);
+}
+
+.read-more {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.read-more:hover {
+  color: #0949cc;
+}
+
+/* Related Tags */
+.related-tags {
+  margin-top: 4rem;
+  padding: 2rem;
+  background: var(--bg-light);
+  border-radius: 12px;
+}
+
+.related-tags h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.tag-cloud-item {
+  background: white;
+  color: var(--text-dark);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.tag-cloud-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  background: var(--primary-blue);
+  color: white;
+}
+
+.tag-count {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+.view-all-tags {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.view-all-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.view-all-link:hover {
+  color: #0949cc;
+}
+
+/* No Posts State */
+.no-posts {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.no-posts-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts h3 {
+  color: var(--text-dark);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts p {
+  color: var(--neutral);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.no-posts-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0949cc;
+}
+
+.btn-secondary {
+  background: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+  background: var(--neutral);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 1rem 0;
+  }
+  
+  .tag-title {
+    font-size: 2.5rem;
+  }
+  
+  .timeline-post {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .timeline-post-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .timeline-post-image {
+    height: 120px;
+  }
+  
+  .timeline-year::before {
+    display: none;
+  }
+  
+  .year-title, .month-title, .timeline-posts {
+    padding-left: 0;
+  }
+  
+  .timeline-post::before {
+    display: none;
+  }
+  
+  .tag-cloud {
+    justify-content: flex-start;
+  }
+  
+  .no-posts-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+  <div class="container">
+    <div class="footer-left">
+      <p>&copy; CodEnity 2026 — Bridging the Gap Between Code and Craft.</p>
+    </div>
+    <div class="footer-right">
+      <nav>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+        <a href="#" target="_blank" rel="noopener">Google Play</a>
+        <a href="#" target="_blank" rel="noopener">Chrome Web Store</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+    <div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+    <div>
+      <strong>We use cookies</strong>
+      <p style="margin:.25rem 0 0 0;color:var(--color-muted);">We use analytics to improve the site. You can accept or manage preferences.</p>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;">
+      <a class="btn" href="/privacy/">Privacy</a>
+      <button id="cookie-accept" class="btn btn-cta">Accept</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  </html>

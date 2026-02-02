@@ -1,1 +1,130 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://codenity-dev.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://codenity-dev.github.io/" rel="alternate" type="text/html" /><updated>2026-02-01T15:23:33+00:00</updated><id>https://codenity-dev.github.io/feed.xml</id><title type="html">CodEnity</title><subtitle>Bridging the Gap Between Code and Craft</subtitle></feed>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CodEnity</title>
+    <description>Bridging the Gap Between Code and Craft</description>
+    <link>https://codenity-dev.github.io/</link>
+    <atom:link href="https://codenity-dev.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 02 Feb 2026 14:44:07 +0000</pubDate>
+    <lastBuildDate>Mon, 02 Feb 2026 14:44:07 +0000</lastBuildDate>
+    <generator>Jekyll v4.4.1</generator>
+    <language>en-US</language>
+    <managingEditor>contact@codenity.example (CodEnity Team)</managingEditor>
+    <webMaster>contact@codenity.example (CodEnity Team)</webMaster>
+    <copyright>Copyright © 2026 CodEnity. All rights reserved.</copyright>
+    <category>Technology</category>
+    <category>Programming</category>
+    <category>Browser Extensions</category>
+    <category>Web Development</category>
+    <ttl>60</ttl>
+    <image>
+      <url>https://codenity-dev.github.io/assets/images/ce.png</url>
+      <title>CodEnity</title>
+      <link>https://codenity-dev.github.io/</link>
+      <width>144</width>
+      <height>144</height>
+      <description>CodEnity - Bridging the Gap Between Code and Craft</description>
+    </image>
+    
+    
+      <item>
+        <title>Getting Started with Browser Extension Development</title>
+        <description>Learn how to create powerful browser extensions from scratch with our step-by-step tutorial covering all major browsers.</description>
+        <pubDate>Mon, 02 Feb 2026 10:00:00 +0000</pubDate>
+        <link>https://codenity-dev.github.io/2026/02/02/browser-extension-development-guide/</link>
+        <guid isPermaLink="true">https://codenity-dev.github.io/2026/02/02/browser-extension-development-guide/</guid>
+        <author>contact@codenity.example (CodEnity Team)</author>
+        
+        
+          
+            <category>tutorial</category>
+          
+            <category>browser-extensions</category>
+          
+        
+        
+        
+          
+            <category>javascript</category>
+          
+            <category>chrome</category>
+          
+            <category>firefox</category>
+          
+            <category>development</category>
+          
+        
+        
+        
+          <enclosure url="https://codenity-dev.github.io/assets/images/blog/browser-extension-guide.jpg" type="image/jpeg" length="0"/>
+        
+      </item>
+    
+      <item>
+        <title>The Researcher Extension: New Features &amp; Updates</title>
+        <description>The Researcher extension gets major upgrades including AI-powered search suggestions and enhanced note-taking capabilities.</description>
+        <pubDate>Wed, 28 Jan 2026 14:30:00 +0000</pubDate>
+        <link>https://codenity-dev.github.io/2026/01/28/researcher-extension-major-update/</link>
+        <guid isPermaLink="true">https://codenity-dev.github.io/2026/01/28/researcher-extension-major-update/</guid>
+        <author>contact@codenity.example (CodEnity Team)</author>
+        
+        
+          
+            <category>updates</category>
+          
+            <category>releases</category>
+          
+        
+        
+        
+          
+            <category>the-researcher</category>
+          
+            <category>chrome-extension</category>
+          
+            <category>firefox</category>
+          
+            <category>edge</category>
+          
+        
+        
+        
+          <enclosure url="https://codenity-dev.github.io/assets/images/blog/researcher-update.jpg" type="image/jpeg" length="0"/>
+        
+      </item>
+    
+      <item>
+        <title>Introduction to CodEnity Blog - Welcome to Our Development Journey</title>
+        <description>Welcome to the official CodEnity Blog! We’re excited to launch this platform where we’ll share insights, tutorials, updates, and our development journey as we work to bridge the gap between code and craft.
+
+</description>
+        <pubDate>Thu, 15 Jan 2026 10:00:00 +0000</pubDate>
+        <link>https://codenity-dev.github.io/2026/01/15/welcome-to-codenity-blog/</link>
+        <guid isPermaLink="true">https://codenity-dev.github.io/2026/01/15/welcome-to-codenity-blog/</guid>
+        <author>contact@codenity.example (CodEnity Team)</author>
+        
+        
+          
+            <category>announcements</category>
+          
+        
+        
+        
+          
+            <category>welcome</category>
+          
+            <category>blog-launch</category>
+          
+            <category>codenity</category>
+          
+            <category>development</category>
+          
+        
+        
+        
+          <enclosure url="https://codenity-dev.github.ioassets/images/blog/codenity-welcome-banner.jpg" type="image/jpeg" length="0"/>
+        
+      </item>
+    
+  </channel>
+</rss>

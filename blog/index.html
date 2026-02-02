@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog</title>
+<meta name="description" content="Latest tutorials, updates, and insights from CodEnity - Browser extensions, development guides, and tech insights">
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="CodEnity RSS Feed" href="https://codenity-dev.github.io/feed.xml">
+<link rel="alternate" type="application/json" title="CodEnity JSON Feed" href="https://codenity-dev.github.io/feed.json">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="CodEnity">
+<meta property="og:title" content="Blog">
+<meta property="og:description" content="Latest tutorials, updates, and insights from CodEnity - Browser extensions, development guides, and tech insights">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://codenity-dev.github.io/blog/">
+
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blog">
+<meta name="twitter:description" content="Latest tutorials, updates, and insights from CodEnity - Browser extensions, development guides, and tech insights">
+
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/images/ce.png" sizes="32x32">
+
+<!-- Basic Meta -->
+<meta name="description" content="Latest tutorials, updates, and insights from CodEnity - Browser extensions, development guides, and tech insights">
+<link rel="canonical" href="https://codenity-dev.github.io/blog/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Blog">
+<meta property="og:description" content="Latest tutorials, updates, and insights from CodEnity - Browser extensions, development guides, and tech insights">
+<meta property="og:url" content="https://codenity-dev.github.io/blog/">
+<meta property="og:image" content="/assets/images/og-image.svg">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blog">
+<meta name="twitter:description" content="Latest tutorials, updates, and insights from CodEnity - Browser extensions, development guides, and tech insights">
+<meta name="twitter:image" content="/assets/images/og-image.svg">
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CodEnity",
+  "url": "https://codenity-dev.github.io",
+  "logo": "/assets/images/ce.png"
+}
+</script>
+
+
+<script>
+  (function(){
+    function loadGA(id){
+      if (document.getElementById('gtag-script')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id='+id;
+      s.async = true;
+      s.id = 'gtag-script';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { 'anonymize_ip': true });
+    }
+
+    // Load GA immediately if consent previously given
+    try{
+      var consent = localStorage.getItem('codenity_consent');
+      if (consent === 'accept') loadGA('G-WNMLS47N0J');
+    }catch(e){/* ignore */}
+
+    // Expose loader to other scripts (cookie banner)
+    window.codenityLoadGA = function(){ loadGA('G-WNMLS47N0J'); };
+  })();
+</script>
+
+  </head>
+  <body>
+    <header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/assets/images/ce.png" alt="CodEnity logo" class="logo" />
+      <span class="brand-title">CodEnity</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0F1724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#apps">Apps</a>
+      <a href="/youtube/">YouTube</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-cta" href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+    <main class="site-main">
+      <div class="container">
+        <div class="blog-container">
+  <header class="blog-header">
+    <h1 class="blog-title">CodEnity Blog</h1>
+    <p class="blog-subtitle">Latest tutorials, updates, and insights from our development team</p>
+  </header>
+
+  <div class="blog-content">
+    <main class="posts-main">
+      
+        <div class="posts-grid">
+          
+            <article class="post-card">
+              
+                <div class="post-card-image">
+                  <a href="/2026/02/02/browser-extension-development-guide/">
+                    <img src="/assets/images/blog/browser-extension-guide.jpg" alt="Getting Started with Browser Extension Development" loading="lazy">
+                  </a>
+                </div>
+              
+              
+              <div class="post-card-content">
+                <div class="post-card-meta">
+                  <time datetime="2026-02-02T10:00:00+00:00" class="post-date">
+                    Feb 02, 2026
+                  </time>
+                  
+                    <span class="post-category">Tutorial</span>
+                  
+                </div>
+                
+                <h2 class="post-card-title">
+                  <a href="/2026/02/02/browser-extension-development-guide/">Getting Started with Browser Extension Development</a>
+                </h2>
+                
+                <p class="post-card-excerpt">
+                  Learn how to create powerful browser extensions from scratch with our step-by-step tutorial covering all major browsers.
+                </p>
+                
+                <div class="post-card-footer">
+                  <a href="/2026/02/02/browser-extension-development-guide/" class="read-more-btn">
+                    Read More →
+                  </a>
+                  
+                  
+                    <div class="post-tags-preview">
+                      
+                        <span class="tag-pill">#javascript</span>
+                      
+                        <span class="tag-pill">#chrome</span>
+                      
+                      
+                        <span class="tag-pill">+2</span>
+                      
+                    </div>
+                  
+                </div>
+              </div>
+            </article>
+          
+            <article class="post-card">
+              
+                <div class="post-card-image">
+                  <a href="/2026/01/28/researcher-extension-major-update/">
+                    <img src="/assets/images/blog/researcher-update.jpg" alt="The Researcher Extension: New Features & Updates" loading="lazy">
+                  </a>
+                </div>
+              
+              
+              <div class="post-card-content">
+                <div class="post-card-meta">
+                  <time datetime="2026-01-28T14:30:00+00:00" class="post-date">
+                    Jan 28, 2026
+                  </time>
+                  
+                    <span class="post-category">Updates</span>
+                  
+                </div>
+                
+                <h2 class="post-card-title">
+                  <a href="/2026/01/28/researcher-extension-major-update/">The Researcher Extension: New Features & Updates</a>
+                </h2>
+                
+                <p class="post-card-excerpt">
+                  The Researcher extension gets major upgrades including AI-powered search suggestions and enhanced note-taking capabilities.
+                </p>
+                
+                <div class="post-card-footer">
+                  <a href="/2026/01/28/researcher-extension-major-update/" class="read-more-btn">
+                    Read More →
+                  </a>
+                  
+                  
+                    <div class="post-tags-preview">
+                      
+                        <span class="tag-pill">#the-researcher</span>
+                      
+                        <span class="tag-pill">#chrome-extension</span>
+                      
+                      
+                        <span class="tag-pill">+2</span>
+                      
+                    </div>
+                  
+                </div>
+              </div>
+            </article>
+          
+            <article class="post-card">
+              
+                <div class="post-card-image">
+                  <a href="/2026/01/15/welcome-to-codenity-blog/">
+                    <img src="/assets/images/blog/codenity-welcome-banner.jpg" alt="Introduction to CodEnity Blog - Welcome to Our Development Journey" loading="lazy">
+                  </a>
+                </div>
+              
+              
+              <div class="post-card-content">
+                <div class="post-card-meta">
+                  <time datetime="2026-01-15T10:00:00+00:00" class="post-date">
+                    Jan 15, 2026
+                  </time>
+                  
+                    <span class="post-category">Announcements</span>
+                  
+                </div>
+                
+                <h2 class="post-card-title">
+                  <a href="/2026/01/15/welcome-to-codenity-blog/">Introduction to CodEnity Blog - Welcome to Our Development Journey</a>
+                </h2>
+                
+                <p class="post-card-excerpt">
+                  Welcome to the official CodEnity Blog! We’re excited to launch this platform where we’ll share insights, tutorials, updates, and our deve...
+                </p>
+                
+                <div class="post-card-footer">
+                  <a href="/2026/01/15/welcome-to-codenity-blog/" class="read-more-btn">
+                    Read More →
+                  </a>
+                  
+                  
+                    <div class="post-tags-preview">
+                      
+                        <span class="tag-pill">#welcome</span>
+                      
+                        <span class="tag-pill">#blog-launch</span>
+                      
+                      
+                        <span class="tag-pill">+2</span>
+                      
+                    </div>
+                  
+                </div>
+              </div>
+            </article>
+          
+        </div>
+        
+        
+      
+    </main>
+    
+    <aside class="blog-sidebar">
+      <!-- Categories -->
+      
+      
+        <div class="sidebar-widget">
+          <h3 class="widget-title">Categories</h3>
+          <ul class="category-list">
+            
+              
+                
+                <li>
+                  <a href="/blog/categories/announcements/" class="category-link">
+                    Announcements
+                    <span class="category-count">(1)</span>
+                  </a>
+                </li>
+              
+            
+              
+                
+                <li>
+                  <a href="/blog/categories/browser-extensions/" class="category-link">
+                    Browser-extensions
+                    <span class="category-count">(1)</span>
+                  </a>
+                </li>
+              
+            
+              
+                
+                <li>
+                  <a href="/blog/categories/releases/" class="category-link">
+                    Releases
+                    <span class="category-count">(1)</span>
+                  </a>
+                </li>
+              
+            
+              
+                
+                <li>
+                  <a href="/blog/categories/tutorial/" class="category-link">
+                    Tutorial
+                    <span class="category-count">(1)</span>
+                  </a>
+                </li>
+              
+            
+              
+                
+                <li>
+                  <a href="/blog/categories/updates/" class="category-link">
+                    Updates
+                    <span class="category-count">(1)</span>
+                  </a>
+                </li>
+              
+            
+          </ul>
+        </div>
+      
+      
+      <!-- Popular Tags -->
+      
+      
+        <div class="sidebar-widget">
+          <h3 class="widget-title">Popular Tags</h3>
+          <div class="tag-cloud">
+            
+              
+                
+                
+                
+                <a href="/blog/tags/blog-launch/" class="tag-cloud-item">
+                  #blog-launch (1)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/chrome/" class="tag-cloud-item">
+                  #chrome (1)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/chrome-extension/" class="tag-cloud-item">
+                  #chrome-extension (1)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/codenity/" class="tag-cloud-item">
+                  #codenity (1)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/development/" class="tag-cloud-item">
+                  #development (2)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/edge/" class="tag-cloud-item">
+                  #edge (1)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/firefox/" class="tag-cloud-item">
+                  #firefox (2)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/javascript/" class="tag-cloud-item">
+                  #javascript (1)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/the-researcher/" class="tag-cloud-item">
+                  #the-researcher (1)
+                </a>
+              
+            
+              
+                
+                
+                
+                <a href="/blog/tags/welcome/" class="tag-cloud-item">
+                  #welcome (1)
+                </a>
+              
+            
+          </div>
+        </div>
+      
+      
+      <!-- Recent Posts -->
+      
+      
+      <!-- Newsletter Signup -->
+      <div class="sidebar-widget newsletter-widget">
+        <h3 class="widget-title">Stay Updated</h3>
+        <p>Get the latest tutorials and updates delivered to your inbox.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Enter your email" class="newsletter-input">
+          <button type="button" class="newsletter-btn" onclick="alert('Newsletter functionality coming soon!')">
+            Subscribe
+          </button>
+        </div>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@codenity-iki" target="_blank" rel="noopener" class="social-link">
+            🎥 YouTube
+          </a>
+          <a href="https://github.com/CodEnity-Dev" target="_blank" rel="noopener" class="social-link">
+            💻 GitHub
+          </a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<style>
+/* Blog Layout Styles */
+.blog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.blog-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.blog-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.blog-subtitle {
+  font-size: 1.2rem;
+  color: var(--neutral);
+  margin-bottom: 0;
+}
+
+.blog-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 3rem;
+}
+
+/* Posts Grid */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.post-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.post-card-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.post-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-card-image img {
+  transform: scale(1.05);
+}
+
+.post-card-content {
+  padding: 1.5rem;
+}
+
+.post-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+
+.post-date {
+  color: var(--neutral);
+}
+
+.post-category {
+  background: var(--primary-blue);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.post-card-title {
+  margin-bottom: 1rem;
+}
+
+.post-card-title a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.post-card-title a:hover {
+  color: var(--primary-blue);
+}
+
+.post-card-excerpt {
+  color: var(--neutral);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.post-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.read-more-btn {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.read-more-btn:hover {
+  color: #0949cc;
+}
+
+.post-tags-preview {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag-pill {
+  background: var(--bg-light);
+  color: var(--neutral);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* Sidebar Styles */
+.blog-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar-widget {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.widget-title {
+  color: var(--text-dark);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--bg-light);
+  padding-bottom: 0.5rem;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list li {
+  margin-bottom: 0.5rem;
+}
+
+.category-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-dark);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.category-link:hover {
+  background: var(--bg-light);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.category-count {
+  color: var(--neutral);
+  font-size: 0.85rem;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-cloud-item {
+  background: var(--bg-light);
+  color: var(--neutral);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.tag-cloud-item:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.recent-posts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-post-item {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--bg-light);
+}
+
+.recent-post-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.recent-post-link {
+  text-decoration: none;
+  color: var(--text-dark);
+  display: block;
+}
+
+.recent-post-meta {
+  font-size: 0.8rem;
+  color: var(--neutral);
+  margin-bottom: 0.25rem;
+}
+
+.recent-post-title {
+  font-weight: 600;
+  line-height: 1.3;
+  font-size: 0.9rem;
+}
+
+.recent-post-link:hover .recent-post-title {
+  color: var(--primary-blue);
+}
+
+/* Newsletter Widget */
+.newsletter-widget {
+  background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange, #FF6A00)) !important;
+  color: white;
+}
+
+.newsletter-widget .widget-title {
+  color: white;
+  border-bottom-color: rgba(255,255,255,0.2);
+}
+
+.newsletter-widget p {
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.newsletter-form {
+  margin-bottom: 1rem;
+}
+
+.newsletter-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.newsletter-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: white;
+  color: var(--primary-blue);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter-btn:hover {
+  background: var(--bg-light);
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.social-link:hover {
+  opacity: 1;
+}
+
+/* No Posts State */
+.no-posts {
+  text-align: center;
+  padding: 4rem 2rem;
+  grid-column: 1 / -1;
+}
+
+.no-posts-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts h3 {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.no-posts p {
+  color: var(--neutral);
+  margin-bottom: 2rem;
+}
+
+.pagination-info {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--bg-light);
+  grid-column: 1 / -1;
+}
+
+.pagination-info p {
+  color: var(--neutral);
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .blog-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .blog-sidebar {
+    order: -1;
+  }
+  
+  .posts-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 1rem 0;
+  }
+  
+  .blog-title {
+    font-size: 2.5rem;
+  }
+  
+  .posts-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .post-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+</style>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+  <div class="container">
+    <div class="footer-left">
+      <p>&copy; CodEnity 2026 — Bridging the Gap Between Code and Craft.</p>
+    </div>
+    <div class="footer-right">
+      <nav>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+        <a href="#" target="_blank" rel="noopener">Google Play</a>
+        <a href="#" target="_blank" rel="noopener">Chrome Web Store</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+    <div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+    <div>
+      <strong>We use cookies</strong>
+      <p style="margin:.25rem 0 0 0;color:var(--color-muted);">We use analytics to improve the site. You can accept or manage preferences.</p>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;">
+      <a class="btn" href="/privacy/">Privacy</a>
+      <button id="cookie-accept" class="btn btn-cta">Accept</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  </html>

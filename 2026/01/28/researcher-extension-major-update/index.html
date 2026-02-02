@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Researcher Extension: New Features & Updates</title>
+<meta name="description" content="Announcing major updates to The Researcher extension with improved search capabilities and new productivity features">
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="CodEnity RSS Feed" href="https://codenity-dev.github.io/feed.xml">
+<link rel="alternate" type="application/json" title="CodEnity JSON Feed" href="https://codenity-dev.github.io/feed.json">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="CodEnity">
+<meta property="og:title" content="The Researcher Extension: New Features & Updates">
+<meta property="og:description" content="Announcing major updates to The Researcher extension with improved search capabilities and new productivity features">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://codenity-dev.github.io/2026/01/28/researcher-extension-major-update/">
+
+<meta property="og:image" content="https://codenity-dev.github.io/assets/images/blog/researcher-update.jpg">
+
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Researcher Extension: New Features & Updates">
+<meta name="twitter:description" content="Announcing major updates to The Researcher extension with improved search capabilities and new productivity features">
+
+<meta name="twitter:image" content="https://codenity-dev.github.io/assets/images/blog/researcher-update.jpg">
+
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/images/ce.png" sizes="32x32">
+
+<!-- Basic Meta -->
+<meta name="description" content="Announcing major updates to The Researcher extension with improved search capabilities and new productivity features">
+<link rel="canonical" href="https://codenity-dev.github.io/2026/01/28/researcher-extension-major-update/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="The Researcher Extension: New Features & Updates">
+<meta property="og:description" content="Announcing major updates to The Researcher extension with improved search capabilities and new productivity features">
+<meta property="og:url" content="https://codenity-dev.github.io/2026/01/28/researcher-extension-major-update/">
+<meta property="og:image" content="/assets/images/og-image.svg">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Researcher Extension: New Features & Updates">
+<meta name="twitter:description" content="Announcing major updates to The Researcher extension with improved search capabilities and new productivity features">
+<meta name="twitter:image" content="/assets/images/og-image.svg">
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CodEnity",
+  "url": "https://codenity-dev.github.io",
+  "logo": "/assets/images/ce.png"
+}
+</script>
+
+
+<script>
+  (function(){
+    function loadGA(id){
+      if (document.getElementById('gtag-script')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id='+id;
+      s.async = true;
+      s.id = 'gtag-script';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { 'anonymize_ip': true });
+    }
+
+    // Load GA immediately if consent previously given
+    try{
+      var consent = localStorage.getItem('codenity_consent');
+      if (consent === 'accept') loadGA('G-WNMLS47N0J');
+    }catch(e){/* ignore */}
+
+    // Expose loader to other scripts (cookie banner)
+    window.codenityLoadGA = function(){ loadGA('G-WNMLS47N0J'); };
+  })();
+</script>
+
+  </head>
+  <body>
+    <header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/assets/images/ce.png" alt="CodEnity logo" class="logo" />
+      <span class="brand-title">CodEnity</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0F1724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#apps">Apps</a>
+      <a href="/youtube/">YouTube</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-cta" href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+    <main class="site-main">
+      <div class="container">
+        <h1 id="the-researcher-extension-new-features--updates">The Researcher Extension: New Features &amp; Updates</h1>
+
+<p>We’re excited to announce a major update to <strong>The Researcher</strong> extension! This release brings powerful new features designed to supercharge your research workflow across Chrome, Firefox, and Edge browsers.</p>
+
+<h2 id="-whats-new-in-v210">🎉 What’s New in v2.1.0</h2>
+
+<h3 id="enhanced-search-intelligence">Enhanced Search Intelligence</h3>
+
+<ul>
+  <li><strong>AI-Powered Suggestions</strong>: Get smarter search recommendations based on your research context</li>
+  <li><strong>Cross-Reference Detection</strong>: Automatically identify related topics and sources</li>
+  <li><strong>Search History Analytics</strong>: Understand your research patterns with detailed insights</li>
+</ul>
+
+<h3 id="improved-note-taking">Improved Note-Taking</h3>
+
+<ul>
+  <li><strong>Rich Text Editor</strong>: Format your research notes with full styling support</li>
+  <li><strong>Auto-Save</strong>: Never lose your research with intelligent auto-saving</li>
+  <li><strong>Tag System</strong>: Organize findings with customizable tags and categories</li>
+</ul>
+
+<h3 id="performance-optimizations">Performance Optimizations</h3>
+
+<ul>
+  <li><strong>50% Faster Loading</strong>: Streamlined codebase for lightning-quick responses</li>
+  <li><strong>Reduced Memory Usage</strong>: More efficient resource management</li>
+  <li><strong>Better Mobile Support</strong>: Enhanced experience on mobile browsers</li>
+</ul>
+
+<h2 id="-user-requested-features">📊 User-Requested Features</h2>
+
+<p>Based on your feedback, we’ve added:</p>
+
+<h3 id="quick-actions-panel">Quick Actions Panel</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// New shortcut commands</span>
+<span class="nx">Ctrl</span><span class="o">+</span><span class="nx">Shift</span><span class="o">+</span><span class="nx">R</span> <span class="o">-</span> <span class="nx">Quick</span> <span class="nx">research</span> <span class="nx">mode</span>
+<span class="nx">Ctrl</span><span class="o">+</span><span class="nx">Shift</span><span class="o">+</span><span class="nx">N</span> <span class="o">-</span> <span class="nx">Create</span> <span class="k">new</span> <span class="nx">note</span>
+<span class="nx">Ctrl</span><span class="o">+</span><span class="nx">Shift</span><span class="o">+</span><span class="nx">S</span> <span class="o">-</span> <span class="nx">Save</span> <span class="nx">current</span> <span class="nx">session</span>
+</code></pre></div></div>
+
+<h3 id="export-options">Export Options</h3>
+
+<ul>
+  <li>Export research sessions as PDF</li>
+  <li>Markdown export for documentation</li>
+  <li>JSON format for data processing</li>
+  <li>Direct integration with popular note-taking apps</li>
+</ul>
+
+<h2 id="-technical-improvements">🔧 Technical Improvements</h2>
+
+<h3 id="cross-browser-compatibility">Cross-Browser Compatibility</h3>
+
+<p>We’ve improved compatibility across all major browsers:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Chrome</th>
+      <th>Firefox</th>
+      <th>Edge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Core Functionality</td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>✅</td>
+    </tr>
+    <tr>
+      <td>AI Suggestions</td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>✅</td>
+    </tr>
+    <tr>
+      <td>Export Options</td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>✅</td>
+    </tr>
+    <tr>
+      <td>Sync Support</td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>✅</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="security-enhancements">Security Enhancements</h3>
+
+<ul>
+  <li><strong>End-to-End Encryption</strong>: All research data is encrypted locally</li>
+  <li><strong>Privacy-First</strong>: No tracking, no data collection</li>
+  <li><strong>Secure Sync</strong>: Optional encrypted cloud sync for your devices</li>
+</ul>
+
+<h2 id="-installation--updates">🚀 Installation &amp; Updates</h2>
+
+<h3 id="new-users">New Users</h3>
+
+<p>Get The Researcher extension from your browser’s official store:</p>
+
+<ul>
+  <li><strong><a href="https://chromewebstore.google.com/detail/the-researcher/llbjpocoibimamoaehplmkhdgplcaclg">Chrome Web Store</a></strong></li>
+  <li><strong><a href="https://addons.mozilla.org/en-US/firefox/addon/the-researcher/">Mozilla Add-ons</a></strong></li>
+  <li><strong><a href="https://microsoftedge.microsoft.com/addons/detail/the-researcher/hphlmgmlcikbommoofnehkjoidgidide">Edge Add-ons</a></strong></li>
+</ul>
+
+<h3 id="existing-users">Existing Users</h3>
+
+<p>The update will be automatically pushed to all users over the next 24-48 hours. You can also manually check for updates in your browser’s extension settings.</p>
+
+<h2 id="-tips-for-maximum-productivity">💡 Tips for Maximum Productivity</h2>
+
+<h3 id="research-workflow-optimization">Research Workflow Optimization</h3>
+
+<ol>
+  <li><strong>Use Keyboard Shortcuts</strong>: Master the quick actions for faster navigation</li>
+  <li><strong>Organize with Tags</strong>: Create a consistent tagging system for your research</li>
+  <li><strong>Export Regularly</strong>: Keep backups of important research sessions</li>
+  <li><strong>Sync Across Devices</strong>: Enable sync to access your research anywhere</li>
+</ol>
+
+<h3 id="advanced-features">Advanced Features</h3>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh"># Research Session Template</span>
+
+<span class="gu">## Objective: [Your research goal]</span>
+
+<span class="gu">## Sources: [Primary sources list]</span>
+
+<span class="gu">## Key Findings: [Main discoveries]</span>
+
+<span class="gu">## Next Steps: [Action items]</span>
+
+<span class="gu">## References: [Citations and links]</span>
+</code></pre></div></div>
+
+<h2 id="️-roadmap-whats-next">🗺️ Roadmap: What’s Next?</h2>
+
+<h3 id="planned-for-q2-2026">Planned for Q2 2026</h3>
+
+<ul>
+  <li><strong>Team Collaboration</strong>: Share research sessions with team members</li>
+  <li><strong>API Integration</strong>: Connect with academic databases and research tools</li>
+  <li><strong>Voice Notes</strong>: Add voice memo functionality</li>
+  <li><strong>Mobile App</strong>: Dedicated mobile application</li>
+</ul>
+
+<h3 id="community-requests">Community Requests</h3>
+
+<p>We’re actively working on:</p>
+
+<ul>
+  <li>Integration with Notion, Obsidian, and other note-taking tools</li>
+  <li>Advanced citation management</li>
+  <li>Research timeline visualization</li>
+  <li>Custom themes and layouts</li>
+</ul>
+
+<h2 id="-bug-fixes">🐛 Bug Fixes</h2>
+
+<p>This release addresses several user-reported issues:</p>
+
+<ul>
+  <li>Fixed search results not loading on some websites</li>
+  <li>Resolved sync conflicts when using multiple devices</li>
+  <li>Improved extension startup time</li>
+  <li>Fixed dark mode compatibility issues</li>
+  <li>Enhanced keyboard navigation accessibility</li>
+</ul>
+
+<h2 id="-performance-metrics">📈 Performance Metrics</h2>
+
+<p>Our testing shows significant improvements:</p>
+
+<ul>
+  <li><strong>Loading Time</strong>: Reduced from 3.2s to 1.6s average</li>
+  <li><strong>Memory Usage</strong>: Down 35% compared to v2.0</li>
+  <li><strong>Crash Rate</strong>: Reduced by 90%</li>
+  <li><strong>User Satisfaction</strong>: 4.8/5 stars across all platforms</li>
+</ul>
+
+<h2 id="️-need-help">🙋‍♀️ Need Help?</h2>
+
+<h3 id="support-resources">Support Resources</h3>
+
+<ul>
+  <li><strong><a href="/">Documentation</a></strong>: Comprehensive user guide</li>
+  <li><strong><a href="https://www.youtube.com/@codenity-iki">Video Tutorials</a></strong>: Step-by-step video guides</li>
+  <li><strong><a href="/contact/">Contact Support</a></strong>: Get personalized help</li>
+  <li><strong><a href="/">Community Forum</a></strong>: Connect with other researchers</li>
+</ul>
+
+<h3 id="feedback-welcome">Feedback Welcome</h3>
+
+<p>We love hearing from our users! Share your thoughts:</p>
+
+<ul>
+  <li>Rate us on your browser’s extension store</li>
+  <li>Join our beta program for early access to new features</li>
+  <li>Follow us for updates and tips</li>
+</ul>
+
+<h2 id="-watch-the-demo">🎬 Watch the Demo</h2>
+
+<p>Check out our latest video showcasing the new features:</p>
+
+<p><em><a href="https://www.youtube.com/@codenity-iki">Video tutorial coming soon on our YouTube channel!</a></em></p>
+
+<hr />
+
+<p><strong>Ready to supercharge your research?</strong> Download The Researcher extension today and experience the power of intelligent research assistance!</p>
+
+<p><em>Stay tuned for more updates and don’t forget to <a href="/contact/">subscribe to our newsletter</a> for the latest CodEnity news.</em></p>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+  <div class="container">
+    <div class="footer-left">
+      <p>&copy; CodEnity 2026 — Bridging the Gap Between Code and Craft.</p>
+    </div>
+    <div class="footer-right">
+      <nav>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+        <a href="#" target="_blank" rel="noopener">Google Play</a>
+        <a href="#" target="_blank" rel="noopener">Chrome Web Store</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+    <div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+    <div>
+      <strong>We use cookies</strong>
+      <p style="margin:.25rem 0 0 0;color:var(--color-muted);">We use analytics to improve the site. You can accept or manage preferences.</p>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;">
+      <a class="btn" href="/privacy/">Privacy</a>
+      <button id="cookie-accept" class="btn btn-cta">Accept</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  </html>

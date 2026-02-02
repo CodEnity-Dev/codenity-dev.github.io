@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMS Admin Guide</title>
+<meta name="description" content="Complete guide for using the CodEnity Blog Content Management System">
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="CodEnity RSS Feed" href="https://codenity-dev.github.io/feed.xml">
+<link rel="alternate" type="application/json" title="CodEnity JSON Feed" href="https://codenity-dev.github.io/feed.json">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="CodEnity">
+<meta property="og:title" content="CMS Admin Guide">
+<meta property="og:description" content="Complete guide for using the CodEnity Blog Content Management System">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://codenity-dev.github.io/admin/guide/">
+
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CMS Admin Guide">
+<meta name="twitter:description" content="Complete guide for using the CodEnity Blog Content Management System">
+
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/images/ce.png" sizes="32x32">
+
+<!-- Basic Meta -->
+<meta name="description" content="Complete guide for using the CodEnity Blog Content Management System">
+<link rel="canonical" href="https://codenity-dev.github.io/admin/guide/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="CMS Admin Guide">
+<meta property="og:description" content="Complete guide for using the CodEnity Blog Content Management System">
+<meta property="og:url" content="https://codenity-dev.github.io/admin/guide/">
+<meta property="og:image" content="/assets/images/og-image.svg">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CMS Admin Guide">
+<meta name="twitter:description" content="Complete guide for using the CodEnity Blog Content Management System">
+<meta name="twitter:image" content="/assets/images/og-image.svg">
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CodEnity",
+  "url": "https://codenity-dev.github.io",
+  "logo": "/assets/images/ce.png"
+}
+</script>
+
+
+<script>
+  (function(){
+    function loadGA(id){
+      if (document.getElementById('gtag-script')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id='+id;
+      s.async = true;
+      s.id = 'gtag-script';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { 'anonymize_ip': true });
+    }
+
+    // Load GA immediately if consent previously given
+    try{
+      var consent = localStorage.getItem('codenity_consent');
+      if (consent === 'accept') loadGA('G-WNMLS47N0J');
+    }catch(e){/* ignore */}
+
+    // Expose loader to other scripts (cookie banner)
+    window.codenityLoadGA = function(){ loadGA('G-WNMLS47N0J'); };
+  })();
+</script>
+
+  </head>
+  <body>
+    <header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/assets/images/ce.png" alt="CodEnity logo" class="logo" />
+      <span class="brand-title">CodEnity</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0F1724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#apps">Apps</a>
+      <a href="/youtube/">YouTube</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-cta" href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+    <main class="site-main">
+      <div class="container">
+        <div class="cms-guide-container">
+  <header class="guide-header">
+    <h1 class="guide-title">CodEnity Blog CMS Guide</h1>
+    <p class="guide-subtitle">Complete guide for content creators and administrators</p>
+  </header>
+
+  <nav class="guide-nav">
+    <ul>
+      <li><a href="#getting-started">Getting Started</a></li>
+      <li><a href="#creating-posts">Creating Posts</a></li>
+      <li><a href="#managing-media">Managing Media</a></li>
+      <li><a href="#workflow">Editorial Workflow</a></li>
+      <li><a href="#best-practices">Best Practices</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ul>
+  </nav>
+
+  <main class="guide-content">
+    <section id="getting-started" class="guide-section">
+      <h2>🚀 Getting Started</h2>
+      
+      <div class="info-box">
+        <h3>Accessing the CMS</h3>
+        <ol>
+          <li>Navigate to <a href="/admin/" target="_blank"><code>/admin/</code></a> on the website</li>
+          <li>Click "Login with GitHub"</li>
+          <li>Authorize the application if prompted</li>
+          <li>You'll be redirected to the admin dashboard</li>
+        </ol>
+      </div>
+
+      <div class="requirements">
+        <h3>Requirements</h3>
+        <ul>
+          <li>✅ GitHub account with repository access</li>
+          <li>✅ Write permissions to the repository</li>
+          <li>✅ Modern browser (Chrome, Firefox, Safari, Edge)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="creating-posts" class="guide-section">
+      <h2>📝 Creating Posts</h2>
+      
+      <div class="step-guide">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Start a New Post</h3>
+            <p>Click "New Post" in the admin dashboard. You'll see the post editor with all necessary fields.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Fill Required Fields</h3>
+            <ul>
+              <li><strong>Title:</strong> Clear, descriptive post title</li>
+              <li><strong>Date:</strong> Publication date and time</li>
+              <li><strong>Description:</strong> 50-160 character SEO description</li>
+              <li><strong>Body:</strong> Your main content</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Add Metadata</h3>
+            <ul>
+              <li><strong>Categories:</strong> Select relevant categories (max 2)</li>
+              <li><strong>Tags:</strong> Add descriptive tags (5-10 recommended)</li>
+              <li><strong>Featured Image:</strong> Upload or select an image</li>
+              <li><strong>Reading Time:</strong> Estimated minutes to read</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Preview and Publish</h3>
+            <p>Use the preview pane to see how your post will look. When ready, save as draft or publish immediately.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="managing-media" class="guide-section">
+      <h2>🖼️ Managing Media</h2>
+      
+      <div class="media-guide">
+        <h3>Uploading Images</h3>
+        <div class="two-column">
+          <div class="column">
+            <h4>Method 1: Drag & Drop</h4>
+            <ol>
+              <li>Drag image files into the editor</li>
+              <li>Images are automatically uploaded</li>
+              <li>Markdown syntax is inserted</li>
+            </ol>
+          </div>
+          <div class="column">
+            <h4>Method 2: Upload Button</h4>
+            <ol>
+              <li>Click the image upload button</li>
+              <li>Select files from your computer</li>
+              <li>Choose insertion options</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="image-guidelines">
+          <h3>Image Guidelines</h3>
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Recommended Size</th>
+                <th>Format</th>
+                <th>Max File Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Featured Image</td>
+                <td>1200×630px</td>
+                <td>JPG/PNG</td>
+                <td>500KB</td>
+              </tr>
+              <tr>
+                <td>Inline Image</td>
+                <td>800px width</td>
+                <td>JPG/PNG</td>
+                <td>300KB</td>
+              </tr>
+              <tr>
+                <td>Thumbnail</td>
+                <td>400×300px</td>
+                <td>JPG/PNG</td>
+                <td>150KB</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="guide-section">
+      <h2>🔄 Editorial Workflow</h2>
+      
+      <div class="workflow-diagram">
+        <div class="workflow-step">
+          <div class="workflow-icon">✏️</div>
+          <h3>Draft</h3>
+          <p>Create and edit your content. Drafts are saved automatically and not published.</p>
+        </div>
+        
+        <div class="workflow-arrow">→</div>
+        
+        <div class="workflow-step">
+          <div class="workflow-icon">👀</div>
+          <h3>Review</h3>
+          <p>Submit for review. Team members can comment and suggest changes.</p>
+        </div>
+        
+        <div class="workflow-arrow">→</div>
+        
+        <div class="workflow-step">
+          <div class="workflow-icon">✅</div>
+          <h3>Approved</h3>
+          <p>Content is approved and ready for publication to the live site.</p>
+        </div>
+      </div>
+
+      <div class="workflow-actions">
+        <h3>Available Actions</h3>
+        <ul>
+          <li><strong>Save Draft:</strong> Saves progress without publishing</li>
+          <li><strong>Submit for Review:</strong> Sends to review queue</li>
+          <li><strong>Request Changes:</strong> Reviewer sends back for edits</li>
+          <li><strong>Approve & Publish:</strong> Publishes to live site</li>
+          <li><strong>Delete:</strong> Removes draft permanently</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="best-practices" class="guide-section">
+      <h2>💡 Best Practices</h2>
+      
+      <div class="practices-grid">
+        <div class="practice-card">
+          <h3>📖 Content Writing</h3>
+          <ul>
+            <li>Write compelling headlines</li>
+            <li>Use clear, concise language</li>
+            <li>Structure with headings (H2, H3)</li>
+            <li>Include relevant examples</li>
+            <li>Add call-to-action where appropriate</li>
+          </ul>
+        </div>
+
+        <div class="practice-card">
+          <h3>🔍 SEO Optimization</h3>
+          <ul>
+            <li>Unique meta descriptions (50-160 chars)</li>
+            <li>Descriptive, keyword-rich titles</li>
+            <li>Use headings hierarchically</li>
+            <li>Include internal links</li>
+            <li>Add alt text to all images</li>
+          </ul>
+        </div>
+
+        <div class="practice-card">
+          <h3>🏷️ Categorization</h3>
+          <ul>
+            <li>Use existing categories when possible</li>
+            <li>Maximum 2 categories per post</li>
+            <li>Be specific with tags</li>
+            <li>Use consistent tag formatting</li>
+            <li>5-10 tags per post recommended</li>
+          </ul>
+        </div>
+
+        <div class="practice-card">
+          <h3>📱 Performance</h3>
+          <ul>
+            <li>Optimize images before upload</li>
+            <li>Use appropriate image formats</li>
+            <li>Keep file sizes reasonable</li>
+            <li>Test on mobile devices</li>
+            <li>Preview before publishing</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="troubleshooting" class="guide-section">
+      <h2>🛠️ Troubleshooting</h2>
+      
+      <div class="troubleshooting-list">
+        <details>
+          <summary>Login Issues</summary>
+          <div class="solution">
+            <p><strong>Problem:</strong> Can't log in to admin</p>
+            <p><strong>Solution:</strong></p>
+            <ol>
+              <li>Check you have write access to the repository</li>
+              <li>Clear browser cache and cookies</li>
+              <li>Try a different browser</li>
+              <li>Contact admin for repository permissions</li>
+            </ol>
+          </div>
+        </details>
+
+        <details>
+          <summary>Publishing Issues</summary>
+          <div class="solution">
+            <p><strong>Problem:</strong> Post doesn't appear on site</p>
+            <p><strong>Solution:</strong></p>
+            <ol>
+              <li>Check the publish date isn't in the future</li>
+              <li>Wait 2-3 minutes for build to complete</li>
+              <li>Check GitHub Actions for build errors</li>
+              <li>Verify the post is in "Published" status</li>
+            </ol>
+          </div>
+        </details>
+
+        <details>
+          <summary>Image Upload Issues</summary>
+          <div class="solution">
+            <p><strong>Problem:</strong> Images won't upload</p>
+            <p><strong>Solution:</strong></p>
+            <ol>
+              <li>Check file size (must be under 10MB)</li>
+              <li>Use supported formats (JPG, PNG, GIF, WebP)</li>
+              <li>Check internet connection</li>
+              <li>Try refreshing the page</li>
+            </ol>
+          </div>
+        </details>
+
+        <details>
+          <summary>Content Not Saving</summary>
+          <div class="solution">
+            <p><strong>Problem:</strong> Changes aren't being saved</p>
+            <p><strong>Solution:</strong></p>
+            <ol>
+              <li>Check internet connection</li>
+              <li>Don't navigate away while saving</li>
+              <li>Try copying content and refreshing</li>
+              <li>Check browser console for errors</li>
+            </ol>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+</div>
+
+<style>
+/* CMS Guide Styles */
+.cms-guide-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.guide-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.guide-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.guide-subtitle {
+  color: var(--neutral);
+  font-size: 1.2rem;
+}
+
+.guide-nav {
+  background: var(--bg-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.guide-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.guide-nav a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  display: block;
+}
+
+.guide-nav a:hover {
+  background: white;
+}
+
+.guide-section {
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--bg-light);
+}
+
+.guide-section:last-child {
+  border-bottom: none;
+}
+
+.guide-section h2 {
+  color: var(--text-dark);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--primary-blue);
+  padding-left: 1rem;
+}
+
+.info-box {
+  background: linear-gradient(135deg, var(--primary-blue), #3B82F6);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.info-box h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.info-box a {
+  color: white;
+  background: rgba(255,255,255,0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.requirements {
+  background: #f0f9ff;
+  border: 1px solid #0ea5e9;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.requirements h3 {
+  color: var(--primary-blue);
+  margin-bottom: 1rem;
+}
+
+/* Step Guide */
+.step-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: var(--primary-blue);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.step-content h3 {
+  color: var(--text-dark);
+  margin-bottom: 0.75rem;
+}
+
+/* Media Guide */
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.column {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.specs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.specs-table th,
+.specs-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--bg-light);
+}
+
+.specs-table th {
+  background: var(--bg-light);
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Workflow */
+.workflow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.workflow-step {
+  text-align: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  min-width: 200px;
+}
+
+.workflow-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.workflow-arrow {
+  font-size: 2rem;
+  color: var(--primary-blue);
+  margin: 0 1rem;
+}
+
+.workflow-actions {
+  background: var(--bg-light);
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+/* Best Practices */
+.practices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.practice-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.practice-card h3 {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+/* Troubleshooting */
+.troubleshooting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+details {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+summary {
+  padding: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+summary:hover {
+  background: var(--bg-light);
+}
+
+.solution {
+  padding: 0 1.5rem 1.5rem;
+  border-top: 1px solid var(--bg-light);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .guide-title {
+    font-size: 2.5rem;
+  }
+  
+  .guide-nav ul {
+    grid-template-columns: 1fr;
+  }
+  
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+  
+  .workflow-diagram {
+    flex-direction: column;
+  }
+  
+  .workflow-arrow {
+    transform: rotate(90deg);
+    margin: 0.5rem 0;
+  }
+  
+  .practices-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .step {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+</style>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+  <div class="container">
+    <div class="footer-left">
+      <p>&copy; CodEnity 2026 — Bridging the Gap Between Code and Craft.</p>
+    </div>
+    <div class="footer-right">
+      <nav>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+        <a href="#" target="_blank" rel="noopener">Google Play</a>
+        <a href="#" target="_blank" rel="noopener">Chrome Web Store</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+    <div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+    <div>
+      <strong>We use cookies</strong>
+      <p style="margin:.25rem 0 0 0;color:var(--color-muted);">We use analytics to improve the site. You can accept or manage preferences.</p>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;">
+      <a class="btn" href="/privacy/">Privacy</a>
+      <button id="cookie-accept" class="btn btn-cta">Accept</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  </html>

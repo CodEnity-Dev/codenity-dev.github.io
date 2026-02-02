@@ -1,0 +1,154 @@
+backend: git-gateway
+media_folder: "assets/images/blog"
+public_folder: "/assets/images/blog"
+publish_mode: editorial_workflow
+logo_url: "/assets/images/ce.png"
+
+# Site Configuration
+site_url: "https://codenity-dev.github.io"
+display_url: "https://codenity-dev.github.io"
+
+# Collections Configuration
+collections:
+  # Blog Posts Collection
+  - name: "posts"
+    label: "Blog Posts"
+    label_singular: "Post"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
+      - {label: "Title", name: "title", widget: "string", hint: "The main title of your blog post"}
+      - {label: "Publish Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "HH:mm:ss", format: "YYYY-MM-DD HH:mm:ss +0000"}
+      - {label: "Categories", name: "categories", widget: "list", allow_add: true, collapsed: false, field: {label: "Category", name: "category", widget: "select", options: ["announcements", "tutorials", "extensions", "development", "updates", "industry", "tools", "guides"]}}
+      - {label: "Tags", name: "tags", widget: "list", allow_add: true, collapsed: false, field: {label: "Tag", name: "tag", widget: "string"}, hint: "Add relevant tags (5-10 recommended)"}
+      - {label: "Author", name: "author", widget: "string", default: "CodEnity Team"}
+      - {label: "Meta Description", name: "description", widget: "text", hint: "150-160 character description for SEO", pattern: ['^.{50,160}$', "Description must be between 50 and 160 characters"]}
+      - {label: "Featured Image", name: "image", widget: "image", required: false, hint: "Optional featured image for social sharing"}
+      - {label: "Reading Time (minutes)", name: "read_time", widget: "number", value_type: "int", min: 1, max: 60, required: false}
+      - {label: "Featured Post", name: "featured", widget: "boolean", required: false, default: false}
+      - {label: "Excerpt", name: "excerpt", widget: "text", required: false, hint: "Custom excerpt for post previews (optional)"}
+      - {label: "Body", name: "body", widget: "markdown", hint: "Use <!-- more --> to separate excerpt from full content"}
+    
+    # Preview Configuration
+    preview_path: "{{slug}}"
+    
+    # Sorting and Display
+    sort: "date:desc"
+    
+    # Editor Configuration
+    editor:
+      preview: true
+    
+    # View Filters
+    view_filters:
+      - label: "Featured Posts"
+        field: featured
+        pattern: true
+      - label: "Tutorials"
+        field: categories
+        pattern: "tutorials"
+      - label: "Announcements"
+        field: categories
+        pattern: "announcements"
+      - label: "Extensions"
+        field: categories
+        pattern: "extensions"
+    
+    # View Groups
+    view_groups:
+      - label: "Year"
+        field: date
+        pattern: '\d{4}'
+      - label: "Category"
+        field: categories
+
+  # Pages Collection (for static pages)
+  - name: "pages"
+    label: "Pages"
+    label_singular: "Page"
+    files:
+      - label: "About Page"
+        name: "about"
+        file: "about.md"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "default"}
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Description", name: "description", widget: "string"}
+          - {label: "Permalink", name: "permalink", widget: "string"}
+          - {label: "Body", name: "body", widget: "markdown"}
+      
+      - label: "Contact Page"
+        name: "contact"
+        file: "contact.md"
+        fields:
+          - {label: "Layout", name: "layout", widget: "hidden", default: "default"}
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Description", name: "description", widget: "string"}
+          - {label: "Permalink", name: "permalink", widget: "string"}
+          - {label: "Body", name: "body", widget: "markdown"}
+
+  # Data Files Collection
+  - name: "data"
+    label: "Site Data"
+    files:
+      - label: "Apps Data"
+        name: "apps"
+        file: "_data/apps.yml"
+        fields:
+          - label: "Apps"
+            name: "apps"
+            widget: "list"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Icon", name: "icon", widget: "string"}
+              - {label: "URL", name: "url", widget: "string"}
+              - {label: "Category", name: "category", widget: "string"}
+              - label: "Platforms"
+                name: "platforms"
+                widget: "list"
+                fields:
+                  - {label: "Name", name: "name", widget: "string"}
+                  - {label: "URL", name: "url", widget: "string"}
+                  - {label: "Badge", name: "badge", widget: "string", required: false}
+      
+      - label: "Platform Links"
+        name: "platforms"
+        file: "_data/platforms.yml"
+        fields:
+          - {label: "YouTube URL", name: "youtube", widget: "string"}
+          - {label: "GitHub URL", name: "github", widget: "string"}
+          - {label: "Chrome Store URL", name: "chrome_store", widget: "string"}
+          - {label: "Firefox Store URL", name: "firefox_store", widget: "string"}
+          - {label: "Edge Store URL", name: "edge_store", widget: "string"}
+
+# Editor Configuration
+editor:
+  preview: true
+
+# Media Configuration
+media_folder: "assets/images/blog"
+public_folder: "/assets/images/blog"
+
+# Slug Configuration
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# Editorial Workflow
+publish_mode: editorial_workflow
+
+# Search Configuration
+search: true
+
+# Local Backend (for development)
+local_backend: true
+
+# Custom Configuration
+show_preview_links: true
+show_preview_date: true

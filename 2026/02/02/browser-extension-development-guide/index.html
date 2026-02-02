@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting Started with Browser Extension Development</title>
+<meta name="description" content="A comprehensive guide to building your first browser extension for Chrome, Firefox, and Edge">
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="CodEnity RSS Feed" href="https://codenity-dev.github.io/feed.xml">
+<link rel="alternate" type="application/json" title="CodEnity JSON Feed" href="https://codenity-dev.github.io/feed.json">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="CodEnity">
+<meta property="og:title" content="Getting Started with Browser Extension Development">
+<meta property="og:description" content="A comprehensive guide to building your first browser extension for Chrome, Firefox, and Edge">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://codenity-dev.github.io/2026/02/02/browser-extension-development-guide/">
+
+<meta property="og:image" content="https://codenity-dev.github.io/assets/images/blog/browser-extension-guide.jpg">
+
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Getting Started with Browser Extension Development">
+<meta name="twitter:description" content="A comprehensive guide to building your first browser extension for Chrome, Firefox, and Edge">
+
+<meta name="twitter:image" content="https://codenity-dev.github.io/assets/images/blog/browser-extension-guide.jpg">
+
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" href="/assets/images/ce.png" sizes="32x32">
+
+<!-- Basic Meta -->
+<meta name="description" content="A comprehensive guide to building your first browser extension for Chrome, Firefox, and Edge">
+<link rel="canonical" href="https://codenity-dev.github.io/2026/02/02/browser-extension-development-guide/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Getting Started with Browser Extension Development">
+<meta property="og:description" content="A comprehensive guide to building your first browser extension for Chrome, Firefox, and Edge">
+<meta property="og:url" content="https://codenity-dev.github.io/2026/02/02/browser-extension-development-guide/">
+<meta property="og:image" content="/assets/images/og-image.svg">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Getting Started with Browser Extension Development">
+<meta name="twitter:description" content="A comprehensive guide to building your first browser extension for Chrome, Firefox, and Edge">
+<meta name="twitter:image" content="/assets/images/og-image.svg">
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CodEnity",
+  "url": "https://codenity-dev.github.io",
+  "logo": "/assets/images/ce.png"
+}
+</script>
+
+
+<script>
+  (function(){
+    function loadGA(id){
+      if (document.getElementById('gtag-script')) return;
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id='+id;
+      s.async = true;
+      s.id = 'gtag-script';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { 'anonymize_ip': true });
+    }
+
+    // Load GA immediately if consent previously given
+    try{
+      var consent = localStorage.getItem('codenity_consent');
+      if (consent === 'accept') loadGA('G-WNMLS47N0J');
+    }catch(e){/* ignore */}
+
+    // Expose loader to other scripts (cookie banner)
+    window.codenityLoadGA = function(){ loadGA('G-WNMLS47N0J'); };
+  })();
+</script>
+
+  </head>
+  <body>
+    <header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/assets/images/ce.png" alt="CodEnity logo" class="logo" />
+      <span class="brand-title">CodEnity</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0F1724" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#apps">Apps</a>
+      <a href="/youtube/">YouTube</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-cta" href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+    <main class="site-main">
+      <div class="container">
+        <h1 id="getting-started-with-browser-extension-development">Getting Started with Browser Extension Development</h1>
+
+<p>Browser extensions are powerful tools that can enhance user productivity and provide custom functionality. In this tutorial, we’ll walk through creating your first browser extension that works across Chrome, Firefox, and Edge.</p>
+
+<h2 id="what-youll-learn">What You’ll Learn</h2>
+
+<ul>
+  <li>Setting up your development environment</li>
+  <li>Understanding manifest files</li>
+  <li>Creating popup interfaces</li>
+  <li>Working with content scripts</li>
+  <li>Publishing to browser stores</li>
+</ul>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before we begin, make sure you have:</p>
+
+<ul>
+  <li>Basic knowledge of HTML, CSS, and JavaScript</li>
+  <li>A code editor (VS Code recommended)</li>
+  <li>Chrome, Firefox, or Edge browser for testing</li>
+</ul>
+
+<h2 id="step-1-project-setup">Step 1: Project Setup</h2>
+
+<p>Create a new folder for your extension:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>my-first-extension
+<span class="nb">cd </span>my-first-extension
+</code></pre></div></div>
+
+<p>Every browser extension starts with a <code class="language-plaintext highlighter-rouge">manifest.json</code> file that describes your extension:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"manifest_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My First Extension"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A simple extension tutorial"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"permissions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"activeTab"</span><span class="p">],</span><span class="w">
+  </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"default_popup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"popup.html"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"default_icon"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"16"</span><span class="p">:</span><span class="w"> </span><span class="s2">"icons/icon16.png"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"48"</span><span class="p">:</span><span class="w"> </span><span class="s2">"icons/icon48.png"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"128"</span><span class="p">:</span><span class="w"> </span><span class="s2">"icons/icon128.png"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="step-2-creating-the-popup">Step 2: Creating the Popup</h2>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">popup.html</code> file:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;style&gt;</span>
+      <span class="nt">body</span> <span class="p">{</span>
+        <span class="nl">width</span><span class="p">:</span> <span class="m">300px</span><span class="p">;</span>
+        <span class="nl">padding</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+        <span class="nl">font-family</span><span class="p">:</span> <span class="n">Arial</span><span class="p">,</span> <span class="nb">sans-serif</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nt">button</span> <span class="p">{</span>
+        <span class="nl">background</span><span class="p">:</span> <span class="nx">#007cba</span><span class="p">;</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="nx">white</span><span class="p">;</span>
+        <span class="nl">border</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+        <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span> <span class="m">20px</span><span class="p">;</span>
+        <span class="nl">border-radius</span><span class="p">:</span> <span class="m">5px</span><span class="p">;</span>
+        <span class="nl">cursor</span><span class="p">:</span> <span class="nb">pointer</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h2&gt;</span>CodEnity Extension<span class="nt">&lt;/h2&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Welcome to your first browser extension!<span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"clickButton"</span><span class="nt">&gt;</span>Click Me!<span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"popup.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h2 id="step-3-adding-functionality">Step 3: Adding Functionality</h2>
+
+<p>Create <code class="language-plaintext highlighter-rouge">popup.js</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">document</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">DOMContentLoaded</span><span class="dl">"</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">button</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">clickButton</span><span class="dl">"</span><span class="p">);</span>
+
+  <span class="nx">button</span><span class="p">.</span><span class="nf">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">click</span><span class="dl">"</span><span class="p">,</span> <span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Get current tab</span>
+    <span class="nx">chrome</span><span class="p">.</span><span class="nx">tabs</span><span class="p">.</span><span class="nf">query</span><span class="p">({</span> <span class="na">active</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">currentWindow</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span> <span class="nf">function </span><span class="p">(</span><span class="nx">tabs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Send message to content script</span>
+      <span class="nx">chrome</span><span class="p">.</span><span class="nx">tabs</span><span class="p">.</span><span class="nf">sendMessage</span><span class="p">(</span><span class="nx">tabs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">action</span><span class="p">:</span> <span class="dl">"</span><span class="s2">highlight</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">message</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Hello from CodEnity Extension!</span><span class="dl">"</span><span class="p">,</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="cross-browser-compatibility">Cross-Browser Compatibility</h2>
+
+<p>To make your extension work across browsers, use the WebExtension API standard:</p>
+
+<h3 id="for-firefox-manifestjson-additions">For Firefox (manifest.json additions):</h3>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"browser_specific_settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"gecko"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-extension@codenity.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"strict_min_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"91.0"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="for-edge">For Edge:</h3>
+
+<p>Edge uses the same Manifest V3 format as Chrome, making porting straightforward.</p>
+
+<h2 id="testing-your-extension">Testing Your Extension</h2>
+
+<ol>
+  <li><strong>Chrome</strong>: Go to <code class="language-plaintext highlighter-rouge">chrome://extensions/</code>, enable Developer mode, click “Load unpacked”</li>
+  <li><strong>Firefox</strong>: Go to <code class="language-plaintext highlighter-rouge">about:debugging</code>, click “This Firefox”, click “Load Temporary Add-on”</li>
+  <li><strong>Edge</strong>: Go to <code class="language-plaintext highlighter-rouge">edge://extensions/</code>, enable Developer mode, click “Load unpacked”</li>
+</ol>
+
+<h2 id="publishing-to-stores">Publishing to Stores</h2>
+
+<p>Once your extension is ready:</p>
+
+<ol>
+  <li><strong>Chrome Web Store</strong>: Requires $5 developer fee, review process ~1-3 days</li>
+  <li><strong>Mozilla Add-ons</strong>: Free, review process ~1-7 days</li>
+  <li><strong>Edge Add-ons</strong>: Free, review process ~1-7 days</li>
+</ol>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<ul>
+  <li><strong>Security</strong>: Never inject untrusted content</li>
+  <li><strong>Performance</strong>: Minimize background scripts</li>
+  <li><strong>Privacy</strong>: Be transparent about data usage</li>
+  <li><strong>UX</strong>: Keep interfaces simple and intuitive</li>
+</ul>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="https://developer.chrome.com/docs/extensions/">Chrome Extension Documentation</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions">Firefox Extension Documentation</a></li>
+  <li><a href="https://github.com/CodEnity-Dev">CodEnity Extension Examples</a></li>
+</ul>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>In our next tutorial, we’ll cover:</p>
+
+<ul>
+  <li>Advanced content script techniques</li>
+  <li>Working with browser APIs</li>
+  <li>Extension security best practices</li>
+  <li>Automated testing strategies</li>
+</ul>
+
+<hr />
+
+<p><em>Found this tutorial helpful? Check out our other <a href="/blog/categories/tutorial/">development guides</a> and don’t forget to <a href="https://www.youtube.com/@codenity-iki">subscribe to our YouTube channel</a> for video tutorials!</em></p>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+  <div class="container">
+    <div class="footer-left">
+      <p>&copy; CodEnity 2026 — Bridging the Gap Between Code and Craft.</p>
+    </div>
+    <div class="footer-right">
+      <nav>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+        <a href="#" target="_blank" rel="noopener">Google Play</a>
+        <a href="#" target="_blank" rel="noopener">Chrome Web Store</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+    <div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+    <div>
+      <strong>We use cookies</strong>
+      <p style="margin:.25rem 0 0 0;color:var(--color-muted);">We use analytics to improve the site. You can accept or manage preferences.</p>
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;">
+      <a class="btn" href="/privacy/">Privacy</a>
+      <button id="cookie-accept" class="btn btn-cta">Accept</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  </html>
