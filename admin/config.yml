@@ -1,4 +1,8 @@
-backend: git-gateway
+backend:
+  name: github
+  repo: codenity-dev/codenity-dev.github.io
+  branch: main
+
 media_folder: "assets/images/blog"
 public_folder: "/assets/images/blog"
 publish_mode: editorial_workflow
