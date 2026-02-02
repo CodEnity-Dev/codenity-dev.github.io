@@ -3,7 +3,7 @@ backend:
   name: github
   repo: codenity-dev/codenity-dev.github.io
   branch: main
-  base_url: https://decap-cms-oauth.herokuapp.com
+  base_url: https://decap-oauth.netlify.app
   auth_endpoint: auth
   
 # Alternative configuration for local development
