@@ -1,0 +1,17 @@
+# Netlify configuration for GitHub Pages CMS authentication
+[build]
+  publish = "_site"
+
+[build.environment]
+  RUBY_VERSION = "3.1.7"
+
+[[redirects]]
+  from = "/admin/oauth"
+  to = "/.netlify/functions/oauth"
+  status = 200
+
+# GitHub OAuth configuration
+[[redirects]]
+  from = "/admin/auth"
+  to = "https://github.com/login/oauth/authorize?client_id=YOUR_GITHUB_CLIENT_ID&redirect_uri=https://codenity-dev.github.io/admin/oauth&scope=repo"
+  status = 302
