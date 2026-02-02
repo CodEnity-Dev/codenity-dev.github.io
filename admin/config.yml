@@ -1,11 +1,18 @@
+# Backend configuration for GitHub Pages with GitHub OAuth
 backend:
   name: github
   repo: codenity-dev/codenity-dev.github.io
   branch: main
+  base_url: https://decap-cms-oauth.herokuapp.com
+  auth_endpoint: auth
+  
+# Alternative configuration for local development
+# backend:
+#   name: test-repo
 
 media_folder: "assets/images/blog"
 public_folder: "/assets/images/blog"
-publish_mode: editorial_workflow
+publish_mode: simple
 logo_url: "/assets/images/ce.png"
 
 # Site Configuration
