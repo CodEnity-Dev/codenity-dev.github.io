@@ -17,6 +17,8 @@ collections:
     folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "{{slug}}"
+    sort: "date:desc"
     editor:
       preview: true
     fields:
@@ -32,18 +34,6 @@ collections:
       - {label: "Featured Post", name: "featured", widget: "boolean", required: false, default: false}
       - {label: "Excerpt", name: "excerpt", widget: "text", required: false, hint: "Custom excerpt for post previews (optional)"}
       - {label: "Body", name: "body", widget: "markdown", hint: "Use <!-- more --> to separate excerpt from full content"}
-    
-    # Preview Configuration
-    preview_path: "{{slug}}"
-    
-    # Sorting and Display
-    sort: "date:desc"
-    
-    # Editor Configuration
-    editor:
-      preview: true
-    
-    # View Filters
     view_filters:
       - label: "Featured Posts"
         field: featured
@@ -57,8 +47,6 @@ collections:
       - label: "Extensions"
         field: categories
         pattern: "extensions"
-    
-    # View Groups
     view_groups:
       - label: "Year"
         field: date
@@ -126,13 +114,10 @@ collections:
           - {label: "Firefox Store URL", name: "firefox_store", widget: "string"}
           - {label: "Edge Store URL", name: "edge_store", widget: "string"}
 
-# Editor Configuration
-editor:
-  preview: true
-
-# Media Configuration
+# Global Configuration
 media_folder: "assets/images/blog"
 public_folder: "/assets/images/blog"
+publish_mode: editorial_workflow
 
 # Slug Configuration
 slug:
@@ -140,15 +125,8 @@ slug:
   clean_accents: true
   sanitize_replacement: "-"
 
-# Editorial Workflow
-publish_mode: editorial_workflow
-
-# Search Configuration
+# Additional Features
 search: true
-
-# Local Backend (for development)
 local_backend: true
-
-# Custom Configuration
 show_preview_links: true
 show_preview_date: true
