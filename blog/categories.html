@@ -1,0 +1,458 @@
+---
+layout: default
+title: "Category: {{ page.category | capitalize }}"
+description: "Browse all posts in the {{ page.category | capitalize }} category on CodEnity Blog"
+permalink: /blog/categories/:name/
+---
+
+<div class="blog-container">
+  <header class="category-header">
+    <nav class="breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">→</span>
+      <a href="/blog/" class="breadcrumb-link">Blog</a>
+      <span class="breadcrumb-separator">→</span>
+      <span class="breadcrumb-current">{{ page.category | capitalize }}</span>
+    </nav>
+    
+    <h1 class="category-title">
+      <span class="category-label">Category:</span>
+      {{ page.category | capitalize }}
+    </h1>
+    
+    {% assign category_posts = site.posts | where: 'categories', page.category %}
+    <p class="category-description">
+      {{ category_posts.size }} posts in this category
+    </p>
+  </header>
+
+  <div class="category-content">
+    {% if category_posts.size > 0 %}
+      <div class="posts-list">
+        {% for post in category_posts %}
+          <article class="post-card">
+            {% if post.image %}
+              <div class="post-card-image">
+                <a href="{{ post.url | relative_url }}">
+                  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+                </a>
+              </div>
+            {% endif %}
+            
+            <div class="post-card-content">
+              <div class="post-card-meta">
+                <time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">
+                  {{ post.date | date: "%B %d, %Y" }}
+                </time>
+                {% if post.read_time %}
+                  <span class="read-time">{{ post.read_time }} min read</span>
+                {% endif %}
+              </div>
+              
+              <h2 class="post-card-title">
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              </h2>
+              
+              <p class="post-card-excerpt">
+                {{ post.excerpt | default: post.description | strip_html | truncate: 160 }}
+              </p>
+              
+              {% if post.tags %}
+                <div class="post-tags">
+                  {% for tag in post.tags limit: 5 %}
+                    <a href="/blog/tags/{{ tag | slugify }}/" class="tag-link">#{{ tag }}</a>
+                  {% endfor %}
+                  {% if post.tags.size > 5 %}
+                    <span class="tag-more">+{{ post.tags.size | minus: 5 }} more</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+              
+              <div class="post-card-footer">
+                <a href="{{ post.url | relative_url }}" class="read-more-btn">
+                  Read Full Article →
+                </a>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+      
+      <!-- Related Categories -->
+      {% assign other_categories = site.posts | map: 'categories' | join: ',' | split: ',' | uniq | sort %}
+      {% assign other_categories = other_categories | where_exp: 'cat', 'cat != page.category and cat != ""' %}
+      {% if other_categories.size > 0 %}
+        <aside class="related-categories">
+          <h3>Explore Other Categories</h3>
+          <div class="category-grid">
+            {% for category in other_categories limit: 6 %}
+              {% assign cat_posts = site.posts | where: 'categories', category %}
+              <a href="/blog/categories/{{ category | slugify }}/" class="category-card">
+                <div class="category-card-title">{{ category | capitalize }}</div>
+                <div class="category-card-count">{{ cat_posts.size }} posts</div>
+              </a>
+            {% endfor %}
+          </div>
+        </aside>
+      {% endif %}
+      
+    {% else %}
+      <div class="no-posts">
+        <div class="no-posts-icon">📂</div>
+        <h3>No posts in this category yet</h3>
+        <p>This category doesn't have any posts. Check back later for updates!</p>
+        <div class="no-posts-actions">
+          <a href="/blog/" class="btn btn-primary">Browse All Posts</a>
+          <a href="/" class="btn btn-secondary">← Back to Home</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+/* Category Page Styles */
+.blog-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.category-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--bg-light);
+}
+
+.breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-link {
+  color: var(--neutral);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+  color: var(--primary-blue);
+}
+
+.breadcrumb-separator {
+  margin: 0 0.75rem;
+  color: var(--neutral);
+}
+
+.breadcrumb-current {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.category-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.category-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--neutral);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.category-description {
+  color: var(--neutral);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Posts List */
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.post-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.post-card-image {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.post-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-card-image img {
+  transform: scale(1.05);
+}
+
+.post-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: var(--neutral);
+}
+
+.read-time {
+  position: relative;
+}
+
+.read-time::before {
+  content: "•";
+  margin-right: 0.5rem;
+}
+
+.post-card-title {
+  margin-bottom: 1rem;
+}
+
+.post-card-title a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.post-card-title a:hover {
+  color: var(--primary-blue);
+}
+
+.post-card-excerpt {
+  color: var(--neutral);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tag-link {
+  background: var(--bg-light);
+  color: var(--neutral);
+  text-decoration: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tag-link:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.tag-more {
+  color: var(--neutral);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.post-card-footer {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.read-more-btn {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary-blue);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.read-more-btn:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+/* Related Categories */
+.related-categories {
+  margin-top: 4rem;
+  padding: 2rem;
+  background: var(--bg-light);
+  border-radius: 12px;
+}
+
+.related-categories h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.category-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.category-card-title {
+  color: var(--text-dark);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.category-card-count {
+  color: var(--neutral);
+  font-size: 0.9rem;
+}
+
+/* No Posts State */
+.no-posts {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.no-posts-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts h3 {
+  color: var(--text-dark);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts p {
+  color: var(--neutral);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.no-posts-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0949cc;
+}
+
+.btn-secondary {
+  background: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+  background: var(--neutral);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 1rem 0;
+  }
+  
+  .category-title {
+    font-size: 2.5rem;
+  }
+  
+  .post-card {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .post-card-image {
+    height: 200px;
+  }
+  
+  .breadcrumb {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .category-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .no-posts-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>

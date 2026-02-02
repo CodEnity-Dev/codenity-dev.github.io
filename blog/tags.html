@@ -1,0 +1,606 @@
+---
+layout: default
+title: "Tag: {{ page.tag }}"
+description: "Browse all posts tagged with {{ page.tag }} on CodEnity Blog"
+permalink: /blog/tags/:name/
+---
+
+<div class="blog-container">
+  <header class="tag-header">
+    <nav class="breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">→</span>
+      <a href="/blog/" class="breadcrumb-link">Blog</a>
+      <span class="breadcrumb-separator">→</span>
+      <span class="breadcrumb-current">#{{ page.tag }}</span>
+    </nav>
+    
+    <h1 class="tag-title">
+      <span class="tag-symbol">#</span>{{ page.tag }}
+    </h1>
+    
+    {% assign tag_posts = site.posts | where_exp: "post", "post.tags contains page.tag" %}
+    <p class="tag-description">
+      {{ tag_posts.size }} posts tagged with this topic
+    </p>
+  </header>
+
+  <div class="tag-content">
+    {% if tag_posts.size > 0 %}
+      <div class="posts-timeline">
+        {% assign years = tag_posts | group_by_exp: 'post', 'post.date | date: "%Y"' %}
+        {% for year in years %}
+          <div class="timeline-year">
+            <h2 class="year-title">{{ year.name }}</h2>
+            
+            {% assign months = year.items | group_by_exp: 'post', 'post.date | date: "%B"' %}
+            {% for month in months %}
+              <div class="timeline-month">
+                <h3 class="month-title">{{ month.name }}</h3>
+                
+                <div class="timeline-posts">
+                  {% for post in month.items %}
+                    <article class="timeline-post">
+                      <div class="timeline-post-date">
+                        <div class="date-day">{{ post.date | date: "%d" }}</div>
+                        <div class="date-month">{{ post.date | date: "%b" }}</div>
+                      </div>
+                      
+                      <div class="timeline-post-content">
+                        {% if post.image %}
+                          <div class="timeline-post-image">
+                            <a href="{{ post.url | relative_url }}">
+                              <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+                            </a>
+                          </div>
+                        {% endif %}
+                        
+                        <div class="timeline-post-info">
+                          {% if post.categories %}
+                            <div class="post-category">
+                              <a href="/blog/categories/{{ post.categories.first | slugify }}/">
+                                {{ post.categories.first | capitalize }}
+                              </a>
+                            </div>
+                          {% endif %}
+                          
+                          <h3 class="timeline-post-title">
+                            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                          </h3>
+                          
+                          <p class="timeline-post-excerpt">
+                            {{ post.excerpt | default: post.description | strip_html | truncate: 120 }}
+                          </p>
+                          
+                          {% if post.tags %}
+                            <div class="timeline-post-tags">
+                              {% for tag in post.tags %}
+                                {% if tag == page.tag %}
+                                  <span class="tag-highlight">#{{ tag }}</span>
+                                {% else %}
+                                  <a href="/blog/tags/{{ tag | slugify }}/" class="tag-link">#{{ tag }}</a>
+                                {% endif %}
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                          
+                          <div class="timeline-post-meta">
+                            {% if post.read_time %}
+                              <span class="read-time">{{ post.read_time }} min read</span>
+                            {% endif %}
+                            <a href="{{ post.url | relative_url }}" class="read-more">Read More →</a>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Related Tags -->
+      {% assign all_tags = site.posts | map: 'tags' | join: ',' | split: ',' | uniq | sort %}
+      {% assign related_tags = all_tags | where_exp: 'tag', 'tag != page.tag and tag != ""' %}
+      {% if related_tags.size > 0 %}
+        <aside class="related-tags">
+          <h3>Related Tags</h3>
+          <div class="tag-cloud">
+            {% for tag in related_tags limit: 20 %}
+              {% assign tag_post_count = site.posts | where_exp: "post", "post.tags contains tag" | size %}
+              <a href="/blog/tags/{{ tag | slugify }}/" class="tag-cloud-item">
+                #{{ tag }} <span class="tag-count">({{ tag_post_count }})</span>
+              </a>
+            {% endfor %}
+          </div>
+          
+          {% if related_tags.size > 20 %}
+            <div class="view-all-tags">
+              <a href="/blog/" class="view-all-link">View All Tags →</a>
+            </div>
+          {% endif %}
+        </aside>
+      {% endif %}
+      
+    {% else %}
+      <div class="no-posts">
+        <div class="no-posts-icon">🏷️</div>
+        <h3>No posts with this tag yet</h3>
+        <p>We haven't published any content with the tag "#{{ page.tag }}" yet. Check back later!</p>
+        <div class="no-posts-actions">
+          <a href="/blog/" class="btn btn-primary">Browse All Posts</a>
+          <a href="/" class="btn btn-secondary">← Back to Home</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+/* Tag Page Styles */
+.blog-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.tag-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--bg-light);
+}
+
+.breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-link {
+  color: var(--neutral);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+  color: var(--primary-blue);
+}
+
+.breadcrumb-separator {
+  margin: 0 0.75rem;
+  color: var(--neutral);
+}
+
+.breadcrumb-current {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.tag-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.tag-symbol {
+  color: var(--primary-blue);
+  font-size: 3.5rem;
+  margin-right: 0.25rem;
+}
+
+.tag-description {
+  color: var(--neutral);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Timeline Layout */
+.posts-timeline {
+  position: relative;
+}
+
+.timeline-year {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.timeline-year::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary-blue), var(--accent-orange, #FF6A00));
+  border-radius: 2px;
+}
+
+.year-title {
+  color: var(--text-dark);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  position: relative;
+}
+
+.year-title::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  background: var(--primary-blue);
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--primary-blue);
+}
+
+.timeline-month {
+  margin-bottom: 2rem;
+}
+
+.month-title {
+  color: var(--neutral);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.timeline-posts {
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.timeline-post {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.timeline-post::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 1.5rem;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-orange, #FF6A00);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px var(--accent-orange, #FF6A00);
+}
+
+.timeline-post:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.timeline-post-date {
+  text-align: center;
+}
+
+.date-day {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  line-height: 1;
+}
+
+.date-month {
+  font-size: 0.8rem;
+  color: var(--neutral);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+}
+
+.timeline-post-content {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.timeline-post-image {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.timeline-post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.timeline-post:hover .timeline-post-image img {
+  transform: scale(1.05);
+}
+
+.timeline-post-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.post-category {
+  align-self: flex-start;
+}
+
+.post-category a {
+  background: var(--primary-blue);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeline-post-title {
+  margin: 0;
+}
+
+.timeline-post-title a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.timeline-post-title a:hover {
+  color: var(--primary-blue);
+}
+
+.timeline-post-excerpt {
+  color: var(--neutral);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.timeline-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-link, .tag-highlight {
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.tag-link {
+  background: var(--bg-light);
+  color: var(--neutral);
+  transition: all 0.3s ease;
+}
+
+.tag-link:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.tag-highlight {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.timeline-post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.read-time {
+  color: var(--neutral);
+}
+
+.read-more {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.read-more:hover {
+  color: #0949cc;
+}
+
+/* Related Tags */
+.related-tags {
+  margin-top: 4rem;
+  padding: 2rem;
+  background: var(--bg-light);
+  border-radius: 12px;
+}
+
+.related-tags h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.tag-cloud-item {
+  background: white;
+  color: var(--text-dark);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.tag-cloud-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  background: var(--primary-blue);
+  color: white;
+}
+
+.tag-count {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+.view-all-tags {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.view-all-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.view-all-link:hover {
+  color: #0949cc;
+}
+
+/* No Posts State */
+.no-posts {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.no-posts-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts h3 {
+  color: var(--text-dark);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts p {
+  color: var(--neutral);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.no-posts-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0949cc;
+}
+
+.btn-secondary {
+  background: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+  background: var(--neutral);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 1rem 0;
+  }
+  
+  .tag-title {
+    font-size: 2.5rem;
+  }
+  
+  .timeline-post {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .timeline-post-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .timeline-post-image {
+    height: 120px;
+  }
+  
+  .timeline-year::before {
+    display: none;
+  }
+  
+  .year-title, .month-title, .timeline-posts {
+    padding-left: 0;
+  }
+  
+  .timeline-post::before {
+    display: none;
+  }
+  
+  .tag-cloud {
+    justify-content: flex-start;
+  }
+  
+  .no-posts-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>

@@ -1,0 +1,568 @@
+---
+layout: default
+title: "Blog"
+description: "Latest tutorials, updates, and insights from CodEnity - Browser extensions, development guides, and tech insights"
+permalink: /blog/
+---
+
+<div class="blog-container">
+  <header class="blog-header">
+    <h1 class="blog-title">CodEnity Blog</h1>
+    <p class="blog-subtitle">Latest tutorials, updates, and insights from our development team</p>
+  </header>
+
+  <div class="blog-content">
+    <main class="posts-main">
+      {% if site.posts.size > 0 %}
+        <div class="posts-grid">
+          {% for post in site.posts limit: 12 %}
+            <article class="post-card">
+              {% if post.image %}
+                <div class="post-card-image">
+                  <a href="{{ post.url | relative_url }}">
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+                  </a>
+                </div>
+              {% endif %}
+              
+              <div class="post-card-content">
+                <div class="post-card-meta">
+                  <time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">
+                    {{ post.date | date: "%b %d, %Y" }}
+                  </time>
+                  {% if post.categories %}
+                    <span class="post-category">{{ post.categories.first | capitalize }}</span>
+                  {% endif %}
+                </div>
+                
+                <h2 class="post-card-title">
+                  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h2>
+                
+                <p class="post-card-excerpt">
+                  {{ post.excerpt | default: post.description | strip_html | truncate: 140 }}
+                </p>
+                
+                <div class="post-card-footer">
+                  <a href="{{ post.url | relative_url }}" class="read-more-btn">
+                    Read More →
+                  </a>
+                  
+                  {% if post.tags %}
+                    <div class="post-tags-preview">
+                      {% for tag in post.tags limit: 2 %}
+                        <span class="tag-pill">#{{ tag }}</span>
+                      {% endfor %}
+                      {% if post.tags.size > 2 %}
+                        <span class="tag-pill">+{{ post.tags.size | minus: 2 }}</span>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+        
+        {% if site.posts.size > 12 %}
+          <div class="pagination-info">
+            <p>Showing {{ site.posts.size | at_most: 12 }} of {{ site.posts.size }} posts</p>
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="no-posts">
+          <div class="no-posts-icon">📝</div>
+          <h3>No blog posts yet</h3>
+          <p>Stay tuned for upcoming tutorials and updates!</p>
+          <a href="/" class="btn">← Back to Home</a>
+        </div>
+      {% endif %}
+    </main>
+    
+    <aside class="blog-sidebar">
+      <!-- Categories -->
+      {% assign categories = site.posts | map: 'categories' | join: ',' | split: ',' | uniq | sort %}
+      {% if categories.size > 0 %}
+        <div class="sidebar-widget">
+          <h3 class="widget-title">Categories</h3>
+          <ul class="category-list">
+            {% for category in categories %}
+              {% if category != "" %}
+                {% assign category_posts = site.posts | where: 'categories', category %}
+                <li>
+                  <a href="/blog/categories/{{ category | slugify }}/" class="category-link">
+                    {{ category | capitalize }}
+                    <span class="category-count">({{ category_posts.size }})</span>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      
+      <!-- Popular Tags -->
+      {% assign all_tags = site.posts | map: 'tags' | join: ',' | split: ',' | uniq | sort %}
+      {% if all_tags.size > 0 %}
+        <div class="sidebar-widget">
+          <h3 class="widget-title">Popular Tags</h3>
+          <div class="tag-cloud">
+            {% for tag in all_tags limit: 15 %}
+              {% if tag != "" %}
+                {% assign tag_posts = site.posts | map: 'tags' | join: ',' | split: ',' %}
+                {% assign tag_count = 0 %}
+                {% for t in tag_posts %}
+                  {% if t == tag %}
+                    {% assign tag_count = tag_count | plus: 1 %}
+                  {% endif %}
+                {% endfor %}
+                <a href="/blog/tags/{{ tag | slugify }}/" class="tag-cloud-item">
+                  #{{ tag }} ({{ tag_count }})
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+      
+      <!-- Recent Posts -->
+      {% if site.posts.size > 3 %}
+        <div class="sidebar-widget">
+          <h3 class="widget-title">Recent Posts</h3>
+          <ul class="recent-posts">
+            {% for post in site.posts limit: 5 %}
+              <li class="recent-post-item">
+                <a href="{{ post.url | relative_url }}" class="recent-post-link">
+                  <div class="recent-post-meta">
+                    <time datetime="{{ post.date | date_to_xmlschema }}">
+                      {{ post.date | date: "%b %d" }}
+                    </time>
+                  </div>
+                  <div class="recent-post-title">{{ post.title }}</div>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      
+      <!-- Newsletter Signup -->
+      <div class="sidebar-widget newsletter-widget">
+        <h3 class="widget-title">Stay Updated</h3>
+        <p>Get the latest tutorials and updates delivered to your inbox.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Enter your email" class="newsletter-input">
+          <button type="button" class="newsletter-btn" onclick="alert('Newsletter functionality coming soon!')">
+            Subscribe
+          </button>
+        </div>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@codenity-iki" target="_blank" rel="noopener" class="social-link">
+            🎥 YouTube
+          </a>
+          <a href="https://github.com/CodEnity-Dev" target="_blank" rel="noopener" class="social-link">
+            💻 GitHub
+          </a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<style>
+/* Blog Layout Styles */
+.blog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.blog-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.blog-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.blog-subtitle {
+  font-size: 1.2rem;
+  color: var(--neutral);
+  margin-bottom: 0;
+}
+
+.blog-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 3rem;
+}
+
+/* Posts Grid */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.post-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.post-card-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.post-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-card-image img {
+  transform: scale(1.05);
+}
+
+.post-card-content {
+  padding: 1.5rem;
+}
+
+.post-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+
+.post-date {
+  color: var(--neutral);
+}
+
+.post-category {
+  background: var(--primary-blue);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.post-card-title {
+  margin-bottom: 1rem;
+}
+
+.post-card-title a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.post-card-title a:hover {
+  color: var(--primary-blue);
+}
+
+.post-card-excerpt {
+  color: var(--neutral);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.post-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.read-more-btn {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.read-more-btn:hover {
+  color: #0949cc;
+}
+
+.post-tags-preview {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag-pill {
+  background: var(--bg-light);
+  color: var(--neutral);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* Sidebar Styles */
+.blog-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar-widget {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.widget-title {
+  color: var(--text-dark);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--bg-light);
+  padding-bottom: 0.5rem;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list li {
+  margin-bottom: 0.5rem;
+}
+
+.category-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-dark);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.category-link:hover {
+  background: var(--bg-light);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.category-count {
+  color: var(--neutral);
+  font-size: 0.85rem;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-cloud-item {
+  background: var(--bg-light);
+  color: var(--neutral);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.tag-cloud-item:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.recent-posts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-post-item {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--bg-light);
+}
+
+.recent-post-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.recent-post-link {
+  text-decoration: none;
+  color: var(--text-dark);
+  display: block;
+}
+
+.recent-post-meta {
+  font-size: 0.8rem;
+  color: var(--neutral);
+  margin-bottom: 0.25rem;
+}
+
+.recent-post-title {
+  font-weight: 600;
+  line-height: 1.3;
+  font-size: 0.9rem;
+}
+
+.recent-post-link:hover .recent-post-title {
+  color: var(--primary-blue);
+}
+
+/* Newsletter Widget */
+.newsletter-widget {
+  background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange, #FF6A00)) !important;
+  color: white;
+}
+
+.newsletter-widget .widget-title {
+  color: white;
+  border-bottom-color: rgba(255,255,255,0.2);
+}
+
+.newsletter-widget p {
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.newsletter-form {
+  margin-bottom: 1rem;
+}
+
+.newsletter-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.newsletter-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: white;
+  color: var(--primary-blue);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter-btn:hover {
+  background: var(--bg-light);
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.social-link:hover {
+  opacity: 1;
+}
+
+/* No Posts State */
+.no-posts {
+  text-align: center;
+  padding: 4rem 2rem;
+  grid-column: 1 / -1;
+}
+
+.no-posts-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts h3 {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.no-posts p {
+  color: var(--neutral);
+  margin-bottom: 2rem;
+}
+
+.pagination-info {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--bg-light);
+  grid-column: 1 / -1;
+}
+
+.pagination-info p {
+  color: var(--neutral);
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .blog-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .blog-sidebar {
+    order: -1;
+  }
+  
+  .posts-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 1rem 0;
+  }
+  
+  .blog-title {
+    font-size: 2.5rem;
+  }
+  
+  .posts-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .post-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+</style>

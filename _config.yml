@@ -7,8 +7,28 @@ url: "https://codenity-dev.github.io"
 theme: minima
 plugins:
   - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
 markdown: kramdown
 permalink: pretty
+
+# CMS Configuration
+cms_config:
+  backend: git-gateway
+  publish_mode: editorial_workflow
+  media_folder: "assets/images/blog"
+  public_folder: "/assets/images/blog"
+
+# Blog settings
+paginate: 10
+paginate_path: "/blog/page:num/"
+excerpt_separator: "<!-- more -->"
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /:year/:month/:day/:title/
 analytics:
   ga4: "G-WNMLS47N0J"
   plausible:

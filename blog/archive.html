@@ -1,0 +1,641 @@
+---
+layout: default
+title: "Blog Archive"
+description: "Complete archive of all CodEnity blog posts organized by year and month"
+permalink: /blog/archive/
+---
+
+<div class="blog-container">
+  <header class="archive-header">
+    <nav class="breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">→</span>
+      <a href="/blog/" class="breadcrumb-link">Blog</a>
+      <span class="breadcrumb-separator">→</span>
+      <span class="breadcrumb-current">Archive</span>
+    </nav>
+    
+    <h1 class="archive-title">Blog Archive</h1>
+    <p class="archive-subtitle">
+      Complete collection of all {{ site.posts.size }} blog posts
+    </p>
+  </header>
+
+  <div class="archive-content">
+    {% if site.posts.size > 0 %}
+      {% assign posts_by_year = site.posts | group_by_exp: 'post', 'post.date | date: "%Y"' %}
+      
+      <div class="archive-stats">
+        <div class="stat-item">
+          <div class="stat-number">{{ site.posts.size }}</div>
+          <div class="stat-label">Total Posts</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">{{ posts_by_year.size }}</div>
+          <div class="stat-label">Years Active</div>
+        </div>
+        {% assign all_categories = site.posts | map: 'categories' | join: ',' | split: ',' | uniq %}
+        <div class="stat-item">
+          <div class="stat-number">{{ all_categories.size }}</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        {% assign all_tags = site.posts | map: 'tags' | join: ',' | split: ',' | uniq %}
+        <div class="stat-item">
+          <div class="stat-number">{{ all_tags.size }}</div>
+          <div class="stat-label">Tags</div>
+        </div>
+      </div>
+
+      <div class="archive-timeline">
+        {% for year_posts in posts_by_year %}
+          <div class="year-section">
+            <h2 class="year-title">{{ year_posts.name }}</h2>
+            
+            {% assign months = year_posts.items | group_by_exp: 'post', 'post.date | date: "%B"' %}
+            <div class="year-content">
+              {% for month_posts in months %}
+                <div class="month-section">
+                  <h3 class="month-title">
+                    {{ month_posts.name }}
+                    <span class="post-count">({{ month_posts.items.size }} posts)</span>
+                  </h3>
+                  
+                  <div class="month-posts">
+                    {% for post in month_posts.items %}
+                      <article class="archive-post">
+                        <div class="archive-post-date">
+                          <div class="day">{{ post.date | date: "%d" }}</div>
+                          <div class="month-abbr">{{ post.date | date: "%b" }}</div>
+                        </div>
+                        
+                        <div class="archive-post-content">
+                          <h4 class="archive-post-title">
+                            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                          </h4>
+                          
+                          <div class="archive-post-meta">
+                            {% if post.categories %}
+                              <span class="category">
+                                <a href="/blog/categories/{{ post.categories.first | slugify }}/">
+                                  {{ post.categories.first | capitalize }}
+                                </a>
+                              </span>
+                            {% endif %}
+                            
+                            {% if post.read_time %}
+                              <span class="read-time">{{ post.read_time }} min read</span>
+                            {% endif %}
+                            
+                            {% if post.featured %}
+                              <span class="featured-badge">Featured</span>
+                            {% endif %}
+                          </div>
+                          
+                          {% if post.description %}
+                            <p class="archive-post-excerpt">
+                              {{ post.description | truncate: 100 }}
+                            </p>
+                          {% endif %}
+                          
+                          {% if post.tags %}
+                            <div class="archive-post-tags">
+                              {% for tag in post.tags limit: 3 %}
+                                <a href="/blog/tags/{{ tag | slugify }}/" class="tag-pill">#{{ tag }}</a>
+                              {% endfor %}
+                              {% if post.tags.size > 3 %}
+                                <span class="more-tags">+{{ post.tags.size | minus: 3 }}</span>
+                              {% endif %}
+                            </div>
+                          {% endif %}
+                        </div>
+                      </article>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Archive Navigation -->
+      <div class="archive-navigation">
+        <h3>Quick Navigation</h3>
+        <div class="nav-grid">
+          <div class="nav-section">
+            <h4>Browse by Year</h4>
+            <ul class="year-links">
+              {% for year_posts in posts_by_year %}
+                <li>
+                  <a href="#year-{{ year_posts.name }}" class="year-link">
+                    {{ year_posts.name }}
+                    <span class="count">({{ year_posts.items.size }})</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          
+          <div class="nav-section">
+            <h4>Browse by Category</h4>
+            <ul class="category-links">
+              {% assign categories = site.posts | map: 'categories' | join: ',' | split: ',' | uniq | sort %}
+              {% for category in categories limit: 8 %}
+                {% if category != "" %}
+                  {% assign category_posts = site.posts | where: 'categories', category %}
+                  <li>
+                    <a href="/blog/categories/{{ category | slugify }}/" class="category-link">
+                      {{ category | capitalize }}
+                      <span class="count">({{ category_posts.size }})</span>
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          
+          <div class="nav-section">
+            <h4>Popular Tags</h4>
+            <div class="popular-tags">
+              {% assign popular_tags = site.posts | map: 'tags' | join: ',' | split: ',' | uniq | sort %}
+              {% for tag in popular_tags limit: 12 %}
+                {% if tag != "" %}
+                  <a href="/blog/tags/{{ tag | slugify }}/" class="tag-bubble">#{{ tag }}</a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    {% else %}
+      <div class="no-posts">
+        <div class="no-posts-icon">📚</div>
+        <h3>No blog posts yet</h3>
+        <p>The archive is empty. Check back soon for our latest content!</p>
+        <a href="/" class="btn">← Back to Home</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+/* Archive Page Styles */
+.blog-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.archive-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--bg-light);
+}
+
+.breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-link {
+  color: var(--neutral);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+  color: var(--primary-blue);
+}
+
+.breadcrumb-separator {
+  margin: 0 0.75rem;
+  color: var(--neutral);
+}
+
+.breadcrumb-current {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.archive-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.archive-subtitle {
+  color: var(--neutral);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Archive Stats */
+.archive-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--bg-light);
+  border-radius: 12px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--neutral);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Timeline */
+.archive-timeline {
+  margin-bottom: 4rem;
+}
+
+.year-section {
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.year-section::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary-blue), var(--accent-orange, #FF6A00));
+  border-radius: 2px;
+}
+
+.year-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  position: relative;
+}
+
+.year-title::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  background: var(--primary-blue);
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--primary-blue);
+}
+
+.year-content {
+  padding-left: 2rem;
+}
+
+.month-section {
+  margin-bottom: 2rem;
+}
+
+.month-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.post-count {
+  font-size: 0.9rem;
+  color: var(--neutral);
+  font-weight: 500;
+}
+
+.month-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.archive-post {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1.5rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.archive-post::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 1.5rem;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-orange, #FF6A00);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px var(--accent-orange, #FF6A00);
+}
+
+.archive-post:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.archive-post-date {
+  text-align: center;
+}
+
+.day {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+  line-height: 1;
+}
+
+.month-abbr {
+  font-size: 0.8rem;
+  color: var(--neutral);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+}
+
+.archive-post-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.archive-post-title {
+  margin: 0;
+}
+
+.archive-post-title a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.archive-post-title a:hover {
+  color: var(--primary-blue);
+}
+
+.archive-post-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.category a {
+  background: var(--primary-blue);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.read-time {
+  color: var(--neutral);
+}
+
+.featured-badge {
+  background: var(--accent-orange, #FF6A00);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+.archive-post-excerpt {
+  color: var(--neutral);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.archive-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-pill {
+  background: var(--bg-light);
+  color: var(--neutral);
+  text-decoration: none;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.tag-pill:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.more-tags {
+  color: var(--neutral);
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+/* Archive Navigation */
+.archive-navigation {
+  background: var(--bg-light);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.archive-navigation h3 {
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.nav-section h4 {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--primary-blue);
+  padding-bottom: 0.5rem;
+}
+
+.year-links, .category-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.year-links li, .category-links li {
+  margin-bottom: 0.5rem;
+}
+
+.year-link, .category-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-dark);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.year-link:hover, .category-link:hover {
+  background: white;
+}
+
+.count {
+  color: var(--neutral);
+  font-size: 0.85rem;
+}
+
+.popular-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-bubble {
+  background: white;
+  color: var(--text-dark);
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.tag-bubble:hover {
+  background: var(--primary-blue);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* No Posts State */
+.no-posts {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.no-posts-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts h3 {
+  color: var(--text-dark);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.no-posts p {
+  color: var(--neutral);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  background: var(--primary-blue);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background: #0949cc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 1rem 0;
+  }
+  
+  .archive-title {
+    font-size: 2.5rem;
+  }
+  
+  .archive-stats {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1.5rem;
+  }
+  
+  .archive-post {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .archive-post-date {
+    display: none;
+  }
+  
+  .archive-timeline {
+    padding-left: 0;
+  }
+  
+  .year-section::before {
+    display: none;
+  }
+  
+  .year-title, .year-content {
+    padding-left: 0;
+  }
+  
+  .archive-post::before {
+    display: none;
+  }
+  
+  .nav-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

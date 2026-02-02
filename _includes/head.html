@@ -3,15 +3,36 @@
 <title>{{ page.title | default: site.title }}</title>
 <meta name="description" content="{{ page.description | default: site.description }}">
 
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }} RSS Feed" href="{{ site.url }}{{ site.baseurl }}/feed.xml">
+<link rel="alternate" type="application/json" title="{{ site.title }} JSON Feed" href="{{ site.url }}{{ site.baseurl }}/feed.json">
+
 <!-- Open Graph -->
 <meta property="og:site_name" content="{{ site.title }}">
 <meta property="og:title" content="{{ page.title | default: site.title }}">
 <meta property="og:description" content="{{ page.description | default: site.description }}">
-<meta property="og:type" content="website">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
 <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+{% if page.image %}
+<meta property="og:image" content="{{ page.image | prepend: site.baseurl | prepend: site.url }}">
+{% endif %}
+{% if page.layout == 'post' %}
+<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+{% for category in page.categories %}
+<meta property="article:section" content="{{ category }}">
+{% endfor %}
+{% for tag in page.tags %}
+<meta property="article:tag" content="{{ tag }}">
+{% endfor %}
+{% endif %}
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title | default: site.title }}">
+<meta name="twitter:description" content="{{ page.description | default: site.description }}">
+{% if page.image %}
+<meta name="twitter:image" content="{{ page.image | prepend: site.baseurl | prepend: site.url }}">
+{% endif %}
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">

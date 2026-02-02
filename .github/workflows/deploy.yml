@@ -3,30 +3,59 @@ name: Build and deploy Jekyll site to gh-pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
+
+env:
+  JEKYLL_ENV: production
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.1.7"
+          bundler-cache: true
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
 
       - name: Install dependencies
         run: |
           gem install bundler --no-document
-          bundle install
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
 
       - name: Build the site with Jekyll (explicit source/config)
-        run: bundle exec jekyll build --source . --config _config.yml --destination ./_site
-
+        run: |
+          bundle exec jekyll build --source . --config _config.yml --destination ./_site
+          
+      - name: Validate build output
+        run: |
+          echo "Checking build output..."
+          ls -la _site/
+          echo "Checking admin directory..."
+          ls -la _site/admin/ || echo "Admin directory not found"
+          
       - name: Deploy generated site to `gh-pages` branch using PAT
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -34,6 +63,9 @@ jobs:
           publish_dir: ./_site
           publish_branch: gh-pages
           keep_files: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy Jekyll site with CMS support [skip ci]'
 
       - name: Ensure GitHub Pages site is configured to use `gh-pages`
         env:
