@@ -24,7 +24,26 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Only accept POST requests for token exchange
+  // Handle GET requests - Redirect to GitHub OAuth
+  if (event.httpMethod === 'GET') {
+    const clientId = process.env.GITHUB_CLIENT_ID;
+    const redirectUri = `${process.env.ORIGIN}/admin/callback.html`;
+    const scope = 'repo,user';
+    const state = Math.random().toString(36).substring(7);
+    
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&state=${state}`;
+    
+    return {
+      statusCode: 302,
+      headers: {
+        ...headers,
+        'Location': authUrl
+      },
+      body: ''
+    };
+  }
+
+  // Handle POST requests - Exchange code for token
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
