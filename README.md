@@ -60,12 +60,14 @@ codenity-dev.github.io/
 ### Creating Blog Posts
 
 #### Via CMS (Recommended)
+
 1. Go to [/admin/](https://codenity-dev.github.io/admin/)
 2. Navigate to "Blog Posts"
 3. Click "New Post"
 4. Fill in the fields and publish
 
 #### Via File System
+
 1. Create a new file: `_posts/YYYY-MM-DD-title.md`
 2. Add front matter:
    ```yaml
@@ -89,6 +91,7 @@ The admin panel requires OAuth authentication with GitHub.
 ### Quick Setup (5 minutes)
 
 See [ADMIN_SETUP.md](ADMIN_SETUP.md) for step-by-step instructions to:
+
 1. Create GitHub OAuth App
 2. Deploy to Netlify
 3. Configure authentication
@@ -97,6 +100,7 @@ See [ADMIN_SETUP.md](ADMIN_SETUP.md) for step-by-step instructions to:
 ### Troubleshooting
 
 Common issues and solutions:
+
 - **"Page not found" error**: Update `base_url` in `admin/config.yml`
 - **Authentication fails**: Check environment variables in Netlify
 - **Unauthorized error**: Authorize OAuth app in GitHub settings
@@ -106,12 +110,15 @@ Full documentation: [OAuth-Proxy-Setup.md](OAuth-Proxy-Setup.md)
 ## 🚢 Deployment
 
 ### Automatic Deployment
+
 Pushes to `main` branch automatically deploy via GitHub Actions:
+
 1. Build with Jekyll
 2. Deploy to `gh-pages` branch
 3. GitHub Pages serves the site
 
 ### Manual Deployment
+
 ```powershell
 # Build the site
 bundle exec jekyll build
@@ -125,17 +132,20 @@ See [README_DEPLOY.md](README_DEPLOY.md) for detailed deployment instructions.
 ## 🧪 Local Development
 
 ### With Ruby (Native)
+
 ```powershell
 bundle install
 bundle exec jekyll serve --livereload
 ```
 
 ### With Docker (No Ruby required)
+
 ```powershell
 docker run --rm -it -p 4000:4000 -v "${PWD}:/srv/jekyll" jekyll/jekyll:4 jekyll serve --watch
 ```
 
 ### Testing CMS Locally
+
 ```powershell
 # Use test backend (no OAuth required)
 # Uncomment in admin/config.yml:

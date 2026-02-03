@@ -41,6 +41,7 @@ When visiting `/admin/`, users were seeing a 404 error during GitHub OAuth authe
 ## 🚀 To Make It Work (5 Minutes)
 
 ### 1. Create GitHub OAuth App (2 min)
+
 ```
 Go to: https://github.com/settings/developers
 → New OAuth App
@@ -49,6 +50,7 @@ Go to: https://github.com/settings/developers
 ```
 
 ### 2. Deploy to Netlify (2 min)
+
 ```
 Go to: https://app.netlify.com
 → New site from Git
@@ -61,12 +63,14 @@ Go to: https://app.netlify.com
 ```
 
 ### 3. Update Config (1 min)
+
 ```yaml
 # In admin/config.yml line 7, change:
 base_url: https://YOUR-ACTUAL-NETLIFY-URL.netlify.app
 ```
 
 ### 4. Test
+
 ```
 Visit: https://codenity-dev.github.io/admin/
 Click: "Login with GitHub"
@@ -75,13 +79,13 @@ Result: ✅ Should work!
 
 ## 📊 What Changed
 
-| File | Change | Why |
-|------|--------|-----|
-| `netlify/functions/auth.js` | Created | OAuth backend to exchange tokens |
-| `admin/config.yml` | Updated | Point to correct OAuth provider |
-| `admin/callback.html` | Rewritten | Handle OAuth responses properly |
-| `netlify.toml` | Enhanced | Configure functions & security |
-| `package.json` | Created | Declare dependencies |
+| File                        | Change    | Why                              |
+| --------------------------- | --------- | -------------------------------- |
+| `netlify/functions/auth.js` | Created   | OAuth backend to exchange tokens |
+| `admin/config.yml`          | Updated   | Point to correct OAuth provider  |
+| `admin/callback.html`       | Rewritten | Handle OAuth responses properly  |
+| `netlify.toml`              | Enhanced  | Configure functions & security   |
+| `package.json`              | Created   | Declare dependencies             |
 
 ## 🔄 How It Works Now
 
@@ -129,7 +133,7 @@ package.json               ← Node dependencies
 ## 📚 Full Documentation
 
 - **5-min Setup**: [ADMIN_SETUP.md](ADMIN_SETUP.md)
-- **Complete Guide**: [OAuth-Proxy-Setup.md](OAuth-Proxy-Setup.md)  
+- **Complete Guide**: [OAuth-Proxy-Setup.md](OAuth-Proxy-Setup.md)
 - **Technical Details**: [FIX_SUMMARY.md](FIX_SUMMARY.md)
 - **Security**: [SECURITY.md](SECURITY.md)
 
@@ -138,7 +142,7 @@ package.json               ← Node dependencies
 **Implementation**: ✅ Complete  
 **Code Quality**: ✅ Production-ready  
 **Security**: ✅ Industry standard  
-**Documentation**: ✅ Comprehensive  
+**Documentation**: ✅ Comprehensive
 
 **Next Step**: Deploy to Netlify and update config.yml with your URL
 

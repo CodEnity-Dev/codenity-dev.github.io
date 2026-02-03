@@ -69,7 +69,7 @@ After deploying to Netlify, you'll get a URL like: `https://your-site-name.netli
      name: github
      repo: codenity-dev/codenity-dev.github.io
      branch: main
-     base_url: https://your-site-name.netlify.app  # ← Update this
+     base_url: https://your-site-name.netlify.app # ← Update this
      auth_endpoint: /.netlify/functions/auth
    ```
 3. Commit and push the changes
@@ -93,6 +93,7 @@ After deploying to Netlify, you'll get a URL like: `https://your-site-name.netli
 ### Environment Variables
 
 Never commit these secrets to your repository:
+
 - `GITHUB_CLIENT_SECRET`
 - Any API keys or tokens
 
@@ -101,12 +102,14 @@ Always set them in Netlify's environment variables interface.
 ### OAuth Scopes
 
 The OAuth app requests minimal scopes:
+
 - `repo` - Required to read/write repository content
 - `user` - Required to identify the authenticated user
 
 ### CORS Configuration
 
 The serverless function includes proper CORS headers to prevent unauthorized access:
+
 ```javascript
 'Access-Control-Allow-Origin': process.env.ORIGIN || '*'
 ```
@@ -132,11 +135,13 @@ For local testing without OAuth:
 ### Testing Netlify Functions Locally
 
 Install Netlify CLI:
+
 ```powershell
 npm install -g netlify-cli
 ```
 
 Run locally:
+
 ```powershell
 netlify dev
 ```
@@ -152,11 +157,13 @@ netlify dev
 ### "Authentication Failed" Error
 
 **Causes**:
+
 1. **Invalid credentials**: Check `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`
 2. **Wrong callback URL**: Must match the one in GitHub OAuth App settings
 3. **CORS issues**: Ensure `ORIGIN` environment variable is set correctly
 
 **Debug steps**:
+
 ```powershell
 # Check Netlify function logs
 netlify functions:log auth
@@ -169,7 +176,8 @@ netlify functions:invoke auth --payload '{"code":"test_code"}'
 
 **Problem**: GitHub OAuth app not authorized for the repository.
 
-**Solution**: 
+**Solution**:
+
 1. Go to GitHub Settings → Applications → Authorized OAuth Apps
 2. Find your OAuth app
 3. Grant access to the `codenity-dev` organization
@@ -178,11 +186,13 @@ netlify functions:invoke auth --payload '{"code":"test_code"}'
 ### Function Returns 500 Error
 
 **Check**:
+
 1. Environment variables are set in Netlify
 2. `node-fetch` dependency is installed
 3. Function deployment succeeded
 
 **View logs**:
+
 ```powershell
 netlify logs:function auth
 ```
