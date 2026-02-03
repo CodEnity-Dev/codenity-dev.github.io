@@ -102,21 +102,39 @@
       // This is the standard OAuth callback pattern for popup-based auth
       try {
         if (window.opener) {
-          // Send authorization code to the CMS window
-          window.opener.postMessage(
-            'authorization:github:success:' + JSON.stringify({
-              provider: 'github',
-              token: code
-            }),
-            window.location.origin
-          );
-          
-          showSuccess('Authentication successful! Closing window...');
-          
-          // Close the popup after a brief delay
-          setTimeout(() => {
-            window.close();
-          }, 1500);
+          // Exchange code for token via our Netlify function
+          fetch('https://codenity-admin.netlify.app/.netlify/functions/auth', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code: code })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.error) {
+              throw new Error(data.error);
+            }
+            
+            // Send the access token to the CMS window
+            window.opener.postMessage(
+              'authorization:github:success:' + JSON.stringify({
+                provider: 'github',
+                token: data.token
+              }),
+              window.location.origin
+            );
+            
+            showSuccess('Authentication successful! Closing window...');
+            
+            // Close the popup after a brief delay
+            setTimeout(() => {
+              window.close();
+            }, 1500);
+          })
+          .catch(err => {
+            showError('Token exchange failed: ' + err.message);
+          });
         } else {
           showError('Unable to communicate with parent window. Please close this window and try again.');
         }
