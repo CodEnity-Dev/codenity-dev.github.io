@@ -2,7 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>GitHub OAuth Callback</title>
+  <meta name="robots" content="noindex, nofollow">
+  <title>CodEnity CMS - Authenticating</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -22,6 +23,13 @@
       background: rgba(255,255,255,0.1);
       border-radius: 16px;
       backdrop-filter: blur(10px);
+    }
+    
+    .logo {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 20px;
+      border-radius: 12px;
     }
     
     .spinner {
@@ -46,58 +54,94 @@
       border-radius: 8px;
       margin-top: 20px;
     }
+    
+    .success {
+      color: #51cf66;
+      background: rgba(81,207,102,0.1);
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
   <div class="callback-container">
-    <h2>Processing Authentication...</h2>
+    <img src="../assets/images/ce.png" alt="CodEnity" class="logo">
+    <h2>Authenticating...</h2>
     <div class="spinner"></div>
-    <p id="status">Completing GitHub authentication...</p>
+    <p id="status">Exchanging authorization code with GitHub...</p>
     <div id="error" class="error" style="display: none;"></div>
+    <div id="success" class="success" style="display: none;"></div>
   </div>
 
   <script>
+    /**
+     * OAuth 2.0 Callback Handler
+     * Processes GitHub OAuth response and completes authentication flow
+     */
     (function() {
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
       const state = params.get('state');
       const error = params.get('error');
+      const errorDescription = params.get('error_description');
       
+      // Handle OAuth errors from GitHub
       if (error) {
-        document.getElementById('status').style.display = 'none';
-        document.querySelector('.spinner').style.display = 'none';
-        document.getElementById('error').style.display = 'block';
-        document.getElementById('error').textContent = `Authentication failed: ${error}`;
+        showError(`GitHub OAuth error: ${errorDescription || error}`);
         return;
       }
       
+      // Validate authorization code
       if (!code) {
-        document.getElementById('status').style.display = 'none';
-        document.querySelector('.spinner').style.display = 'none';
-        document.getElementById('error').style.display = 'block';
-        document.getElementById('error').textContent = 'No authorization code received from GitHub';
+        showError('No authorization code received from GitHub');
         return;
       }
       
-      // For Netlify Identity or similar service
-      // This would typically make a request to exchange the code for a token
-      // But for GitHub Pages + Decap CMS, we need to use netlify-cms-github-oauth-provider
-      
-      // Store the code temporarily and redirect to admin
+      // Post message back to opener window (Decap CMS)
+      // This is the standard OAuth callback pattern for popup-based auth
       try {
-        // Pass the auth code back to the CMS
         if (window.opener) {
-          window.opener.postMessage({
-            type: 'authorization-github',
-            token: code
-          }, window.location.origin);
-          window.close();
-        } else {
-          // Fallback: store code and redirect
-          sessionStorage.setItem('github-auth-code', code);
+          // Send authorization code to the CMS window
+          window.opener.postMessage(
+            'authorization:github:success:' + JSON.stringify({
+              provider: 'github',
+              token: code
+            }),
+            window.location.origin
+          );
+          
+          showSuccess('Authentication successful! Closing window...');
+          
+          // Close the popup after a brief delay
           setTimeout(() => {
-            window.location.href = '/admin/';
-          }, 2000);
+            window.close();
+          }, 1500);
+        } else {
+          showError('Unable to communicate with parent window. Please close this window and try again.');
+        }
+      } catch (err) {
+        console.error('Callback error:', err);
+        showError('Authentication failed: ' + err.message);
+      }
+      
+      function showError(message) {
+        document.getElementById('status').style.display = 'none';
+        document.querySelector('.spinner').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').textContent = message;
+      }
+      
+      function showSuccess(message) {
+        document.getElementById('status').style.display = 'none';
+        document.querySelector('.spinner').style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+        document.getElementById('success').textContent = message;
+      }
+    })();
+  </script>
+</body>
+</html>
         }
       } catch (err) {
         document.getElementById('status').style.display = 'none';
