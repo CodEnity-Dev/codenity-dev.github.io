@@ -3,8 +3,9 @@ backend:
   name: github
   repo: codenity-dev/codenity-dev.github.io
   branch: main
-  base_url: https://decap-oauth.netlify.app
-  auth_endpoint: auth
+  # OAuth backend - Netlify deployment
+  base_url: https://codenity-admin.netlify.app
+  auth_endpoint: /.netlify/functions/auth
   
 # Alternative configuration for local development
 # backend:
@@ -12,7 +13,7 @@ backend:
 
 media_folder: "assets/images/blog"
 public_folder: "/assets/images/blog"
-publish_mode: simple
+publish_mode: editorial_workflow
 logo_url: "/assets/images/ce.png"
 
 # Site Configuration

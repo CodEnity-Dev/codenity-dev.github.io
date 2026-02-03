@@ -1,17 +1,39 @@
 # Netlify configuration for GitHub Pages CMS authentication
 [build]
   publish = "_site"
+  command = "bundle install && bundle exec jekyll build"
 
 [build.environment]
   RUBY_VERSION = "3.1.7"
+  NODE_VERSION = "18"
 
+# Serverless Functions Configuration
+[functions]
+  directory = "netlify/functions"
+
+# Redirect rules for OAuth flow
 [[redirects]]
-  from = "/admin/oauth"
-  to = "/.netlify/functions/oauth"
+  from = "/admin/*"
+  to = "/admin/:splat"
   status = 200
+  force = false
 
-# GitHub OAuth configuration
-[[redirects]]
-  from = "/admin/auth"
-  to = "https://github.com/login/oauth/authorize?client_id=YOUR_GITHUB_CLIENT_ID&redirect_uri=https://codenity-dev.github.io/admin/oauth&scope=repo"
-  status = 302
+# Environment variables (set these in Netlify UI)
+# Required:
+# - GITHUB_CLIENT_ID: Your GitHub OAuth app client ID
+# - GITHUB_CLIENT_SECRET: Your GitHub OAuth app client secret  
+# - ORIGIN: https://codenity-dev.github.io
+
+# Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

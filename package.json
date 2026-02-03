@@ -1,0 +1,23 @@
+{
+  "name": "codenity-cms-auth",
+  "version": "1.0.0",
+  "description": "Serverless OAuth provider for Decap CMS on GitHub Pages",
+  "main": "netlify/functions/auth.js",
+  "scripts": {
+    "test": "echo \"No tests specified\""
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "decap-cms",
+    "oauth",
+    "github",
+    "netlify"
+  ],
+  "author": "CodEnity Team",
+  "license": "MIT"
+}
