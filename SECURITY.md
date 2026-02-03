@@ -9,11 +9,13 @@
 ### What's Public vs Private
 
 ✅ **Safe to expose (client-side)**:
+
 - `GITHUB_CLIENT_ID` - Used in frontend, necessary for OAuth flow
 - Repository name and structure
 - CMS configuration (admin/config.yml)
 
 🔐 **Must remain secret (server-side only)**:
+
 - `GITHUB_CLIENT_SECRET` - Store only in Netlify environment variables
 - Access tokens
 - Personal access tokens
@@ -53,6 +55,7 @@ If you discover a security vulnerability, please email: [security contact email]
 ## 🔄 Credential Rotation Schedule
 
 Recommended rotation schedule:
+
 - **OAuth secrets**: Every 6-12 months
 - **Access tokens**: Use short-lived tokens when possible
 - **After incidents**: Immediately after any suspected compromise
@@ -60,6 +63,7 @@ Recommended rotation schedule:
 ## ✅ Security Checklist
 
 Before deployment:
+
 - [ ] `.env` files in `.gitignore`
 - [ ] No secrets in commit history
 - [ ] OAuth app callback URLs match exactly
