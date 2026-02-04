@@ -108,14 +108,21 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code: code })
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(data.message || data.error || 'Authentication failed');
+          });
+        }
+        return response.json();
+      })
       .then(data => {
         if (data.error) {
-          throw new Error(data.error);
+          throw new Error(data.message || data.error);
         }
         
         if (!data.token) {
-          throw new Error('No token received');
+          throw new Error('No access token received from server');
         }
 
         // Send message in the exact format Decap CMS expects
@@ -132,8 +139,14 @@
           window.opener.postMessage(message, window.location.origin);
         }
         
+        document.querySelector('.spinner').style.display = 'none';
         messageEl.innerHTML = '<span class="success">✓ Authentication successful!</span>';
-        messageEl.nextElementSibling.textContent = 'Closing window...';
+        
+        const statusP = document.createElement('p');
+        statusP.textContent = 'Closing window...';
+        statusP.style.marginTop = '1rem';
+        statusP.style.opacity = '0.8';
+        messageEl.parentElement.appendChild(statusP);
         
         setTimeout(() => {
           window.close();
@@ -141,7 +154,9 @@
       })
       .catch(err => {
         document.querySelector('.spinner').style.display = 'none';
-        messageEl.innerHTML = '<span class="error">Error: ' + err.message + '</span>';
+        messageEl.innerHTML = '<span class="error"><strong>Authentication Failed</strong><br><br>' + err.message + 
+          '<br><br><small>Check the browser console for more details.</small></span>';
+        console.error('Full error:', err);
       });
     })();
   </script>
