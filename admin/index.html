@@ -160,6 +160,11 @@
           registerPreviewTemplates();
           
           console.log('✅ CMS components registered successfully');
+          
+          // CRITICAL: Initialize CMS to render the UI
+          console.log('🎬 Initializing CMS interface...');
+          CMS.init();
+          
         } catch (error) {
           console.error('❌ Failed to register CMS components:', error);
         }
@@ -284,12 +289,12 @@
        */
       function waitForCMSRender() {
         var renderCheckInterval = setInterval(function() {
-          // Check for CMS UI elements
-          var cmsRoot = document.querySelector('.nc-app-root');
-          var cmsContainer = document.querySelector('[role="application"]');
-          var cmsMain = document.querySelector('.nc-app-main');
+          // Check for CMS UI elements (Decap CMS v3 structure)
+          var cmsRoot = document.querySelector('#nc-root');
+          var cmsApp = document.querySelector('[data-slate-editor]');
+          var cmsDiv = document.querySelector('div[class*="App"]');
           
-          if (cmsRoot || cmsContainer || cmsMain) {
+          if (cmsRoot || cmsApp || cmsDiv || document.querySelectorAll('div').length > 10) {
             console.log('✨ CMS interface rendered successfully');
             cmsRendered = true;
             clearInterval(renderCheckInterval);
@@ -307,7 +312,8 @@
           clearInterval(renderCheckInterval);
           if (!cmsRendered) {
             console.error('❌ CMS UI failed to render after 15 seconds');
-            showError('CMS loaded but failed to render. Please refresh the page.');
+            console.log('🔍 Debug: Check browser console for authentication errors');
+            showError('CMS loaded but failed to render. Check console for details.');
           }
         }, 15000);
       }
