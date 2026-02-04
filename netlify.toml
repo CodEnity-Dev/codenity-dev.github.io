@@ -1,10 +1,12 @@
-# Netlify configuration for GitHub Pages CMS authentication
-# This only deploys serverless functions - GitHub Pages builds the Jekyll site
+# Netlify configuration for serverless functions only
+# GitHub Pages handles Jekyll site building
 [build]
   base = "."
   publish = "."
   command = "npm install --production"
   functions = "netlify/functions"
+  # Only build when functions or related files change
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF netlify/ package.json"
 
 [build.environment]
   NODE_VERSION = "18"
