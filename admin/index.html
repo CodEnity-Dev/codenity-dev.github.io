@@ -5,28 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Content Manager</title>
-  <script>
-    // Listen for authentication messages from popup
-    window.addEventListener('message', function(e) {
-      console.log('🔔 Message received:', e.data);
-      console.log('📍 Origin:', e.origin);
-      console.log('🌐 Expected origin:', window.location.origin);
-      
-      if (e.origin !== window.location.origin) {
-        console.warn('⚠️ Message from unexpected origin, ignoring');
-        return;
-      }
-      
-      // Log all messages to help debug
-      if (typeof e.data === 'string' && e.data.includes('authorization')) {
-        console.log('✅ Authentication message detected!');
-      }
-    });
-    
-    console.log('🎯 Message listener installed');
-  </script>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    console.log('🚀 Initializing CMS...');
+    
+    // Ensure CMS is initialized properly
+    if (window.CMS) {
+      CMS.init();
+      console.log('✅ CMS initialized successfully');
+    } else {
+      console.error('❌ CMS not loaded');
+    }
+  </script>
 </body>
 </html>
