@@ -29,7 +29,6 @@ slug:
 
 # Additional Features
 search: true
-local_backend: true
 show_preview_links: true
 show_preview_date: true
 
