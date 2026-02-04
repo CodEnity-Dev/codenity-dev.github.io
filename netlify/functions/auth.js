@@ -68,7 +68,7 @@ exports.handler = async (event, context) => {
     
     // Use ORIGIN from environment or infer from origin header
     const baseOrigin = process.env.ORIGIN || allowedOrigin;
-    const redirectUri = `${baseOrigin}/admin/callback.html`;
+    const redirectUri = `${baseOrigin}/admin/`;
     const scope = 'repo,user';
     
     const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&state=${state}`;
