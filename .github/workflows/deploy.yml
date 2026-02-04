@@ -30,24 +30,27 @@ jobs:
         with:
           ruby-version: "3.1.7"
           bundler-cache: true
+          working-directory: .jekyll
 
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gems-${{ hashFiles('.jekyll/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
 
       - name: Install dependencies
+        working-directory: .jekyll
         run: |
           gem install bundler --no-document
-          bundle config path vendor/bundle
+          bundle config path ../vendor/bundle
           bundle install --jobs 4 --retry 3
 
       - name: Build the site with Jekyll (explicit source/config)
+        working-directory: .jekyll
         run: |
-          bundle exec jekyll build --source . --config _config.yml --destination ./_site
+          bundle exec jekyll build --source .. --config ../_config.yml --destination ../_site
           
       - name: Validate build output
         run: |
