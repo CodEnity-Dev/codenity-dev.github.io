@@ -3,12 +3,13 @@
 [build]
   base = "."
   publish = "."
-  command = "true"
+  command = "npm install --production"
   functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "18"
-  SKIP_INSTALL = "true"
+  BUNDLE_GEMFILE = "/dev/null"
+  SKIP_BUNDLER_INSTALL = "true"
 
 # Serverless Functions Configuration
 [functions]
