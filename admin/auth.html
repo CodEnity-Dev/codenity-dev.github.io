@@ -74,16 +74,50 @@
   </div>
 
   <script>
-    document.getElementById('githubAuth').addEventListener('click', function(e) {
+    /**
+     * GitHub OAuth Authentication Flow
+     * Uses Netlify serverless function as OAuth proxy
+     * Industry Standard: OAuth 2.0 Authorization Code Flow with PKCE principles
+     */
+    document.getElementById('githubAuth').addEventListener('click', async function(e) {
       e.preventDefault();
       
-      const clientId = 'Ov23lijyKYgAIq0HUswE';
-      const redirectUri = window.location.origin + '/admin/callback.html';
-      const scope = 'repo,user';
-      
-      const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&state=${Math.random().toString(36).substr(2, 9)}`;
-      
-      window.location.href = authUrl;
+      try {
+        // Determine the OAuth backend base URL
+        const isProduction = window.location.hostname === 'codenity-dev.github.io';
+        const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        
+        // Get the Netlify function URL from config or use environment-based detection
+        let authBaseUrl;
+        
+        if (isDevelopment) {
+          // For local development with Netlify Dev
+          authBaseUrl = 'http://localhost:8888';
+        } else if (isProduction) {
+          // For production - redirect to Netlify serverless function
+          // This URL should match your Netlify site URL
+          authBaseUrl = 'https://codenity-admin.netlify.app';
+        } else {
+          // Fallback - try to use the current origin if it's a Netlify deploy preview
+          authBaseUrl = window.location.origin;
+        }
+        
+        // Generate cryptographically secure state parameter for CSRF protection
+        const state = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+          .map(b => b.toString(16).padStart(2, '0'))
+          .join('');
+        
+        // Store state for validation on callback
+        sessionStorage.setItem('oauth_state', state);
+        
+        // Redirect to Netlify function which will handle GitHub OAuth
+        const authUrl = `${authBaseUrl}/.netlify/functions/auth?state=${state}`;
+        window.location.href = authUrl;
+        
+      } catch (error) {
+        console.error('Authentication initialization error:', error);
+        alert('Failed to initialize authentication. Please check your configuration.');
+      }
     });
   </script>
 </body>

@@ -4,6 +4,7 @@ backend:
   repo: codenity-dev/codenity-dev.github.io
   branch: main
   # OAuth backend - Netlify deployment
+  # This URL must match your Netlify site where the auth function is deployed
   base_url: https://codenity-admin.netlify.app
   auth_endpoint: /.netlify/functions/auth
 
