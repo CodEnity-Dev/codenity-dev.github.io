@@ -5,32 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Content Manager</title>
-  <script>
-    // Handle OAuth callback if code is present in URL
-    if (window.location.search.includes('code=')) {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get('code');
-      
-      // Exchange code for token
-      fetch('https://codenity-admin.netlify.app/.netlify/functions/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: code })
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.token) {
-          // Store token and reload without code parameter
-          sessionStorage.setItem('netlify-cms-user', JSON.stringify({
-            token: data.token,
-            provider: 'github'
-          }));
-          window.location.href = window.location.pathname;
-        }
-      })
-      .catch(err => console.error('Auth error:', err));
-    }
-  </script>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
