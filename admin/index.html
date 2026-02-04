@@ -72,19 +72,31 @@
     }
     
     /* Hide loading when CMS loads */
-    .nc-app-loaded .loading-container {
+    .nc-app-loaded #loading {
       display: none;
+    }
+    
+    /* CMS container */
+    #nc-root {
+      display: none;
+    }
+    
+    .nc-app-loaded #nc-root {
+      display: block;
     }
   </style>
 </head>
 <body>
   <!-- Loading Screen -->
-  <div class="loading-container" id="loading">
+  <div id="loading" class="loading-container">
     <img src="../assets/images/ce.png" alt="CodEnity" class="loading-logo">
     <div class="loading-title">CodEnity Blog Admin</div>
     <div class="loading-subtitle">Loading content management system...</div>
     <div class="loading-spinner"></div>
   </div>
+
+  <!-- Decap CMS Container -->
+  <div id="nc-root"></div>
 
   <!-- Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
@@ -163,10 +175,17 @@
           
           // CRITICAL: Initialize CMS to render the UI
           console.log('🎬 Initializing CMS interface...');
-          CMS.init();
+          
+          // Configure CMS to use specific container
+          CMS.init({
+            config: {
+              load_config_file: false
+            }
+          });
           
         } catch (error) {
-          console.error('❌ Failed to register CMS components:', error);
+          console.error('❌ Failed to initialize CMS:', error);
+          showError('Failed to initialize CMS: ' + error.message);
         }
       }
       
