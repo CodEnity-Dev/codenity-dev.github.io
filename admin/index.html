@@ -5,61 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Content Manager</title>
-  <script>
-    console.log('🟢 [CMS] Admin page loaded at:', new Date().toISOString());
-    console.log('🟢 [CMS] Current URL:', window.location.href);
-    console.log('🟢 [CMS] Origin:', window.location.origin);
-    
-    // Track message events
-    let messageCount = 0;
-    window.addEventListener('message', function(event) {
-      messageCount++;
-      console.log(`🔔 [CMS] Message #${messageCount} received:`, {
-        data: event.data,
-        origin: event.origin,
-        source: event.source ? 'popup' : 'unknown',
-        timestamp: new Date().toISOString()
-      });
-      
-      if (typeof event.data === 'string') {
-        if (event.data.indexOf('authorizing:') === 0) {
-          console.log('🤝 [CMS] Handshake message detected:', event.data);
-        } else if (event.data.indexOf('authorization:') === 0) {
-          console.log('🎫 [CMS] Authorization message detected');
-          try {
-            const parts = event.data.split(':');
-            if (parts[2] === 'success') {
-              console.log('✅ [CMS] SUCCESS message - Dashboard should load now!');
-            } else if (parts[2] === 'error') {
-              console.error('❌ [CMS] ERROR message received');
-            }
-          } catch (e) {
-            console.error('Failed to parse auth message:', e);
-          }
-        }
-      }
-    }, false);
-    
-    console.log('👂 [CMS] Message listener installed');
-    
-    // Track when CMS object becomes available
-    let checkCount = 0;
-    const checkCMS = setInterval(() => {
-      checkCount++;
-      if (window.CMS) {
-        console.log(`✅ [CMS] CMS object available after ${checkCount} checks`);
-        console.log('📦 [CMS] CMS methods:', Object.keys(window.CMS).join(', '));
-        clearInterval(checkCMS);
-      } else if (checkCount > 20) {
-        console.error('❌ [CMS] CMS object not loaded after 10 seconds!');
-        clearInterval(checkCMS);
-      }
-    }, 500);
-  </script>
 </head>
 <body>
-  <script>console.log('📄 [CMS] Body script loading...');</script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>console.log('📄 [CMS] Decap CMS script tag loaded');</script>
 </body>
 </html>
