@@ -168,14 +168,17 @@
             console.log('✅ Loading screen removed');
           }
           
-          // Small delay to ensure DOM is clean
+          // WORKAROUND: Add significant delay before CMS.init() to avoid race condition
+          // Issue: https://github.com/decaporg/decap-cms/issues/7571#issuecomment-2540686639
+          // CMS needs DOM to be completely settled before initialization
+          console.log('⏳ Waiting for DOM to settle (2s delay)...');
           setTimeout(function() {
             console.log('🎬 Initializing CMS interface...');
             CMS.init();
             
             // Wait for CMS to render
             waitForCMSRender();
-          }, 50);
+          }, 2000); // 2 second delay as recommended in GitHub issue
           
         } catch (error) {
           console.error('❌ Failed to initialize CMS:', error);
