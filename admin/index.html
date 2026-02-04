@@ -131,11 +131,8 @@
           cmsInitialized = true;
           clearInterval(checkCMSLoad);
           
-          // Step 2: Initialize CMS components
+          // Step 2: Initialize CMS components (handles its own rendering)
           initializeCMSComponents();
-          
-          // Step 3: Wait for CMS to render its UI
-          waitForCMSRender();
         }
       }, 100);
       
@@ -163,10 +160,22 @@
           
           console.log('✅ CMS components registered successfully');
           
-          // CRITICAL: Initialize CMS to render the UI
-          // CMS.init() without config will automatically load config.yml
-          console.log('🎬 Initializing CMS interface...');
-          CMS.init();
+          // CRITICAL: Remove loading div BEFORE CMS.init() to prevent DOM conflicts
+          console.log('🗑️ Removing loading screen...');
+          var loadingDiv = document.getElementById('loading');
+          if (loadingDiv && loadingDiv.parentNode) {
+            loadingDiv.parentNode.removeChild(loadingDiv);
+            console.log('✅ Loading screen removed');
+          }
+          
+          // Small delay to ensure DOM is clean
+          setTimeout(function() {
+            console.log('🎬 Initializing CMS interface...');
+            CMS.init();
+            
+            // Wait for CMS to render
+            waitForCMSRender();
+          }, 50);
           
         } catch (error) {
           console.error('❌ Failed to initialize CMS:', error);
@@ -289,32 +298,19 @@
       
       /**
        * Wait for CMS to render its UI
-       * Only hides loading screen when CMS actually renders
        */
       function waitForCMSRender() {
         var renderCheckInterval = setInterval(function() {
           // Check for CMS UI elements (Decap CMS v3 renders into body directly)
           var cmsDivs = document.querySelectorAll('body > div');
-          var hasMultipleDivs = cmsDivs.length > 1; // Loading div + CMS divs
           var cmsApp = document.querySelector('[data-slate-editor]');
           var cmsButton = document.querySelector('button');
+          var cmsLogin = document.querySelector('[class*="AuthenticationPage"]');
           
-          if (hasMultipleDivs || cmsApp || cmsButton) {
+          if (cmsDivs.length > 0 || cmsApp || cmsButton || cmsLogin) {
             console.log('✨ CMS interface rendered successfully');
             cmsRendered = true;
             clearInterval(renderCheckInterval);
-            
-            // Fade out loading screen
-            document.body.classList.add('nc-app-loaded');
-            
-            // Completely remove loading div after fade
-            setTimeout(function() {
-              var loadingDiv = document.getElementById('loading');
-              if (loadingDiv && loadingDiv.parentNode) {
-                loadingDiv.parentNode.removeChild(loadingDiv);
-                console.log('🗑️ Loading screen removed');
-              }
-            }, 350);
             
             // Log performance metrics
             logPerformance();
@@ -327,7 +323,6 @@
           if (!cmsRendered) {
             console.error('❌ CMS UI failed to render after 15 seconds');
             console.log('🔍 Debug: Check browser console for authentication errors');
-            showError('CMS loaded but failed to render. Check console for details.');
           }
         }, 15000);
       }
