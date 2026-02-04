@@ -72,31 +72,21 @@
     }
     
     /* Hide loading when CMS loads */
-    .nc-app-loaded #loading {
-      display: none;
-    }
-    
-    /* CMS container */
-    #nc-root {
-      display: none;
-    }
-    
-    .nc-app-loaded #nc-root {
-      display: block;
+    body.nc-app-loaded #loading {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease-out;
     }
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
+  <!-- Loading Screen - Will be removed after CMS loads -->
   <div id="loading" class="loading-container">
     <img src="../assets/images/ce.png" alt="CodEnity" class="loading-logo">
     <div class="loading-title">CodEnity Blog Admin</div>
     <div class="loading-subtitle">Loading content management system...</div>
     <div class="loading-spinner"></div>
   </div>
-
-  <!-- Decap CMS Container -->
-  <div id="nc-root"></div>
 
   <!-- Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
@@ -303,18 +293,28 @@
        */
       function waitForCMSRender() {
         var renderCheckInterval = setInterval(function() {
-          // Check for CMS UI elements (Decap CMS v3 structure)
-          var cmsRoot = document.querySelector('#nc-root');
+          // Check for CMS UI elements (Decap CMS v3 renders into body directly)
+          var cmsDivs = document.querySelectorAll('body > div');
+          var hasMultipleDivs = cmsDivs.length > 1; // Loading div + CMS divs
           var cmsApp = document.querySelector('[data-slate-editor]');
-          var cmsDiv = document.querySelector('div[class*="App"]');
+          var cmsButton = document.querySelector('button');
           
-          if (cmsRoot || cmsApp || cmsDiv || document.querySelectorAll('div').length > 10) {
+          if (hasMultipleDivs || cmsApp || cmsButton) {
             console.log('✨ CMS interface rendered successfully');
             cmsRendered = true;
             clearInterval(renderCheckInterval);
             
-            // Hide loading screen
+            // Fade out loading screen
             document.body.classList.add('nc-app-loaded');
+            
+            // Completely remove loading div after fade
+            setTimeout(function() {
+              var loadingDiv = document.getElementById('loading');
+              if (loadingDiv && loadingDiv.parentNode) {
+                loadingDiv.parentNode.removeChild(loadingDiv);
+                console.log('🗑️ Loading screen removed');
+              }
+            }, 350);
             
             // Log performance metrics
             logPerformance();
