@@ -174,14 +174,9 @@
           console.log('✅ CMS components registered successfully');
           
           // CRITICAL: Initialize CMS to render the UI
+          // CMS.init() without config will automatically load config.yml
           console.log('🎬 Initializing CMS interface...');
-          
-          // Configure CMS to use specific container
-          CMS.init({
-            config: {
-              load_config_file: false
-            }
-          });
+          CMS.init();
           
         } catch (error) {
           console.error('❌ Failed to initialize CMS:', error);

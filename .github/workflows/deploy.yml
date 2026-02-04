@@ -29,14 +29,14 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.1.7"
-          bundler-cache: true
+          bundler-cache: false
           working-directory: .jekyll
 
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('.jekyll/Gemfile.lock') }}
+          key: ${{ runner.os }}-gems-${{ hashFiles('.jekyll/Gemfile') }}
           restore-keys: |
             ${{ runner.os }}-gems-
 
@@ -51,14 +51,14 @@ jobs:
         working-directory: .jekyll
         run: |
           bundle exec jekyll build --source .. --config ../_config.yml --destination ../_site
-          
+
       - name: Validate build output
         run: |
           echo "Checking build output..."
           ls -la _site/
           echo "Checking admin directory..."
           ls -la _site/admin/ || echo "Admin directory not found"
-          
+
       - name: Deploy generated site to `gh-pages` branch using PAT
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -66,9 +66,9 @@ jobs:
           publish_dir: ./_site
           publish_branch: gh-pages
           keep_files: false
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: 'Deploy Jekyll site with CMS support [skip ci]'
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_message: "Deploy Jekyll site with CMS support [skip ci]"
 
       - name: Ensure GitHub Pages site is configured to use `gh-pages`
         env:
