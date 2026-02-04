@@ -5,8 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Content Manager</title>
+  <script>
+    // Debug logging to track CMS loading and authentication
+    console.log('🔷 Admin page loaded at:', new Date().toISOString());
+    
+    // Listen for OAuth messages from callback popup
+    window.addEventListener('message', (e) => {
+      console.log('📨 Message received:', {
+        data: e.data,
+        origin: e.origin,
+        expected: window.location.origin
+      });
+      
+      if (e.origin !== window.location.origin) {
+        console.warn('⚠️ Message from unexpected origin:', e.origin);
+        return;
+      }
+      
+      if (typeof e.data === 'string' && e.data.indexOf('authorization:github:success:') === 0) {
+        console.log('✅ Authentication message detected!');
+        try {
+          const jsonPart = e.data.substring('authorization:github:success:'.length);
+          const authData = JSON.parse(jsonPart);
+          console.log('🔑 Token received:', authData.token ? 'YES (length: ' + authData.token.length + ')' : 'NO');
+        } catch (err) {
+          console.error('❌ Failed to parse auth data:', err);
+        }
+      }
+    }, false);
+    
+    console.log('👂 Message listener installed');
+  </script>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Verify CMS loaded
+    setTimeout(() => {
+      if (window.CMS) {
+        console.log('✅ Decap CMS loaded successfully');
+        console.log('📦 CMS object:', Object.keys(window.CMS));
+      } else {
+        console.error('❌ Decap CMS failed to load');
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
