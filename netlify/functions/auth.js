@@ -1,51 +1,33 @@
 /**
- * GitHub OAuth Authentication Handler for Decap CMS
- * This serverless function exchanges OAuth authorization codes for access tokens
- * Industry Standard: OAuth 2.0 Authorization Code Flow
- * 
- * Security Features:
- * - CORS protection with whitelist
- * - Environment variable validation
- * - Secure token exchange
- * - Comprehensive error logging
- * - Rate limiting considerations
+ * Netlify OAuth Provider for Decap CMS
+ * Implements the Netlify External OAuth Provider protocol
+ * Reference: https://docs.netlify.com/visitor-access/oauth-provider-tokens/
  */
 
 const fetch = require('node-fetch');
 
-// Configuration
 const ALLOWED_ORIGINS = [
   'https://codenity-dev.github.io',
-  'http://localhost:8888',
-  'http://127.0.0.1:8888',
-  'http://localhost:4000',
-  'http://127.0.0.1:4000'
+  'http://localhost:8888'
 ];
 
 exports.handler = async (event, context) => {
-  // Determine allowed origin
   const origin = event.headers.origin || event.headers.Origin;
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : process.env.ORIGIN || 'https://codenity-dev.github.io';
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : 'https://codenity-dev.github.io';
   
-  // CORS headers for security
   const headers = {
     'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
     'Access-Control-Allow-Credentials': 'true',
-    'Content-Type': 'application/json'
+    'Content-Type': 'text/html'
   };
 
-  // Handle preflight requests
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-      body: ''
-    };
+    return { statusCode: 200, headers, body: '' };
   }
 
-  // Handle GET requests - Redirect to GitHub OAuth
+  // This endpoint serves an HTML page that implements the OAuth flow
   if (event.httpMethod === 'GET') {
     const clientId = process.env.GITHUB_CLIENT_ID;
     
