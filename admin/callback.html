@@ -2,82 +2,62 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Authenticating - Decap CMS</title>
+  <title>Authenticating</title>
   <script>
-    // Decap CMS expects a specific OAuth callback handler
-    // This script is ONLY for external OAuth providers (Netlify Functions, etc.)
-    
     (function() {
       'use strict';
       
-      function completeAuth() {
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get('code');
-        const error = params.get('error');
-        
-        if (error) {
-          console.error('OAuth error:', error);
-          alert('Authentication error: ' + error);
-          window.close();
-          return;
-        }
-        
-        if (!code) {
-          console.error('No authorization code received');
-          alert('No authorization code received');
-          window.close();
-          return;
-        }
-
-        // Exchange code for token via Netlify function
-        fetch('https://codenity-admin.netlify.app/.netlify/functions/auth', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: code })
-        })
-        .then(response => {
-          if (!response.ok) {
-            return response.text().then(text => {
-              throw new Error(text || 'Token exchange failed');
-            });
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data.error || !data.token) {
-            throw new Error(data.message || 'No token received');
-          }
-
-          // CRITICAL: Send in exact Netlify OAuth format
-          const message = 'authorization:github:success:' + JSON.stringify({
-            provider: 'github',
-            token: data.token
-          });
-          
-          console.log('✅ Sending auth message to opener');
-          
-          if (window.opener) {
-            window.opener.postMessage(message, window.location.origin);
-            setTimeout(() => window.close(), 1000);
-          } else {
-            console.error('No opener window found');
-            alert('Authentication complete but cannot return to CMS. Please close this window and try again.');
-          }
-        })
-        .catch(err => {
-          console.error('Authentication failed:', err);
-          alert('Authentication failed: ' + err.message);
-          window.close();
-        });
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      const error = params.get('error');
+      
+      if (error) {
+        postMessage('error', { error: error });
+        return;
       }
       
-      // Run immediately
-      completeAuth();
+      if (!code) {
+        postMessage('error', { error: 'No authorization code' });
+        return;
+      }
+
+      // Exchange code for token
+      fetch('https://codenity-admin.netlify.app/.netlify/functions/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code })
+      })
+      .then(res => res.ok ? res.json() : res.json().catch(() => ({ error: 'Exchange failed' })))
+      .then(data => {
+        if (data.error || !data.token) {
+          throw new Error(data.message || data.error || 'No token');
+        }
+        postMessage('success', { token: data.token, provider: 'github' });
+      })
+      .catch(err => {
+        postMessage('error', { error: err.message });
+      });
+      
+      function postMessage(status, data) {
+        const message = 'authorization:github:' + status + ':' + JSON.stringify(data);
+        
+        if (window.opener) {
+          // Post to both specific origin and wildcard
+          window.opener.postMessage(message, window.location.origin);
+          window.opener.postMessage(message, '*');
+          
+          if (status === 'success') {
+            setTimeout(() => window.close(), 2000);
+          } else {
+            setTimeout(() => window.close(), 3000);
+          }
+        }
+      }
     })();
   </script>
 </head>
-<body>
-  <p style="font-family: sans-serif; text-align: center; padding: 50px;">Completing authentication...</p>
+<body style="font-family: sans-serif; text-align: center; padding: 50px;">
+  <p>Authenticating...</p>
 </body>
 </html>
       color: #ff6b6b;
