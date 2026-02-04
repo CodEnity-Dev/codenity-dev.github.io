@@ -89,34 +89,87 @@
   <!-- Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   
-  <!-- GitHub OAuth setup -->
   <script>
-    // Set up GitHub OAuth for GitHub Pages
-    if (window.location.hostname !== 'localhost') {
-      window.CMS_CONFIG = {
-        backend: {
-          name: 'github',
-          repo: 'codenity-dev/codenity-dev.github.io',
-          branch: 'main'
-        }
-      };
-    }
-  </script>
-  
-  <script>
-    // Custom configuration and initialization
-    window.addEventListener('load', function() {
-      // Hide loading screen when CMS is ready
-      setTimeout(function() {
-        document.body.classList.add('nc-app-loaded');
-      }, 2000);
+    /**
+     * Decap CMS Initialization and Authentication Handler
+     * Professional implementation with proper error handling and lifecycle management
+     * Industry Standard: Follows Decap CMS best practices
+     */
+    
+    (function() {
+      'use strict';
       
-      // Custom CMS configuration
-      if (window.CMS) {
-        // Register custom preview templates
-        CMS.registerPreviewTemplate('posts', PostPreview);
+      // Debug: Monitor authentication messages
+      window.addEventListener('message', function(event) {
+        console.log('📩 Received message:', event.data);
+        console.log('📍 Message origin:', event.origin);
         
-        // Custom editor components if needed
+        // Verify message is from our domain
+        var allowedOrigins = [
+          'https://codenity-dev.github.io',
+          'http://localhost:4000',
+          window.location.origin
+        ];
+        
+        if (allowedOrigins.indexOf(event.origin) === -1) {
+          console.warn('⚠️ Message from unexpected origin:', event.origin);
+        }
+      });
+      
+      // Unified CMS Initialization
+      var cmsInitialized = false;
+      var cmsRendered = false;
+      
+      console.log('🚀 Initializing Decap CMS...');
+      
+      // Step 1: Wait for CMS library to load
+      var checkCMSLoad = setInterval(function() {
+        if (window.CMS) {
+          console.log('✅ Decap CMS library loaded successfully');
+          cmsInitialized = true;
+          clearInterval(checkCMSLoad);
+          
+          // Step 2: Initialize CMS components
+          initializeCMSComponents();
+          
+          // Step 3: Wait for CMS to render its UI
+          waitForCMSRender();
+        }
+      }, 100);
+      
+      // Timeout if CMS doesn't load
+      setTimeout(function() {
+        if (!cmsInitialized) {
+          console.error('❌ CMS library failed to load after 15 seconds');
+          showError('Failed to load CMS library. Please check your internet connection.');
+        }
+      }, 15000);
+      
+      /**
+       * Initialize CMS Components
+       * Registers custom editor components and preview templates
+       */
+      function initializeCMSComponents() {
+        try {
+          console.log('⚙️ Registering CMS components...');
+          
+          // Register editor components
+          registerEditorComponents();
+          
+          // Register preview templates (with proper error handling)
+          registerPreviewTemplates();
+          
+          console.log('✅ CMS components registered successfully');
+        } catch (error) {
+          console.error('❌ Failed to register CMS components:', error);
+        }
+      }
+      
+      /**
+       * Register Custom Editor Components
+       */
+      function registerEditorComponents() {
+        // YouTube embed component
         CMS.registerEditorComponent({
           id: "youtube",
           label: "YouTube",
@@ -132,12 +185,14 @@
             };
           },
           toBlock: function(obj) {
-            return `{{< youtube ${obj.id} >}}`;
+            return '{{< youtube ' + obj.id + ' >}}';
           },
           toPreview: function(obj) {
-            return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${obj.id}" frameborder="0" allowfullscreen></iframe>`;
+            return '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + obj.id + '" frameborder="0" allowfullscreen></iframe>';
           }
         });
+        
+        console.log('✅ YouTube component registered');
         
         // Code block component
         CMS.registerEditorComponent({
@@ -155,62 +210,144 @@
             };
           },
           toBlock: function(obj) {
-            return `\`\`\`${obj.lang}\n${obj.code}\n\`\`\``;
+            return '```' + obj.lang + '\n' + obj.code + '\n```';
           },
           toPreview: function(obj) {
-            return `<pre><code class="language-${obj.lang}">${obj.code}</code></pre>`;
+            return '<pre><code class="language-' + obj.lang + '">' + obj.code + '</code></pre>';
           }
         });
-      }
-    });
-    
-    // Post Preview Component
-    var PostPreview = createClass({
-      render: function() {
-        var entry = this.props.entry;
-        var image = entry.getIn(['data', 'image']);
-        var title = entry.getIn(['data', 'title']);
-        var body = this.props.widgetFor('body');
-        var description = entry.getIn(['data', 'description']);
-        var categories = entry.getIn(['data', 'categories']);
-        var tags = entry.getIn(['data', 'tags']);
-        var date = entry.getIn(['data', 'date']);
-        var readTime = entry.getIn(['data', 'read_time']);
         
-        return h('div', {className: "post-preview"},
-          h('div', {className: "post-preview-header"},
-            image ? h('img', {src: image, className: "preview-image"}) : null,
-            h('h1', {className: "preview-title"}, title),
-            h('div', {className: "preview-meta"},
-              h('time', {}, date ? new Date(date).toLocaleDateString() : ''),
-              readTime ? h('span', {}, ' • ' + readTime + ' min read') : null
-            ),
-            description ? h('p', {className: "preview-description"}, description) : null,
-            h('div', {className: "preview-categories"},
-              categories ? categories.map(function(cat, i) {
-                return h('span', {key: i, className: "category-tag"}, cat);
-              }) : null
-            ),
-            h('div', {className: "preview-tags"},
-              tags ? tags.map(function(tag, i) {
-                return h('span', {key: i, className: "tag-pill"}, '#' + tag);
-              }) : null
-            )
-          ),
-          h('div', {className: "preview-content"}, body)
-        );
+        console.log('✅ Code block component registered');
       }
-    });
-    
-    // Performance monitoring
-    if ('performance' in window) {
-      window.addEventListener('load', function() {
+      
+      /**
+       * Register Preview Templates
+       * Uses CMS.createClass for proper React component creation
+       */
+      function registerPreviewTemplates() {
+        try {
+          // Create preview component using CMS.createClass
+          var PostPreview = CMS.createClass({
+            render: function() {
+              var entry = this.props.entry;
+              var image = entry.getIn(['data', 'image']);
+              var title = entry.getIn(['data', 'title']);
+              var body = this.props.widgetFor('body');
+              var description = entry.getIn(['data', 'description']);
+              var categories = entry.getIn(['data', 'categories']);
+              var tags = entry.getIn(['data', 'tags']);
+              var date = entry.getIn(['data', 'date']);
+              var readTime = entry.getIn(['data', 'read_time']);
+              
+              return h('div', {className: "post-preview"},
+                h('div', {className: "post-preview-header"},
+                  image ? h('img', {src: image, className: "preview-image"}) : null,
+                  h('h1', {className: "preview-title"}, title),
+                  h('div', {className: "preview-meta"},
+                    h('time', {}, date ? new Date(date).toLocaleDateString() : ''),
+                    readTime ? h('span', {}, ' • ' + readTime + ' min read') : null
+                  ),
+                  description ? h('p', {className: "preview-description"}, description) : null,
+                  h('div', {className: "preview-categories"},
+                    categories ? categories.map(function(cat, i) {
+                      return h('span', {key: i, className: "category-tag"}, cat);
+                    }) : null
+                  ),
+                  h('div', {className: "preview-tags"},
+                    tags ? tags.map(function(tag, i) {
+                      return h('span', {key: i, className: "tag-pill"}, '#' + tag);
+                    }) : null
+                  )
+                ),
+                h('div', {className: "preview-content"}, body)
+              );
+            }
+          });
+          
+          // Register the preview template
+          CMS.registerPreviewTemplate('posts', PostPreview);
+          console.log('✅ Post preview template registered');
+          
+        } catch (error) {
+          console.warn('⚠️ Preview template registration failed:', error.message);
+          console.log('ℹ️ CMS will work without custom preview');
+        }
+      }
+      
+      /**
+       * Wait for CMS to render its UI
+       * Only hides loading screen when CMS actually renders
+       */
+      function waitForCMSRender() {
+        var renderCheckInterval = setInterval(function() {
+          // Check for CMS UI elements
+          var cmsRoot = document.querySelector('.nc-app-root');
+          var cmsContainer = document.querySelector('[role="application"]');
+          var cmsMain = document.querySelector('.nc-app-main');
+          
+          if (cmsRoot || cmsContainer || cmsMain) {
+            console.log('✨ CMS interface rendered successfully');
+            cmsRendered = true;
+            clearInterval(renderCheckInterval);
+            
+            // Hide loading screen
+            document.body.classList.add('nc-app-loaded');
+            
+            // Log performance metrics
+            logPerformance();
+          }
+        }, 100);
+        
+        // Timeout if CMS doesn't render
         setTimeout(function() {
-          var loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-          console.log('CMS Load Time: ' + loadTime + 'ms');
-        }, 0);
-      });
-    }
+          clearInterval(renderCheckInterval);
+          if (!cmsRendered) {
+            console.error('❌ CMS UI failed to render after 15 seconds');
+            showError('CMS loaded but failed to render. Please refresh the page.');
+          }
+        }, 15000);
+      }
+      
+      /**
+       * Show error message to user
+       */
+      function showError(message) {
+        var loadingContainer = document.getElementById('loading');
+        if (loadingContainer) {
+          loadingContainer.innerHTML = 
+            '<div class="loading-container">' +
+              '<img src="../assets/images/ce.png" alt="CodEnity" class="loading-logo">' +
+              '<div class="loading-title">Error Loading CMS</div>' +
+              '<div class="loading-subtitle" style="color: #ff6b6b;">' +
+                message + '<br>Please try refreshing the page.' +
+              '</div>' +
+              '<button onclick="location.reload()" style="' +
+                'margin-top: 20px;' +
+                'padding: 12px 24px;' +
+                'background: white;' +
+                'color: #1E3A8A;' +
+                'border: none;' +
+                'border-radius: 8px;' +
+                'cursor: pointer;' +
+                'font-weight: 600;' +
+              '">Reload Page</button>' +
+            '</div>';
+        }
+      }
+      
+      /**
+       * Log performance metrics
+       */
+      function logPerformance() {
+        if ('performance' in window && performance.timing) {
+          setTimeout(function() {
+            var loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            console.log('📊 CMS Load Time: ' + loadTime + 'ms');
+          }, 0);
+        }
+      }
+      
+    })();
   </script>
   
   <style>
