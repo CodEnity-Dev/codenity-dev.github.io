@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>CodEnity Blog Admin</title>
+  <link rel="icon" href="../assets/images/ce.png" type="image/png">
+  
+  <!-- Decap CMS Styles -->
+  <style>
+    /* Custom admin styles */
+    .nc-app-header {
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6) !important;
+    }
+    
+    .nc-app-header h1 {
+      color: white !important;
+    }
+    
+    .nc-entryEditor-widget-markdown .nc-controlPane-widget {
+      min-height: 400px;
+    }
+    
+    /* Loading screen */
+    .loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+    }
+    
+    .loading-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    
+    .loading-subtitle {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Hide loading when CMS loads */
+    body.nc-app-loaded #loading {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen - Will be removed after CMS loads -->
+  <div id="loading" class="loading-container">
+    <img src="../assets/images/ce.png" alt="CodEnity" class="loading-logo">
+    <div class="loading-title">CodEnity Blog Admin</div>
+    <div class="loading-subtitle">Loading content management system...</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    /**
+     * Decap CMS Initialization and Authentication Handler
+     * Professional implementation with proper error handling and lifecycle management
+     * Industry Standard: Follows Decap CMS best practices
+     */
+    
+    (function() {
+      'use strict';
+      
+      // Debug: Monitor authentication messages
+      window.addEventListener('message', function(event) {
+        console.log('📩 Received message:', event.data);
+        console.log('📍 Message origin:', event.origin);
+        
+        // Verify message is from our domain
+        var allowedOrigins = [
+          'https://codenity-dev.github.io',
+          'http://localhost:4000',
+          window.location.origin
+        ];
+        
+        if (allowedOrigins.indexOf(event.origin) === -1) {
+          console.warn('⚠️ Message from unexpected origin:', event.origin);
+        }
+      });
+      
+      // Unified CMS Initialization
+      var cmsInitialized = false;
+      var cmsRendered = false;
+      
+      console.log('🚀 Initializing Decap CMS...');
+      
+      // Step 1: Wait for CMS library to load
+      var checkCMSLoad = setInterval(function() {
+        if (window.CMS) {
+          console.log('✅ Decap CMS library loaded successfully');
+          cmsInitialized = true;
+          clearInterval(checkCMSLoad);
+          
+          // Step 2: Initialize CMS components (handles its own rendering)
+          initializeCMSComponents();
+        }
+      }, 100);
+      
+      // Timeout if CMS doesn't load
+      setTimeout(function() {
+        if (!cmsInitialized) {
+          console.error('❌ CMS library failed to load after 15 seconds');
+          showError('Failed to load CMS library. Please check your internet connection.');
+        }
+      }, 15000);
+      
+      /**
+       * Initialize CMS Components
+       * Registers custom editor components and preview templates
+       */
+      function initializeCMSComponents() {
+        try {
+          console.log('⚙️ Registering CMS components...');
+          
+          // Register editor components
+          registerEditorComponents();
+          
+          // Register preview templates (with proper error handling)
+          registerPreviewTemplates();
+          
+          console.log('✅ CMS components registered successfully');
+          
+          // CRITICAL: Remove loading div BEFORE CMS.init() to prevent DOM conflicts
+          console.log('🗑️ Removing loading screen...');
+          var loadingDiv = document.getElementById('loading');
+          if (loadingDiv && loadingDiv.parentNode) {
+            loadingDiv.parentNode.removeChild(loadingDiv);
+            console.log('✅ Loading screen removed');
+          }
+          
+          // WORKAROUND: Add significant delay before CMS.init() to avoid race condition
+          // Issue: https://github.com/decaporg/decap-cms/issues/7571#issuecomment-2540686639
+          // CMS needs DOM to be completely settled before initialization
+          console.log('⏳ Waiting for DOM to settle (2s delay)...');
+          setTimeout(function() {
+            console.log('🎬 Initializing CMS interface...');
+            CMS.init();
+            
+            // Wait for CMS to render
+            waitForCMSRender();
+          }, 2000); // 2 second delay as recommended in GitHub issue
+          
+        } catch (error) {
+          console.error('❌ Failed to initialize CMS:', error);
+          showError('Failed to initialize CMS: ' + error.message);
+        }
+      }
+      
+      /**
+       * Register Custom Editor Components
+       */
+      function registerEditorComponents() {
+        // YouTube embed component
+        CMS.registerEditorComponent({
+          id: "youtube",
+          label: "YouTube",
+          fields: [{
+            name: 'id', 
+            label: 'YouTube Video ID', 
+            widget: 'string'
+          }],
+          pattern: /^{{< youtube ([a-zA-Z0-9_-]+) >}}$/,
+          fromBlock: function(match) {
+            return {
+              id: match[1]
+            };
+          },
+          toBlock: function(obj) {
+            return '{{< youtube ' + obj.id + ' >}}';
+          },
+          toPreview: function(obj) {
+            return '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + obj.id + '" frameborder="0" allowfullscreen></iframe>';
+          }
+        });
+        
+        console.log('✅ YouTube component registered');
+        
+        // Code block component
+        CMS.registerEditorComponent({
+          id: "code",
+          label: "Code Block",
+          fields: [
+            {name: 'lang', label: 'Language', widget: 'string', default: 'javascript'},
+            {name: 'code', label: 'Code', widget: 'text'}
+          ],
+          pattern: /^```(\w+)?\n(.*?)\n```$/ms,
+          fromBlock: function(match) {
+            return {
+              lang: match[1] || 'text',
+              code: match[2]
+            };
+          },
+          toBlock: function(obj) {
+            return '```' + obj.lang + '\n' + obj.code + '\n```';
+          },
+          toPreview: function(obj) {
+            return '<pre><code class="language-' + obj.lang + '">' + obj.code + '</code></pre>';
+          }
+        });
+        
+        console.log('✅ Code block component registered');
+      }
+      
+      /**
+       * Register Preview Templates
+       * Uses modern function component pattern for Decap CMS v3
+       */
+      function registerPreviewTemplates() {
+        try {
+          // Create preview component using modern function pattern
+          // Decap CMS v3 supports function components directly
+          var PostPreview = function(props) {
+            var entry = props.entry;
+            var widgetFor = props.widgetFor;
+            var getAsset = props.getAsset;
+            
+            // Get all data from entry
+            var image = entry.getIn(['data', 'image']);
+            var title = entry.getIn(['data', 'title']);
+            var body = widgetFor('body');
+            var description = entry.getIn(['data', 'description']);
+            var categories = entry.getIn(['data', 'categories']);
+            var tags = entry.getIn(['data', 'tags']);
+            var date = entry.getIn(['data', 'date']);
+            var readTime = entry.getIn(['data', 'read_time']);
+            
+            // Build preview using h() function
+            return h('div', {className: "post-preview"},
+              h('div', {className: "post-preview-header"},
+                image ? h('img', {src: getAsset ? getAsset(image).toString() : image, className: "preview-image", alt: title}) : null,
+                h('h1', {className: "preview-title"}, title || 'Untitled Post'),
+                h('div', {className: "preview-meta"},
+                  date ? h('time', {}, new Date(date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})) : null,
+                  readTime ? h('span', {}, ' • ' + readTime + ' min read') : null
+                ),
+                description ? h('p', {className: "preview-description"}, description) : null,
+                categories && categories.size > 0 ? h('div', {className: "preview-categories"},
+                  categories.toArray().map(function(cat, i) {
+                    return h('span', {key: 'cat-' + i, className: "category-tag"}, cat);
+                  })
+                ) : null,
+                tags && tags.size > 0 ? h('div', {className: "preview-tags"},
+                  tags.toArray().map(function(tag, i) {
+                    return h('span', {key: 'tag-' + i, className: "tag-pill"}, '#' + tag);
+                  })
+                ) : null
+              ),
+              h('div', {className: "preview-content"}, body)
+            );
+          };
+          
+          // Register the preview template
+          CMS.registerPreviewTemplate('posts', PostPreview);
+          console.log('✅ Post preview template registered');
+          
+        } catch (error) {
+          console.warn('⚠️ Preview template registration failed:', error.message);
+          console.log('ℹ️ CMS will work without custom preview');
+        }
+      }
+      
+      /**
+       * Wait for CMS to render its UI
+       */
+      function waitForCMSRender() {
+        var renderCheckInterval = setInterval(function() {
+          // Check for CMS UI elements (Decap CMS v3 renders into body directly)
+          var cmsDivs = document.querySelectorAll('body > div');
+          var cmsApp = document.querySelector('[data-slate-editor]');
+          var cmsButton = document.querySelector('button');
+          var cmsLogin = document.querySelector('[class*="AuthenticationPage"]');
+          
+          if (cmsDivs.length > 0 || cmsApp || cmsButton || cmsLogin) {
+            console.log('✨ CMS interface rendered successfully');
+            cmsRendered = true;
+            clearInterval(renderCheckInterval);
+            
+            // Log performance metrics
+            logPerformance();
+          }
+        }, 100);
+        
+        // Timeout if CMS doesn't render
+        setTimeout(function() {
+          clearInterval(renderCheckInterval);
+          if (!cmsRendered) {
+            console.error('❌ CMS UI failed to render after 15 seconds');
+            console.log('🔍 Debug: Check browser console for authentication errors');
+          }
+        }, 15000);
+      }
+      
+      /**
+       * Show error message to user
+       */
+      function showError(message) {
+        var loadingContainer = document.getElementById('loading');
+        if (loadingContainer) {
+          loadingContainer.innerHTML = 
+            '<div class="loading-container">' +
+              '<img src="../assets/images/ce.png" alt="CodEnity" class="loading-logo">' +
+              '<div class="loading-title">Error Loading CMS</div>' +
+              '<div class="loading-subtitle" style="color: #ff6b6b;">' +
+                message + '<br>Please try refreshing the page.' +
+              '</div>' +
+              '<button onclick="location.reload()" style="' +
+                'margin-top: 20px;' +
+                'padding: 12px 24px;' +
+                'background: white;' +
+                'color: #1E3A8A;' +
+                'border: none;' +
+                'border-radius: 8px;' +
+                'cursor: pointer;' +
+                'font-weight: 600;' +
+              '">Reload Page</button>' +
+            '</div>';
+        }
+      }
+      
+      /**
+       * Log performance metrics
+       */
+      function logPerformance() {
+        if ('performance' in window && performance.timing) {
+          setTimeout(function() {
+            var loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            console.log('📊 CMS Load Time: ' + loadTime + 'ms');
+          }, 0);
+        }
+      }
+      
+    })();
+  </script>
+  
+  <style>
+    /* Preview Styles */
+    .post-preview {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .post-preview-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    
+    .preview-image {
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .preview-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1E3A8A;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    
+    .preview-meta {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+    
+    .preview-description {
+      font-size: 1.1rem;
+      color: #4b5563;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    
+    .preview-categories {
+      margin-bottom: 10px;
+    }
+    
+    .category-tag {
+      background: #1E3A8A;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    
+    .preview-tags {
+      margin-bottom: 20px;
+    }
+    
+    .tag-pill {
+      background: #f3f4f6;
+      color: #6b7280;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+    
+    .preview-content {
+      color: #374151;
+    }
+    
+    .preview-content h2 {
+      color: #1E3A8A;
+      font-weight: 700;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .preview-content h3 {
+      color: #1f2937;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .preview-content code {
+      background: #f3f4f6;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.875rem;
+    }
+    
+    .preview-content pre {
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    
+    .preview-content pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+  </style>
+</body>
+</html>
