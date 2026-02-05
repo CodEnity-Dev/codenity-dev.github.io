@@ -5,7 +5,7 @@ backend:
   branch: main
   # OAuth backend - Netlify deployment
   base_url: https://codenity-admin.netlify.app
-  auth_endpoint: auth
+  auth_endpoint: .netlify/functions/auth
 
 # Alternative configuration for local development
 # backend:
