@@ -1,115 +1,117 @@
 /**
- * Decap CMS External OAuth Provider
- * Handles GitHub OAuth 2.0 authentication flow
+ * Official Netlify CMS OAuth Provider for GitHub
+ * Based on: https://github.com/netlify/netlify-cms-contrib/tree/master/packages/netlify-cms-oauth-provider-node
  */
 
-const fetch = require('node-fetch');
+const simpleOauthModule = require('simple-oauth2');
+const randomstring = require('randomstring');
 
-exports.handler = async (event) => {
-  console.log('========================================');
-  console.log('[OAuth] Request:', event.httpMethod, event.path);
-  console.log('[OAuth] Query:', event.queryStringParameters);
-  console.log('[OAuth] Origin:', event.headers.origin);
-  
-  // CORS configuration
-  const allowedOrigins = [
-    'https://codenity-dev.github.io',
-    'http://localhost:4000'
-  ];
-  
-  const origin = event.headers.origin || event.headers.Origin;
-  const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+const oauth2 = simpleOauthModule.create({
+  client: {
+    id: process.env.GITHUB_CLIENT_ID,
+    secret: process.env.GITHUB_CLIENT_SECRET
+  },
+  auth: {
+    tokenHost: 'https://github.com',
+    tokenPath: '/login/oauth/access_token',
+    authorizePath: '/login/oauth/authorize'
+  }
+});
+
+exports.handler = async (event, context) => {
+  const origin = event.headers.origin || 'https://codenity-dev.github.io';
   
   const headers = {
-    'Access-Control-Allow-Origin': corsOrigin,
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Credentials': 'true'
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET',
+    'Content-Type': 'text/html'
   };
 
-  // Handle OPTIONS preflight
+  // OPTIONS request
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers, body: '' };
-  }
-
-  // Validate environment variables
-  const clientId = process.env.GITHUB_CLIENT_ID;
-  const clientSecret = process.env.GITHUB_CLIENT_SECRET;
-
-  console.log('[OAuth] Environment:', {
-    hasClientId: !!clientId,
-    hasClientSecret: !!clientSecret,
-    clientIdPrefix: clientId?.substring(0, 4)
-  });
-
-  if (!clientId || !clientSecret) {
-    console.error('[OAuth] Missing credentials');
     return {
-      statusCode: 500,
-      headers: { ...headers, 'Content-Type': 'text/html' },
-      body: '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Configuration Error</title></head><body style="font-family: sans-serif; padding: 40px; text-align: center;"><h2 style="color: #e74c3c;">Configuration Error</h2><p>GitHub OAuth credentials not configured in Netlify.</p></body></html>'
+      statusCode: 200,
+      headers,
+      body: ''
     };
   }
 
-  const params = event.queryStringParameters || {};
+  // GET /auth - Start OAuth or handle callback
+  if (event.httpMethod === 'GET') {
+    const qs = event.queryStringParameters || {};
 
-  // ========== CALLBACK: Exchange code for token ==========
-  if (params.code) {
-    console.log('[OAuth] CALLBACK - Processing authorization code');
-    console.log('[OAuth] Code:', params.code.substring(0, 10) + '...');
-    
-    const callbackUrl = `${event.headers['x-forwarded-proto'] || 'https'}://${event.headers.host}${event.path}`;
-    console.log('[OAuth] Callback URL:', callbackUrl);
-    
-    try {
-      console.log('[OAuth] Exchanging code for token...');
+    // Callback from GitHub with authorization code
+    if (qs.code) {
+      console.log('[OAuth] Callback received, exchanging code for token');
       
-      const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'User-Agent': 'Decap-CMS-OAuth'
-        },
-        body: JSON.stringify({
-          client_id: clientId,
-          client_secret: clientSecret,
-          code: params.code,
-          redirect_uri: callbackUrl
-        })
-      });
+      try {
+        const tokenConfig = {
+          code: qs.code,
+          redirect_uri: getRedirectUri(event)
+        };
 
-      console.log('[OAuth] GitHub response status:', tokenResponse.status);
+        const result = await oauth2.authorizationCode.getToken(tokenConfig);
+        const token = oauth2.accessToken.create(result);
 
-      if (!tokenResponse.ok) {
-        const errorText = await tokenResponse.text();
-        console.error('[OAuth] GitHub error:', errorText);
-        throw new Error(`GitHub API error: ${tokenResponse.status}`);
+        console.log('[OAuth] Token obtained successfully');
+
+        // Return HTML that posts message to parent window
+        return {
+          statusCode: 200,
+          headers,
+          body: renderBody('success', {
+            token: token.token.access_token,
+            provider: 'github'
+          }, origin)
+        };
+      } catch (error) {
+        console.error('[OAuth] Token exchange failed:', error);
+        return {
+          statusCode: 200,
+          headers,
+          body: renderBody('error', error, origin)
+        };
       }
+    }
 
-      const tokenData = await tokenResponse.json();
-      
-      console.log('[OAuth] Token response:', {
-        hasToken: !!tokenData.access_token,
-        hasError: !!tokenData.error,
-        error: tokenData.error
-      });
+    // Initial authorization request
+    const authorizationUri = oauth2.authorizationCode.authorizeURL({
+      redirect_uri: getRedirectUri(event),
+      scope: qs.scope || 'repo,user',
+      state: randomstring.generate(32)
+    });
 
-      if (tokenData.error) {
-        console.error('[OAuth] GitHub error:', tokenData);
-        throw new Error(tokenData.error_description || tokenData.error);
-      }
+    console.log('[OAuth] Redirecting to GitHub authorization');
 
-      if (!tokenData.access_token) {
-        console.error('[OAuth] No access token');
-        throw new Error('No access token received');
-      }
+    return {
+      statusCode: 302,
+      headers: {
+        ...headers,
+        Location: authorizationUri,
+        'Cache-Control': 'no-cache'
+      },
+      body: ''
+    };
+  }
 
-      console.log('[OAuth] SUCCESS - Token obtained');
-      console.log('[OAuth] Token preview:', tokenData.access_token.substring(0, 12) + '...');
+  return {
+    statusCode: 405,
+    headers,
+    body: 'Method Not Allowed'
+  };
+};
 
-      // Return HTML that sends token via postMessage
-      const html = `<!DOCTYPE html>
+function getRedirectUri(event) {
+  const protocol = event.headers['x-forwarded-proto'] || 'https';
+  const host = event.headers.host;
+  return `${protocol}://${host}/.netlify/functions/auth`;
+}
+
+function renderBody(status, content, origin) {
+  if (status === 'success') {
+    return `
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -126,116 +128,73 @@ exports.handler = async (event) => {
       color: white;
     }
     .container { text-align: center; padding: 2rem; }
-    .icon { font-size: 64px; margin-bottom: 1rem; }
-    h1 { font-size: 24px; font-weight: 600; margin-bottom: 0.5rem; }
-    p { opacity: 0.9; font-size: 14px; }
+    .icon { font-size: 72px; margin-bottom: 1rem; animation: scaleIn 0.5s; }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    h1 { font-size: 28px; margin-bottom: 0.5rem; }
+    p { opacity: 0.9; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="icon">✓</div>
-    <h1>Authentication Successful</h1>
-    <p>Completing sign-in...</p>
+    <h1>Success!</h1>
+    <p>You can close this window</p>
   </div>
   <script>
   (function() {
-    console.log('========================================');
-    console.log('[Callback] Script started');
-    console.log('[Callback] Window type:', window.opener ? 'POPUP' : 'IFRAME');
-    
-    var token = ${JSON.stringify(tokenData.access_token)};
-    var origin = ${JSON.stringify(corsOrigin)};
-    
-    console.log('[Callback] Token length:', token.length);
-    console.log('[Callback] Origin:', origin);
-    
-    function sendToken() {
-      console.log('[Callback] Sending token...');
-      
-      var data = { token: token, provider: "github" };
-      var message = "authorization:github:success:" + JSON.stringify(data);
-      
-      var target = window.opener || window.parent;
-      
-      if (target && target !== window) {
-        try {
-          target.postMessage(message, origin);
-          console.log('[Callback] Sent to origin');
-        } catch (e) {
-          console.error('[Callback] Error:', e);
-        }
-        
-        try {
-          target.postMessage(message, "*");
-          console.log('[Callback] Sent to wildcard');
-        } catch (e) {
-          console.error('[Callback] Error:', e);
-        }
-        
-        setTimeout(function() {
-          console.log('[Callback] Closing window');
-          window.close();
-        }, 1500);
-      } else {
-        console.error('[Callback] No parent/opener');
-      }
+    function receiveMessage(e) {
+      console.log('[OAuth Popup] Received message:', e);
+      window.opener.postMessage(
+        'authorization:github:success:${JSON.stringify(content)}',
+        e.origin
+      );
+      window.removeEventListener('message', receiveMessage);
+      setTimeout(function() { window.close(); }, 1000);
     }
     
-    sendToken();
-    setTimeout(sendToken, 100);
-    setTimeout(sendToken, 500);
-    console.log('========================================');
+    window.addEventListener('message', receiveMessage, false);
+    
+    console.log('[OAuth Popup] Sending authorizing message');
+    window.opener.postMessage(
+      'authorizing:github',
+      '${origin}'
+    );
   })();
   </script>
 </body>
 </html>`;
-
-      return {
-        statusCode: 200,
-        headers: {
-          ...headers,
-          'Content-Type': 'text/html; charset=utf-8',
-          'Cache-Control': 'no-cache'
-        },
-        body: html
-      };
-
-    } catch (error) {
-      console.error('[OAuth] Error:', error);
-      return {
-        statusCode: 500,
-        headers: { ...headers, 'Content-Type': 'text/html' },
-        body: `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Error</title></head><body style="font-family: sans-serif; padding: 40px; text-align: center;"><h2 style="color: #e74c3c;">Authentication Failed</h2><p>${error.message}</p><p style="margin-top: 20px;"><a href="https://codenity-dev.github.io/admin/">Return to Admin</a></p></body></html>`
-      };
+  } else {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Authentication Error</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      text-align: center;
+      background: #f5f5f5;
     }
+    h1 { color: #e74c3c; }
+    pre {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: left;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Authentication Failed</h1>
+  <pre>${JSON.stringify(content, null, 2)}</pre>
+  <p><a href="${origin}/admin/">Return to Admin</a></p>
+</body>
+</html>`;
   }
-
-  // ========== INITIAL: Redirect to GitHub ==========
-  console.log('[OAuth] INITIAL - Redirecting to GitHub');
-  
-  const callbackUrl = `${event.headers['x-forwarded-proto'] || 'https'}://${event.headers.host}${event.path}`;
-  const scope = params.scope || 'repo,user';
-  const state = Math.random().toString(36).substring(2, 15);
-  
-  console.log('[OAuth] Callback URL:', callbackUrl);
-  console.log('[OAuth] Scope:', scope);
-  
-  const authUrl = new URL('https://github.com/login/oauth/authorize');
-  authUrl.searchParams.set('client_id', clientId);
-  authUrl.searchParams.set('redirect_uri', callbackUrl);
-  authUrl.searchParams.set('scope', scope);
-  authUrl.searchParams.set('state', state);
-  
-  console.log('[OAuth] Redirecting to:', authUrl.toString().substring(0, 100) + '...');
-  console.log('========================================');
-  
-  return {
-    statusCode: 302,
-    headers: {
-      ...headers,
-      'Location': authUrl.toString(),
-      'Cache-Control': 'no-cache'
-    },
-    body: ''
-  };
-};
+}
