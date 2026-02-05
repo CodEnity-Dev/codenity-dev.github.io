@@ -1,13 +1,20 @@
 ---
 layout: post
-title: "Introduction to CodEnity Blog - Welcome to Our Development Journey"
+title: Introduction to CodEnity Blog - Welcome to Our Development Journey
 date: 2026-01-15 10:00:00 +0000
-categories: [announcements]
-tags: [welcome, blog-launch, codenity, development]
-description: "Welcome to the CodEnity Blog! Learn about our mission, what content you can expect, and how we're building tools to bridge the gap between code and craft."
+categories:
+  - announcements
+tags:
+  - welcome
+  - blog-launch
+  - codenity
+  - development
 author: CodEnity Team
+description: Welcome to the CodEnity Blog! Learn about our mission, what content
+  you can expect, and how we're building tools to bridge the gap between code
+  and craft.
+image: /assets/images/blog/c-2-.png
 read_time: 3
-image: assets/images/blog/codenity-welcome-banner.jpg
 featured: true
 ---
 
