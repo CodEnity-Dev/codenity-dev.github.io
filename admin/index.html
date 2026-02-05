@@ -7,54 +7,6 @@
   <title>Content Manager</title>
 </head>
 <body>
-  <script>
-    // Debug logging for authentication messages
-    console.log('========================================');
-    console.log('[CMS Admin] Page loaded at:', new Date().toISOString());
-    console.log('[CMS Admin] Origin:', window.location.origin);
-    console.log('[CMS Admin] Full URL:', window.location.href);
-    
-    window.addEventListener('message', function(event) {
-      console.log('========================================');
-      console.log('[CMS Admin] 📨 Message received!');
-      console.log('[CMS Admin] Message origin:', event.origin);
-      console.log('[CMS Admin] Message data:', event.data);
-      console.log('[CMS Admin] Message type:', typeof event.data);
-      console.log('[CMS Admin] Current time:', new Date().toISOString());
-      
-      if (typeof event.data === 'string' && event.data.includes('authorization:github')) {
-        console.log('[CMS Admin] ✅ This is an OAuth message!');
-        console.log('[CMS Admin] Full message:', event.data);
-        
-        if (event.data.includes('success')) {
-          console.log('[CMS Admin] 🎉 SUCCESS message detected!');
-          try {
-            var parts = event.data.split(':');
-            var jsonPart = parts.slice(3).join(':');
-            var data = JSON.parse(jsonPart);
-            console.log('[CMS Admin] Parsed token data:', {
-              provider: data.provider,
-              hasToken: !!data.token,
-              tokenLength: data.token?.length,
-              tokenPreview: data.token?.substring(0, 12) + '...'
-            });
-          } catch (e) {
-            console.error('[CMS Admin] Error parsing token:', e);
-          }
-        }
-      } else {
-        console.log('[CMS Admin] ℹ️ Other message (not OAuth)');
-      }
-      console.log('========================================');
-    }, false);
-    
-    console.log('[CMS Admin] Message listener attached');
-    console.log('[CMS Admin] Loading Decap CMS...');
-  </script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    console.log('[CMS Admin] Decap CMS script loaded');
-    console.log('[CMS Admin] CMS object:', typeof window.CMS !== 'undefined' ? 'Available' : 'Not available');
-  </script>
 </body>
 </html>
