@@ -7,20 +7,24 @@ Your CMS authentication is failing because **Netlify environment variables are n
 ## Steps to Fix:
 
 ### 1. Go to Netlify Dashboard
+
 Visit: https://app.netlify.com/sites/codenity-admin/settings/deploys#environment
 
 ### 2. Add Environment Variables
+
 Click **"Environment variables"** in the sidebar, then **"Add a variable"**
 
 Add these **TWO** variables:
 
 #### Variable 1: GITHUB_CLIENT_ID
+
 ```
 Key:   GITHUB_CLIENT_ID
 Value: [Your GitHub OAuth App Client ID]
 ```
 
-#### Variable 2: GITHUB_CLIENT_SECRET  
+#### Variable 2: GITHUB_CLIENT_SECRET
+
 ```
 Key:   GITHUB_CLIENT_SECRET
 Value: [Your GitHub OAuth App Client Secret]
@@ -81,6 +85,7 @@ To:
 ## Need Help?
 
 If issues persist after following all steps:
+
 1. Check Netlify function logs: https://app.netlify.com/sites/codenity-admin/logs/functions
 2. Check browser console for detailed error messages
 3. Verify GitHub OAuth app is active (not suspended)
