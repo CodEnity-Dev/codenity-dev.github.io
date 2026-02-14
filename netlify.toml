@@ -20,6 +20,19 @@
   status = 200
   force = false
 
+# Finlio documentation redirects
+[[redirects]]
+  from = "/finlio-privacy-policy.html"
+  to = "/finlio/privacy-policy.html"
+  status = 301
+  force = false
+
+[[redirects]]
+  from = "/finlio-terms-of-service.html"
+  to = "/finlio/terms-of-service.html"
+  status = 301
+  force = false
+
 # Environment variables (set these in Netlify UI)
 # Required:
 # - GITHUB_CLIENT_ID: Your GitHub OAuth app client ID
