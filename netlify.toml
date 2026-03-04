@@ -33,11 +33,26 @@
   status = 301
   force = false
 
+# App-ads.txt redirect (optional fallback)
+[[redirects]]
+  from = "/finlio/app-ads.txt"
+  to = "/app-ads.txt"
+  status = 301
+  force = false
+
 # Environment variables (set these in Netlify UI)
 # Required:
 # - GITHUB_CLIENT_ID: Your GitHub OAuth app client ID
 # - GITHUB_CLIENT_SECRET: Your GitHub OAuth app client secret  
 # - ORIGIN: https://codenity-dev.github.io
+
+# App-ads.txt Headers (IAB Tech Lab Standard)
+[[headers]]
+  for = "/app-ads.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"
 
 # Security Headers
 [[headers]]
