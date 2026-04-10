@@ -3,46 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finlio | Your Complete Financial Portfolio.</title>
     <meta
       name="description"
-      content="Finlio helps you track spending, manage budgets, and make smarter money decisions with a clean, secure finance experience."
+      content="Finlio is your complete financial portfolio app for expense tracking, investments, budgeting, debt management, savings goals, recurring payments, and secure data backup."
     />
+    <meta name="google-site-verification" content="-LK7wh_EOT_FFeOFNRjbdtlw6-Y4VgAyGARX5NiE8mw" />
     <link rel="canonical" href="https://codenity-dev.github.io/finlio/" />
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://codenity-dev.github.io/finlio/" />
-    <meta property="og:title" content="Finlio | Smart Personal Finance" />
+    <meta property="og:title" content="Finlio | Your Complete Financial Portfolio." />
     <meta
       property="og:description"
-      content="Finlio helps you track spending, manage budgets, and make smarter money decisions with a clean, secure finance experience."
+      content="Track expenses, investments, debt, and savings in one secure place with Finlio."
     />
     <meta property="og:image" content="https://codenity-dev.github.io/finlio/assets/finlio.png" />
+
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Finlio | Smart Personal Finance" />
+    <meta name="twitter:title" content="Finlio | Your Complete Financial Portfolio." />
     <meta
       name="twitter:description"
-      content="Finlio helps you track spending, manage budgets, and make smarter money decisions with a clean, secure finance experience."
+      content="A practical and secure finance app for budgeting, planning, and portfolio-level money control."
     />
     <meta name="twitter:image" content="https://codenity-dev.github.io/finlio/assets/finlio.png" />
-    <title>Finlio | Smart Personal Finance</title>
+
     <link rel="icon" type="image/png" href="assets/finlio.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Finlio",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Android",
+        "url": "https://codenity-dev.github.io/finlio/",
+        "image": "https://codenity-dev.github.io/finlio/assets/finlio.png",
+        "description": "Finlio helps users manage expenses, investments, debt, savings goals, and recurring payments in one place.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+
     <style>
       :root {
-        --bg: #08131f;
-        --bg-soft: #10243a;
+        --bg: #041126;
+        --bg-soft: #0a2142;
         --surface: rgba(255, 255, 255, 0.08);
-        --surface-strong: rgba(255, 255, 255, 0.16);
-        --text: #e9f2ff;
-        --text-soft: #adc2dc;
-        --accent: #11c2a2;
-        --accent-2: #f6a63f;
-        --stroke: rgba(255, 255, 255, 0.18);
-        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        --surface-strong: rgba(255, 255, 255, 0.14);
+        --text: #e7f1ff;
+        --text-dim: #aac0df;
+        --line: rgba(255, 255, 255, 0.16);
+        --brand: #0ac5b4;
+        --brand-2: #f4af4a;
+        --ink: #022326;
+        --radius-xl: 24px;
+        --radius-lg: 16px;
+        --container: min(1140px, calc(100% - 2rem));
+        --shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
       }
 
       * {
@@ -57,13 +84,12 @@
 
       body {
         min-height: 100vh;
-        font-family: "Plus Jakarta Sans", sans-serif;
+        font-family: "Manrope", sans-serif;
         color: var(--text);
         background:
-          radial-gradient(circle at 85% -10%, rgba(17, 194, 162, 0.22), transparent 50%),
-          radial-gradient(circle at 10% 15%, rgba(246, 166, 63, 0.2), transparent 45%),
+          radial-gradient(1200px 520px at 92% -10%, rgba(10, 197, 180, 0.23), transparent 55%),
+          radial-gradient(900px 450px at -5% 22%, rgba(244, 175, 74, 0.18), transparent 52%),
           linear-gradient(160deg, var(--bg) 0%, var(--bg-soft) 100%);
-        position: relative;
         overflow-x: hidden;
       }
 
@@ -73,116 +99,130 @@
         inset: 0;
         pointer-events: none;
         background-image:
-          linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-        background-size: 42px 42px;
-        mask-image: radial-gradient(circle at center, black 35%, transparent 90%);
-        opacity: 0.22;
+          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 36px 36px;
+        mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+        opacity: 0.3;
       }
 
       .container {
-        width: min(1120px, calc(100% - 2rem));
+        width: var(--container);
         margin: 0 auto;
       }
 
       .topbar {
         position: sticky;
         top: 0;
-        z-index: 20;
-        backdrop-filter: blur(14px);
-        background: rgba(8, 19, 31, 0.7);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: 40;
+        backdrop-filter: blur(16px);
+        background: rgba(4, 17, 38, 0.72);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       .topbar-inner {
+        min-height: 74px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        min-height: 72px;
+        gap: 1rem;
       }
 
       .brand {
         display: inline-flex;
         align-items: center;
-        gap: 0.75rem;
-        font-family: "Space Grotesk", sans-serif;
-        font-size: 1.2rem;
+        gap: 0.72rem;
+        color: var(--text);
+        text-decoration: none;
+        font-family: "Sora", sans-serif;
         font-weight: 700;
-        letter-spacing: 0.2px;
+        letter-spacing: 0.01em;
       }
 
       .brand-mark {
-        width: 2.1rem;
-        height: 2.1rem;
+        width: 36px;
+        height: 36px;
         border-radius: 10px;
-        object-fit: cover;
         border: 1px solid rgba(255, 255, 255, 0.22);
-        box-shadow: 0 8px 20px rgba(17, 194, 162, 0.35);
+        box-shadow: 0 8px 22px rgba(10, 197, 180, 0.35);
       }
 
-      .nav-links {
+      .nav {
         display: flex;
-        gap: 1rem;
         align-items: center;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
       }
 
-      .nav-link {
-        color: var(--text-soft);
+      .nav a {
         text-decoration: none;
+        color: var(--text-dim);
+        font-size: 0.92rem;
         font-weight: 600;
-        font-size: 0.95rem;
       }
 
-      .nav-link:hover {
+      .nav a:hover,
+      .nav a:focus-visible {
         color: var(--text);
       }
 
       .hero {
-        padding: 5.5rem 0 3rem;
+        position: relative;
+        padding: 5.2rem 0 3.4rem;
       }
 
       .hero-grid {
         display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
+        grid-template-columns: 1.12fr 0.88fr;
         gap: 2rem;
-        align-items: center;
+        align-items: start;
       }
 
-      .eyebrow {
+      .badge {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.4rem 0.75rem;
-        border: 1px solid var(--stroke);
-        border-radius: 999px;
-        font-size: 0.78rem;
-        letter-spacing: 0.6px;
+        gap: 0.45rem;
         text-transform: uppercase;
-        color: var(--text-soft);
-        background: rgba(255, 255, 255, 0.05);
+        letter-spacing: 0.08em;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.4rem 0.75rem;
+        font-size: 0.73rem;
+        color: var(--text-dim);
+        background: rgba(255, 255, 255, 0.04);
       }
 
       h1 {
-        margin: 1rem 0 0.75rem;
-        font-family: "Space Grotesk", sans-serif;
-        font-size: clamp(2rem, 6vw, 4rem);
-        line-height: 1.05;
+        margin: 1rem 0 0.8rem;
+        font-family: "Sora", sans-serif;
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        line-height: 1.03;
         letter-spacing: -0.02em;
       }
 
-      .hero p {
+      .tagline {
+        display: block;
+        margin-top: 0.35rem;
+        font-size: clamp(1rem, 2.2vw, 1.35rem);
+        color: #cde6ff;
+        font-weight: 600;
+      }
+
+      .hero-copy {
         margin: 0;
-        max-width: 58ch;
-        color: var(--text-soft);
-        line-height: 1.7;
+        max-width: 60ch;
+        color: var(--text-dim);
+        line-height: 1.75;
         font-size: 1.02rem;
       }
 
       .cta-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem;
-        margin-top: 1.5rem;
+        align-items: center;
+        gap: 0.76rem;
+        margin-top: 1.6rem;
       }
 
       .btn {
@@ -190,125 +230,259 @@
         align-items: center;
         justify-content: center;
         text-decoration: none;
-        border-radius: 12px;
-        padding: 0.78rem 1rem;
-        font-weight: 700;
+        border-radius: 13px;
+        font-weight: 800;
         font-size: 0.95rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        padding: 0.8rem 1.05rem;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
       }
 
-      .btn:hover {
+      .btn:hover,
+      .btn:focus-visible {
         transform: translateY(-2px);
       }
 
       .btn-primary {
-        color: #02191c;
-        background: linear-gradient(135deg, var(--accent) 0%, #6ce0cb 100%);
-        box-shadow: 0 14px 28px rgba(17, 194, 162, 0.28);
+        color: var(--ink);
+        background: linear-gradient(135deg, var(--brand) 0%, #7cf0e2 100%);
+        box-shadow: 0 14px 30px rgba(10, 197, 180, 0.32);
       }
 
       .btn-secondary {
         color: var(--text);
-        border: 1px solid var(--stroke);
+        border: 1px solid var(--line);
         background: rgba(255, 255, 255, 0.05);
       }
 
-      .hero-card {
-        border: 1px solid var(--stroke);
-        background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
-        border-radius: 20px;
-        padding: 1.25rem;
-        box-shadow: var(--shadow);
+      .trust-notes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin-top: 1.05rem;
       }
 
-      .kpi-grid {
+      .pill {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        padding: 0.32rem 0.65rem;
+        font-size: 0.78rem;
+        color: #cee2fb;
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .hero-panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background: linear-gradient(165deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03));
+        box-shadow: var(--shadow);
+        padding: 1.2rem;
+      }
+
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .panel-title {
+        margin: 0;
+        font-family: "Sora", sans-serif;
+        font-size: 1rem;
+      }
+
+      .chip {
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 999px;
+        padding: 0.26rem 0.55rem;
+        font-size: 0.74rem;
+        color: #d8eaff;
+      }
+
+      .metric-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.9rem;
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
       }
 
-      .kpi {
-        background: rgba(4, 13, 23, 0.58);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+      .metric {
+        border: 1px solid rgba(255, 255, 255, 0.14);
         border-radius: 14px;
-        padding: 0.9rem;
+        background: rgba(1, 8, 18, 0.5);
+        padding: 0.75rem;
       }
 
-      .kpi strong {
+      .metric strong {
         display: block;
-        font-size: 1.3rem;
-        letter-spacing: -0.01em;
+        font-size: 1.05rem;
+        margin-bottom: 0.22rem;
       }
 
-      .kpi span {
-        color: var(--text-soft);
-        font-size: 0.84rem;
+      .metric span {
+        color: var(--text-dim);
+        font-size: 0.82rem;
+      }
+
+      .quick-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.45rem;
+      }
+
+      .quick-list li {
+        padding: 0.56rem 0.66rem;
+        border-radius: 10px;
+        border: 1px dashed rgba(255, 255, 255, 0.2);
+        font-size: 0.85rem;
+        color: #d4e7ff;
       }
 
       .section {
-        padding: 1.2rem 0 4rem;
+        padding: 1.1rem 0 4.2rem;
       }
 
-      .section h2 {
-        font-family: "Space Grotesk", sans-serif;
+      .section-head {
+        margin-bottom: 1.15rem;
+      }
+
+      h2 {
         margin: 0;
-        font-size: clamp(1.4rem, 3vw, 2rem);
+        font-family: "Sora", sans-serif;
+        font-size: clamp(1.45rem, 3vw, 2.05rem);
       }
 
-      .section-intro {
-        color: var(--text-soft);
-        margin: 0.7rem 0 0;
-        max-width: 64ch;
-        line-height: 1.7;
+      .section-head p {
+        margin: 0.72rem 0 0;
+        color: var(--text-dim);
+        max-width: 68ch;
+        line-height: 1.75;
       }
 
       .feature-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 1rem;
-        margin-top: 1.5rem;
+        gap: 0.95rem;
       }
 
-      .feature {
-        border: 1px solid var(--stroke);
-        border-radius: 16px;
-        padding: 1.1rem;
-        background: rgba(0, 0, 0, 0.2);
-        transition: border-color 0.2s ease, transform 0.2s ease;
+      .feature-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: rgba(2, 12, 25, 0.45);
+        padding: 1rem;
+        transition: transform 0.2s ease, border-color 0.2s ease;
       }
 
-      .feature:hover {
-        border-color: rgba(17, 194, 162, 0.7);
-        transform: translateY(-2px);
+      .feature-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(10, 197, 180, 0.68);
       }
 
-      .feature h3 {
-        margin: 0.2rem 0 0.45rem;
-        font-size: 1.05rem;
+      .feature-card h3 {
+        margin: 0.45rem 0 0.4rem;
+        font-size: 1.03rem;
       }
 
-      .feature p {
+      .feature-card p {
         margin: 0;
-        color: var(--text-soft);
-        font-size: 0.95rem;
-        line-height: 1.65;
+        color: var(--text-dim);
+        line-height: 1.64;
+        font-size: 0.93rem;
       }
 
-      .feature-tag {
+      .label {
         display: inline-block;
         border-radius: 999px;
-        padding: 0.2rem 0.55rem;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.4px;
+        font-size: 0.69rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #08242d;
-        background: linear-gradient(135deg, #9af0dd, #11c2a2);
+        padding: 0.22rem 0.56rem;
+        color: #07232b;
+        background: linear-gradient(135deg, #9bf8ea 0%, #0ac5b4 100%);
+      }
+
+      .split-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: rgba(0, 0, 0, 0.23);
+        padding: 1.05rem;
+      }
+
+      .panel h3 {
+        margin: 0;
+        font-size: 1.04rem;
+      }
+
+      .panel p {
+        margin: 0.55rem 0 0;
+        color: var(--text-dim);
+        line-height: 1.7;
+        font-size: 0.93rem;
+      }
+
+      .policy-list {
+        margin: 0.65rem 0 0;
+        padding-left: 1rem;
+        color: #d2e5ff;
+        line-height: 1.68;
+      }
+
+      .compliance {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background:
+          linear-gradient(160deg, rgba(10, 197, 180, 0.12), rgba(244, 175, 74, 0.1)),
+          rgba(0, 0, 0, 0.18);
+        padding: 1.15rem;
+      }
+
+      .compliance p {
+        margin: 0;
+        color: #d7e9ff;
+        line-height: 1.72;
+      }
+
+      .legal-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 0.8rem;
+      }
+
+      .legal-links a {
+        text-decoration: none;
+        color: #e4f0ff;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 999px;
+        padding: 0.42rem 0.75rem;
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .legal-links a:hover,
+      .legal-links a:focus-visible {
+        border-color: rgba(10, 197, 180, 0.8);
+      }
+
+      .final-cta {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
       }
 
       .footer {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 1.3rem 0 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        padding: 1.4rem 0 2rem;
       }
 
       .footer-inner {
@@ -319,42 +493,37 @@
         gap: 0.8rem;
       }
 
-      .muted {
-        color: var(--text-soft);
+      .footer-text {
+        margin: 0;
+        color: var(--text-dim);
         font-size: 0.88rem;
       }
 
-      .legal-links {
-        display: inline-flex;
-        gap: 1rem;
+      .footer-nav {
+        display: flex;
+        gap: 0.95rem;
+        flex-wrap: wrap;
       }
 
-      .legal-links a {
-        color: var(--text-soft);
+      .footer-nav a {
+        color: var(--text-dim);
         text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-      }
-
-      .legal-links a:hover {
-        color: var(--text);
+        font-size: 0.88rem;
+        font-weight: 700;
       }
 
       .reveal {
         opacity: 0;
-        transform: translateY(16px);
-        animation: enter 0.7s ease forwards;
-        animation-delay: var(--delay, 0s);
+        transform: translateY(18px);
+        transition: transform 0.64s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.64s ease;
       }
 
-      @keyframes enter {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
 
-      @media (max-width: 980px) {
+      @media (max-width: 1020px) {
         .hero-grid {
           grid-template-columns: 1fr;
         }
@@ -364,30 +533,27 @@
         }
       }
 
-      @media (max-width: 640px) {
+      @media (max-width: 720px) {
         .topbar-inner {
-          min-height: 64px;
+          align-items: flex-start;
+          padding: 0.75rem 0;
+          min-height: 0;
         }
 
-        .nav-links {
-          gap: 0.6rem;
-        }
-
-        .nav-link {
-          font-size: 0.85rem;
+        .nav {
+          width: 100%;
+          justify-content: flex-start;
+          gap: 0.75rem;
         }
 
         .hero {
-          padding-top: 4.1rem;
+          padding-top: 3.8rem;
         }
 
-        .feature-grid {
+        .feature-grid,
+        .split-grid,
+        .metric-grid {
           grid-template-columns: 1fr;
-        }
-
-        .footer-inner {
-          flex-direction: column;
-          align-items: flex-start;
         }
       }
     </style>
@@ -395,13 +561,15 @@
   <body>
     <header class="topbar">
       <div class="container topbar-inner">
-        <div class="brand">
-          <img class="brand-mark" src="assets/finlio.png" alt="Finlio logo" width="34" height="34" decoding="async" />
+        <a class="brand" href="/finlio/" aria-label="Finlio homepage">
+          <img class="brand-mark" src="assets/finlio.png" alt="Finlio logo" width="36" height="36" decoding="async" />
           <span>Finlio</span>
-        </div>
-        <nav class="nav-links" aria-label="Top navigation">
-          <a class="nav-link" href="privacy-policy.html">Privacy</a>
-          <a class="nav-link" href="terms-of-service.html">Terms</a>
+        </a>
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="#features">Features</a>
+          <a href="#data-use">Data Use</a>
+          <a href="privacy-policy.html">Privacy</a>
+          <a href="terms-of-service.html">Terms</a>
         </nav>
       </div>
     </header>
@@ -410,77 +578,208 @@
       <section class="hero">
         <div class="container hero-grid">
           <div>
-            <div class="eyebrow reveal" style="--delay: 0.05s">Personal finance, clarified</div>
-            <h1 class="reveal" style="--delay: 0.1s">Plan better. Spend smarter. Build confidence with Finlio.</h1>
-            <p class="reveal" style="--delay: 0.18s">
-              Finlio is your practical financial command center for everyday spending,
-              budget tracking, and progress visibility. Keep your goals in motion with
-              a fast, clean, and secure app experience.
+            <span class="badge reveal">Trusted financial planning app</span>
+            <h1 class="reveal" style="transition-delay: 0.08s">
+              Finlio
+              <span class="tagline">Your Complete Financial Portfolio.</span>
+            </h1>
+            <p class="hero-copy reveal" style="transition-delay: 0.14s">
+              Finlio gives you one unified place to track expenses, investments, debt,
+              budgets, savings goals, recurring payments, and receipts. It is built for
+              practical daily money management with secure backup, transparent data handling,
+              and a clean interface that stays easy to use as your finances grow.
             </p>
-            <div class="cta-row reveal" style="--delay: 0.26s">
-              <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.codentity.finlio" target="_blank" rel="noopener noreferrer">Get Finlio on Google Play</a>
+
+            <div class="cta-row reveal" style="transition-delay: 0.2s">
+              <a
+                class="btn btn-primary"
+                href="https://play.google.com/store/apps/details?id=com.codentity.finlio"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Install App
+              </a>
               <a class="btn btn-secondary" href="privacy-policy.html">Read Privacy Policy</a>
+            </div>
+
+            <div class="trust-notes reveal" style="transition-delay: 0.24s">
+              <span class="pill">No login required to view this page</span>
+              <span class="pill">Verified domain: codenity-dev.github.io</span>
+              <span class="pill">Policies always accessible</span>
             </div>
           </div>
 
-          <aside class="hero-card reveal" style="--delay: 0.22s" aria-label="Finlio highlights">
-            <div class="kpi-grid">
-              <div class="kpi">
-                <strong>Daily Tracking</strong>
-                <span>Capture expenses in seconds</span>
+          <aside class="hero-panel reveal" style="transition-delay: 0.18s" aria-label="Finlio highlights">
+            <div class="panel-head">
+              <p class="panel-title">Portfolio Snapshot</p>
+              <span class="chip">Real-time habits</span>
+            </div>
+            <div class="metric-grid">
+              <div class="metric">
+                <strong>Expense Tracking</strong>
+                <span>Capture daily spending in seconds.</span>
               </div>
-              <div class="kpi">
-                <strong>Category Insights</strong>
-                <span>Understand spending patterns</span>
+              <div class="metric">
+                <strong>Budget Control</strong>
+                <span>Keep category limits on track.</span>
               </div>
-              <div class="kpi">
-                <strong>Cloud Backup</strong>
-                <span>Encrypted Google Drive backup</span>
+              <div class="metric">
+                <strong>Investment View</strong>
+                <span>Monitor growth by asset type.</span>
               </div>
-              <div class="kpi">
-                <strong>Data Privacy</strong>
-                <span>Legal policies always available</span>
+              <div class="metric">
+                <strong>Backup & Restore</strong>
+                <span>Protect data when switching devices.</span>
               </div>
             </div>
+
+            <ul class="quick-list" aria-label="What users can do in Finlio">
+              <li>Manage debt plans and savings milestones together.</li>
+              <li>Track recurring bills and avoid surprise payments.</li>
+              <li>Scan receipts and keep records organized.</li>
+            </ul>
           </aside>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="container">
+          <div class="section-head reveal">
+            <h2>Everything you need to manage personal finance professionally</h2>
+            <p>
+              Finlio is designed as a complete financial command center, covering everyday
+              spending as well as long-term planning and portfolio visibility.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card reveal" style="transition-delay: 0.04s">
+              <span class="label">Track</span>
+              <h3>Expense Tracking</h3>
+              <p>Record and categorize daily expenses quickly to improve spending awareness.</p>
+            </article>
+
+            <article class="feature-card reveal" style="transition-delay: 0.08s">
+              <span class="label">Invest</span>
+              <h3>Investment Tracking</h3>
+              <p>Monitor performance across your investment portfolio with clear visibility.</p>
+            </article>
+
+            <article class="feature-card reveal" style="transition-delay: 0.12s">
+              <span class="label">Reduce</span>
+              <h3>Debt Management</h3>
+              <p>Track loans and credit obligations, then build practical repayment plans.</p>
+            </article>
+
+            <article class="feature-card reveal" style="transition-delay: 0.16s">
+              <span class="label">Grow</span>
+              <h3>Savings Goals</h3>
+              <p>Set goals and visualize progress for major milestones and planned purchases.</p>
+            </article>
+
+            <article class="feature-card reveal" style="transition-delay: 0.2s">
+              <span class="label">Plan</span>
+              <h3>Budgeting</h3>
+              <p>Create personalized budgets aligned with your income and lifestyle needs.</p>
+            </article>
+
+            <article class="feature-card reveal" style="transition-delay: 0.24s">
+              <span class="label">Automate</span>
+              <h3>Recurring Payments</h3>
+              <p>Manage subscriptions and fixed bills with reminders to avoid missed payments.</p>
+            </article>
+
+            <article class="feature-card reveal" style="transition-delay: 0.28s">
+              <span class="label">Capture</span>
+              <h3>Receipt Scanner</h3>
+              <p>Scan receipts for easier expense logging and searchable financial records.</p>
+            </article>
+
+            <article class="feature-card reveal" style="transition-delay: 0.32s">
+              <span class="label">Secure</span>
+              <h3>Data Backup & Restore</h3>
+              <p>Back up your financial data and restore it anytime for continuity.</p>
+            </article>
+
+            <article class="feature-card reveal" style="transition-delay: 0.36s">
+              <span class="label">Export</span>
+              <h3>Data Export</h3>
+              <p>Export your data for personal analysis, reporting, and tax preparation workflows.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="data-use">
+        <div class="container">
+          <div class="section-head reveal">
+            <h2>Transparent and responsible data usage</h2>
+            <p>
+              Finlio explains clearly why data is requested and how it is used, so users can
+              make informed decisions with confidence.
+            </p>
+          </div>
+
+          <div class="split-grid">
+            <article class="panel reveal" style="transition-delay: 0.06s">
+              <h3>Google Sign-In</h3>
+              <p>
+                Used to provide secure account access and enable personalized backup and
+                synchronization across supported devices.
+              </p>
+            </article>
+
+            <article class="panel reveal" style="transition-delay: 0.1s">
+              <h3>Receipt Scanning Permissions</h3>
+              <p>
+                Camera and storage access are used only to scan and store receipt images for
+                automated expense tracking and personal record-keeping.
+              </p>
+            </article>
+
+            <article class="panel reveal" style="transition-delay: 0.14s">
+              <h3>Financial Data Handling</h3>
+              <p>
+                User-entered financial data is used only to provide Finlio core features and is
+                not sold to third parties.
+              </p>
+            </article>
+
+            <article class="panel reveal" style="transition-delay: 0.18s">
+              <h3>Professional Trust Standards</h3>
+              <ul class="policy-list">
+                <li>Privacy policy and terms are always accessible from this page.</li>
+                <li>Homepage content is fully visible without login requirements.</li>
+                <li>Domain ownership verification is configured on codenity-dev.github.io.</li>
+              </ul>
+            </article>
+          </div>
         </div>
       </section>
 
       <section class="section">
         <div class="container">
-          <h2 class="reveal" style="--delay: 0.08s">What makes Finlio useful day to day</h2>
-          <p class="section-intro reveal" style="--delay: 0.14s">
-            Designed for people who want control without complexity. Finlio keeps key
-            money actions simple while still giving enough depth for serious planning.
-          </p>
+          <div class="compliance reveal">
+            <p>
+              Finlio is hosted on an owner-verified domain and designed to meet modern app-brand,
+              legal-disclosure, and transparency expectations for platform verification workflows.
+            </p>
+            <div class="legal-links" aria-label="Required legal links">
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms-of-service.html">Terms of Service</a>
+            </div>
 
-          <div class="feature-grid">
-            <article class="feature reveal" style="--delay: 0.18s">
-              <span class="feature-tag">Clarity</span>
-              <h3>Clean financial overview</h3>
-              <p>
-                Instantly see income, expenses, and current balance in one place, so
-                your decisions are based on real numbers.
-              </p>
-            </article>
-
-            <article class="feature reveal" style="--delay: 0.24s">
-              <span class="feature-tag">Control</span>
-              <h3>Budget and category focus</h3>
-              <p>
-                Track spending by category, set budget boundaries, and react early
-                before overspending becomes a pattern.
-              </p>
-            </article>
-
-            <article class="feature reveal" style="--delay: 0.3s">
-              <span class="feature-tag">Continuity</span>
-              <h3>Secure backup and restore</h3>
-              <p>
-                Keep your data protected with encrypted backup options and restore
-                access when moving devices.
-              </p>
-            </article>
+            <div class="final-cta">
+              <a
+                class="btn btn-primary"
+                href="https://play.google.com/store/apps/details?id=com.codentity.finlio"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Install App
+              </a>
+              <a class="btn btn-secondary" href="privacy-policy.html">Read Privacy Policy</a>
+            </div>
           </div>
         </div>
       </section>
@@ -488,16 +787,32 @@
 
     <footer class="footer">
       <div class="container footer-inner">
-        <p class="muted">Copyright <span id="year"></span> Finlio. All rights reserved.</p>
-        <div class="legal-links" aria-label="Legal links">
+        <p class="footer-text">Copyright <span id="year"></span> Finlio. All rights reserved.</p>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="/">CodEnity</a>
           <a href="privacy-policy.html">Privacy Policy</a>
           <a href="terms-of-service.html">Terms of Service</a>
-        </div>
+        </nav>
       </div>
     </footer>
 
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      const revealElements = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      revealElements.forEach((el) => observer.observe(el));
     </script>
   </body>
 </html>
