@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BillKoto | Your Bangladesh electricity bill, simplified</title>
+    <meta name="description"
+        content="BillKoto helps households in Bangladesh estimate monthly electricity costs using tariff slabs, appliance usage, and sanctioned load with clear breakdowns and history tracking." />
+    <link rel="canonical" href="https://codenity-dev.github.io/billkoto/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://codenity-dev.github.io/billkoto/" />
+    <meta property="og:title" content="BillKoto | Your Bangladesh electricity bill, simplified" />
+    <meta property="og:description"
+        content="Estimate Bangladesh electricity bills with tariff-aware calculations, appliance usage, and clear cost breakdowns." />
+    <meta property="og:image" content="https://codenity-dev.github.io/billkoto/assets/launch_icon.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BillKoto | Your Bangladesh electricity bill, simplified" />
+    <meta name="twitter:description"
+        content="A fast, transparent electricity bill calculator built for Bangladesh households." />
+    <meta name="twitter:image" content="https://codenity-dev.github.io/billkoto/assets/launch_icon.png" />
+
+    <link rel="icon" type="image/png" href="assets/launch_icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "BillKoto",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Android",
+        "url": "https://codenity-dev.github.io/billkoto/",
+        "image": "https://codenity-dev.github.io/billkoto/assets/launch_icon.png",
+        "description": "BillKoto helps users in Bangladesh estimate electricity bills using tariff slabs, appliance usage, and sanctioned load.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+
+    <style>
+        :root {
+            --bg: #07140c;
+            --bg-soft: #0b2a1a;
+            --surface: rgba(255, 255, 255, 0.08);
+            --surface-strong: rgba(255, 255, 255, 0.14);
+            --text: #f1fff7;
+            --text-dim: #b8d9c6;
+            --line: rgba(255, 255, 255, 0.16);
+            --brand: #19d978;
+            --brand-2: #f0c44a;
+            --ink: #062016;
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --container: min(1140px, calc(100% - 2rem));
+            --shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 520px at 92% -10%, rgba(25, 217, 120, 0.2), transparent 55%),
+                radial-gradient(900px 450px at -5% 22%, rgba(240, 196, 74, 0.16), transparent 52%),
+                linear-gradient(160deg, var(--bg) 0%, var(--bg-soft) 100%);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 36px 36px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+            opacity: 0.26;
+        }
+
+        .container {
+            width: var(--container);
+            margin: 0 auto;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            backdrop-filter: blur(16px);
+            background: rgba(7, 20, 12, 0.74);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .topbar-inner {
+            min-height: 74px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.72rem;
+            color: var(--text);
+            text-decoration: none;
+            font-family: "Outfit", sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 0 8px 22px rgba(25, 217, 120, 0.35);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .nav a:hover,
+        .nav a:focus-visible {
+            color: var(--text);
+        }
+
+        .hero {
+            position: relative;
+            padding: 5.2rem 0 3.4rem;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.12fr 0.88fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.73rem;
+            color: var(--text-dim);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        h1 {
+            margin: 1rem 0 0.8rem;
+            font-family: "Outfit", sans-serif;
+            font-size: clamp(2.2rem, 6vw, 3.9rem);
+            line-height: 1.03;
+            letter-spacing: -0.02em;
+        }
+
+        .tagline {
+            display: block;
+            margin-top: 0.35rem;
+            font-size: clamp(1rem, 2.2vw, 1.3rem);
+            color: #d4f7e3;
+            font-weight: 600;
+        }
+
+        .hero-copy {
+            margin: 0;
+            max-width: 60ch;
+            color: var(--text-dim);
+            line-height: 1.75;
+            font-size: 1.02rem;
+        }
+
+        .cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.76rem;
+            margin-top: 1.6rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border-radius: 13px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 0.8rem 1.05rem;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            color: var(--ink);
+            background: linear-gradient(135deg, var(--brand) 0%, #7bf5bf 100%);
+            box-shadow: 0 14px 30px rgba(25, 217, 120, 0.3);
+        }
+
+        .btn-secondary {
+            color: var(--text);
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .trust-notes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            margin-top: 1.05rem;
+        }
+
+        .pill {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 0.32rem 0.65rem;
+            font-size: 0.78rem;
+            color: #d4f5e0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-panel {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-xl);
+            background: linear-gradient(165deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.03));
+            box-shadow: var(--shadow);
+            padding: 1.2rem;
+        }
+
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .panel-title {
+            margin: 0;
+            font-family: "Outfit", sans-serif;
+            font-size: 1rem;
+        }
+
+        .chip {
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 999px;
+            padding: 0.26rem 0.55rem;
+            font-size: 0.74rem;
+            color: #d8ffe9;
+        }
+
+        .hero-shot {
+            width: 100%;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+            display: block;
+            margin-bottom: 0.9rem;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .metric {
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
+            background: rgba(1, 8, 18, 0.5);
+            padding: 0.75rem;
+        }
+
+        .metric strong {
+            display: block;
+            font-size: 1.02rem;
+            margin-bottom: 0.22rem;
+        }
+
+        .metric span {
+            color: var(--text-dim);
+            font-size: 0.82rem;
+        }
+
+        .quick-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .quick-list li {
+            padding: 0.56rem 0.66rem;
+            border-radius: 10px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            font-size: 0.85rem;
+            color: #d4f7e3;
+        }
+
+        .section {
+            padding: 1.1rem 0 4.2rem;
+        }
+
+        .section-head {
+            margin-bottom: 1.15rem;
+        }
+
+        h2 {
+            margin: 0;
+            font-family: "Outfit", sans-serif;
+            font-size: clamp(1.45rem, 3vw, 2.05rem);
+        }
+
+        .section-head p {
+            margin: 0.72rem 0 0;
+            color: var(--text-dim);
+            max-width: 68ch;
+            line-height: 1.75;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.95rem;
+        }
+
+        .feature-card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            background: rgba(2, 12, 25, 0.45);
+            padding: 1rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(25, 217, 120, 0.72);
+        }
+
+        .feature-card h3 {
+            margin: 0.45rem 0 0.4rem;
+            font-size: 1.03rem;
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--text-dim);
+            line-height: 1.64;
+            font-size: 0.93rem;
+        }
+
+        .label {
+            display: inline-block;
+            border-radius: 999px;
+            font-size: 0.69rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.22rem 0.56rem;
+            color: #052015;
+            background: linear-gradient(135deg, #b2f7d1 0%, #19d978 100%);
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            background: rgba(0, 0, 0, 0.23);
+            padding: 1.05rem;
+        }
+
+        .panel h3 {
+            margin: 0;
+            font-size: 1.04rem;
+        }
+
+        .panel p {
+            margin: 0.55rem 0 0;
+            color: var(--text-dim);
+            line-height: 1.7;
+            font-size: 0.93rem;
+        }
+
+        .policy-list {
+            margin: 0.65rem 0 0;
+            padding-left: 1rem;
+            color: #d2f0df;
+            line-height: 1.68;
+        }
+
+        .screens-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.9rem;
+        }
+
+        .screen-card {
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(5, 22, 12, 0.55);
+            padding: 0.5rem;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+        }
+
+        .screen-card img {
+            width: 100%;
+            border-radius: 14px;
+            display: block;
+        }
+
+        .compliance {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            background:
+                linear-gradient(160deg, rgba(25, 217, 120, 0.12), rgba(240, 196, 74, 0.1)),
+                rgba(0, 0, 0, 0.18);
+            padding: 1.15rem;
+        }
+
+        .compliance p {
+            margin: 0;
+            color: #d7f7e4;
+            line-height: 1.72;
+        }
+
+        .legal-grid {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem;
+        }
+
+        .legal-card {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 0.9rem;
+            background: rgba(1, 16, 8, 0.5);
+        }
+
+        .legal-card h3 {
+            margin: 0 0 0.4rem;
+            font-size: 1rem;
+        }
+
+        .legal-card a {
+            color: #d5ffe7;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .legal-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 0.8rem;
+        }
+
+        .legal-links a {
+            text-decoration: none;
+            color: #e4f0ff;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 999px;
+            padding: 0.42rem 0.75rem;
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .legal-links a:hover,
+        .legal-links a:focus-visible {
+            border-color: rgba(25, 217, 120, 0.8);
+        }
+
+        .final-cta {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 1.4rem 0 2rem;
+        }
+
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+        }
+
+        .footer-text {
+            margin: 0;
+            color: var(--text-dim);
+            font-size: 0.88rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 0.95rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: transform 0.64s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.64s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1020px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .screens-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .topbar-inner {
+                align-items: flex-start;
+                padding: 0.75rem 0;
+                min-height: 0;
+            }
+
+            .nav {
+                width: 100%;
+                justify-content: flex-start;
+                gap: 0.75rem;
+            }
+
+            .hero {
+                padding-top: 3.8rem;
+            }
+
+            .feature-grid,
+            .split-grid,
+            .metric-grid,
+            .legal-grid,
+            .screens-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <a class="brand" href="/billkoto/" aria-label="BillKoto homepage">
+                <img class="brand-mark" src="assets/launch_icon.png" alt="BillKoto logo" width="36" height="36"
+                    decoding="async" />
+                <span>BillKoto</span>
+            </a>
+            <nav class="nav" aria-label="Primary navigation">
+                <a href="#features">Features</a>
+                <a href="#data-use">Data Use</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#terms">Terms</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <span class="badge reveal">Trusted electricity bill calculator</span>
+                    <h1 class="reveal" style="transition-delay: 0.08s">
+                        BillKoto
+                        <span class="tagline">Your Bangladesh electricity bill, simplified</span>
+                    </h1>
+                    <p class="hero-copy reveal" style="transition-delay: 0.14s">
+                        BillKoto helps households in Bangladesh estimate monthly electricity costs using
+                        tariff slabs, appliance usage, and sanctioned load. It provides a fast calculator,
+                        clear breakdowns, and history tracking so users can understand and control energy costs.
+                    </p>
+
+                    <div class="cta-row reveal" style="transition-delay: 0.2s">
+                        <a class="btn btn-primary"
+                            href="https://play.google.com/store/apps/details?id=com.codenity.billkoto" target="_blank"
+                            rel="noopener noreferrer">
+                            Install App
+                        </a>
+                        <a class="btn btn-secondary" href="privacypolicy/">Read Privacy Policy</a>
+                    </div>
+
+                    <div class="trust-notes reveal" style="transition-delay: 0.24s">
+                        <span class="pill">No login required to view this page</span>
+                        <span class="pill">Verified domain: codenity-dev.github.io</span>
+                        <span class="pill">Policies always accessible</span>
+                    </div>
+                </div>
+
+                <aside class="hero-panel reveal" style="transition-delay: 0.18s" aria-label="BillKoto highlights">
+                    <div class="panel-head">
+                        <p class="panel-title">Bill Snapshot</p>
+                        <span class="chip">Tariff-aware</span>
+                    </div>
+                    <img class="hero-shot" src="assets/screenshots/homepage.jpg" alt="BillKoto app home screen"
+                        loading="lazy" decoding="async" />
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <strong>Official BPDB slabs</strong>
+                            <span>Rates aligned with local billing tiers.</span>
+                        </div>
+                        <div class="metric">
+                            <strong>Appliance-based usage</strong>
+                            <span>Model energy use per appliance.</span>
+                        </div>
+                        <div class="metric">
+                            <strong>Clear cost breakdown</strong>
+                            <span>See VAT, demand, and fixed charges.</span>
+                        </div>
+                        <div class="metric">
+                            <strong>History and insights</strong>
+                            <span>Track changes month to month.</span>
+                        </div>
+                    </div>
+
+                    <ul class="quick-list" aria-label="What users can do in BillKoto">
+                        <li>Estimate bills quickly without creating an account.</li>
+                        <li>Compare usage across appliances and months.</li>
+                        <li>Understand tariff slabs before paying.</li>
+                    </ul>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section" id="features">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2>Everything you need to estimate electricity bills accurately</h2>
+                    <p>
+                        BillKoto is designed for households and small offices in Bangladesh,
+                        with a calculator-first design and transparent breakdowns.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-card reveal" style="transition-delay: 0.04s">
+                        <span class="label">Breakdown</span>
+                        <h3>Tariff Breakdown</h3>
+                        <p>Shows slab-wise rates and VAT components for clarity.</p>
+                    </article>
+
+                    <article class="feature-card reveal" style="transition-delay: 0.08s">
+                        <span class="label">Presets</span>
+                        <h3>Appliance Presets</h3>
+                        <p>Common appliances with realistic power profiles.</p>
+                    </article>
+
+                    <article class="feature-card reveal" style="transition-delay: 0.12s">
+                        <span class="label">Insights</span>
+                        <h3>Usage Insights</h3>
+                        <p>Trends and comparisons for better decisions.</p>
+                    </article>
+
+                    <article class="feature-card reveal" style="transition-delay: 0.16s">
+                        <span class="label">Load</span>
+                        <h3>Sanctioned Load</h3>
+                        <p>Supports load-based demand charges in estimates.</p>
+                    </article>
+
+                    <article class="feature-card reveal" style="transition-delay: 0.2s">
+                        <span class="label">History</span>
+                        <h3>History</h3>
+                        <p>Save and review past calculations.</p>
+                    </article>
+
+                    <article class="feature-card reveal" style="transition-delay: 0.24s">
+                        <span class="label">Share</span>
+                        <h3>Export and Share</h3>
+                        <p>Share results and summaries with family or teams.</p>
+                    </article>
+
+                    <article class="feature-card reveal" style="transition-delay: 0.28s">
+                        <span class="label">Bangla</span>
+                        <h3>Bengali Support</h3>
+                        <p>Full UI and copy in Bangla.</p>
+                    </article>
+
+                    <article class="feature-card reveal" style="transition-delay: 0.32s">
+                        <span class="label">Offline</span>
+                        <h3>Offline First</h3>
+                        <p>Works without network for core calculation.</p>
+                    </article>
+
+                    <article class="feature-card reveal" style="transition-delay: 0.36s">
+                        <span class="label">Light</span>
+                        <h3>Lightweight</h3>
+                        <p>Optimized for low-end devices.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="data-use">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2>Transparent and responsible data usage</h2>
+                    <p>
+                        BillKoto explains clearly why data is requested and how it is used.
+                    </p>
+                </div>
+
+                <div class="split-grid">
+                    <article class="panel reveal" style="transition-delay: 0.06s">
+                        <h3>Analytics</h3>
+                        <p>Used to understand feature usage and improve the app.</p>
+                    </article>
+
+                    <article class="panel reveal" style="transition-delay: 0.1s">
+                        <h3>Crash Reporting</h3>
+                        <p>Helps diagnose errors and improve stability.</p>
+                    </article>
+
+                    <article class="panel reveal" style="transition-delay: 0.14s">
+                        <h3>Performance</h3>
+                        <p>Measures startup and screen performance.</p>
+                    </article>
+
+                    <article class="panel reveal" style="transition-delay: 0.18s">
+                        <h3>Ads</h3>
+                        <p>AdMob may use device identifiers to serve and measure ads.</p>
+                    </article>
+
+                    <article class="panel reveal" style="transition-delay: 0.22s">
+                        <h3>Local Data</h3>
+                        <p>Calculations and preferences are stored on-device.</p>
+                    </article>
+                </div>
+
+                <div class="panel reveal" style="margin-top: 1rem">
+                    <h3>Trust and transparency</h3>
+                    <ul class="policy-list">
+                        <li>Privacy policy and terms are always accessible from this page.</li>
+                        <li>No login required to view this page.</li>
+                        <li>Hosted on a verified domain.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2>Product screens</h2>
+                    <p>Quick look at the calculator, breakdown, appliances, and insights screens.</p>
+                </div>
+                <div class="screens-grid">
+                    <div class="screen-card reveal" style="transition-delay: 0.04s">
+                        <img src="assets/screenshots/calculator.jpg" alt="BillKoto calculator screen" loading="lazy"
+                            decoding="async" />
+                    </div>
+                    <div class="screen-card reveal" style="transition-delay: 0.08s">
+                        <img src="assets/screenshots/appliances.jpg" alt="BillKoto appliances screen" loading="lazy"
+                            decoding="async" />
+                    </div>
+                    <div class="screen-card reveal" style="transition-delay: 0.12s">
+                        <img src="assets/screenshots/insigthpage.jpg" alt="BillKoto insights screen" loading="lazy"
+                            decoding="async" />
+                    </div>
+                    <div class="screen-card reveal" style="transition-delay: 0.16s">
+                        <img src="assets/screenshots/homepage.jpg" alt="BillKoto home screen" loading="lazy"
+                            decoding="async" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="privacy">
+            <div class="container">
+                <div class="compliance reveal">
+                    <p>
+                        BillKoto is built by CodEnity and designed for transparent, compliant disclosure.
+                        Legal policies remain accessible from this page at all times.
+                    </p>
+                    <div class="legal-grid">
+                        <div class="legal-card" id="terms">
+                            <h3>Terms of Service</h3>
+                            <p><a href="terms-of-service.html">Review the terms that govern BillKoto use.</a></p>
+                        </div>
+                        <div class="legal-card">
+                            <h3>Privacy Policy</h3>
+                            <p><a href="privacypolicy/">Read how BillKoto handles data.</a></p>
+                        </div>
+                    </div>
+
+                    <div class="legal-links" aria-label="Required legal links">
+                        <a href="privacypolicy/">Privacy Policy</a>
+                        <a href="terms-of-service.html">Terms of Service</a>
+                        <a href="support.html">Support</a>
+                    </div>
+
+                    <div class="final-cta" id="install">
+                        <a class="btn btn-primary"
+                            href="https://play.google.com/store/apps/details?id=com.codenity.billkoto" target="_blank"
+                            rel="noopener noreferrer">
+                            Install App
+                        </a>
+                        <a class="btn btn-secondary" href="privacypolicy/">Read Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p class="footer-text">Copyright <span id="year"></span> BillKoto. All rights reserved.</p>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">CodEnity</a>
+                <a href="privacypolicy/">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+                <a href="support.html">Support</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        const revealElements = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.12 }
+        );
+
+        revealElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+
+</html>
