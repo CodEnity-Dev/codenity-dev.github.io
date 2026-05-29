@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BillKoto - Privacy Policy</title>
+    <meta name="description" content="Privacy Policy for the BillKoto electricity bill calculator app." />
+    <link rel="canonical" href="https://codenity-dev.github.io/billkoto/privacypolicy/" />
+    <link rel="icon" type="image/png" href="../assets/launch_icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg: #07140c;
+            --bg-soft: #0b2a1a;
+            --surface: rgba(255, 255, 255, 0.08);
+            --text: #f1fff7;
+            --text-dim: #b8d9c6;
+            --line: rgba(255, 255, 255, 0.16);
+            --brand: #19d978;
+            --ink: #062016;
+            --radius-lg: 16px;
+            --container: min(920px, calc(100% - 2rem));
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1000px 520px at 90% -10%, rgba(25, 217, 120, 0.2), transparent 55%),
+                radial-gradient(760px 420px at -10% 12%, rgba(240, 196, 74, 0.12), transparent 52%),
+                linear-gradient(160deg, var(--bg) 0%, var(--bg-soft) 100%);
+            padding: 32px 0 56px;
+        }
+
+        .container {
+            width: var(--container);
+            margin: 0 auto;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text);
+            text-decoration: none;
+            font-family: "Outfit", sans-serif;
+            font-weight: 700;
+        }
+
+        .brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 0.8rem;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: "Outfit", sans-serif;
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        h2 {
+            margin-top: 2rem;
+            font-size: 1.4rem;
+        }
+
+        h3 {
+            margin-top: 1.2rem;
+            font-size: 1.05rem;
+            color: #d9f7e8;
+        }
+
+        p {
+            color: var(--text-dim);
+            line-height: 1.75;
+        }
+
+        ul {
+            color: var(--text-dim);
+            line-height: 1.7;
+            padding-left: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            border: 1px solid rgba(25, 217, 120, 0.3);
+            background: rgba(25, 217, 120, 0.1);
+            border-radius: 14px;
+            padding: 1rem;
+            margin: 1.2rem 0 1.6rem;
+        }
+
+        .meta {
+            color: #d4f7e3;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .footer {
+            margin-top: 2.4rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        a {
+            color: #d5ffe7;
+        }
+
+        @media (max-width: 720px) {
+            .card {
+                padding: 24px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav a {
+                margin-left: 0;
+                margin-right: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="topbar">
+            <a class="brand" href="/billkoto/">
+                <img src="../assets/launch_icon.png" alt="BillKoto logo" />
+                <span>BillKoto</span>
+            </a>
+            <nav class="nav" aria-label="Page navigation">
+                <a href="/billkoto/">Landing</a>
+                <a href="../terms-of-service.html">Terms</a>
+                <a href="../support.html">Support</a>
+            </nav>
+        </div>
+
+        <div class="card">
+            <h1>Privacy Policy for BillKoto</h1>
+            <div class="meta">Last updated: 2026-05-29</div>
+            <p>
+                This Privacy Policy explains how BillKoto ("App") collects, uses, and shares information.
+                The App is provided by CodEnity ("we", "us", "our").
+            </p>
+            <p>If you have questions, contact: codenity.developer@gmail.com</p>
+
+            <div class="highlight">
+                <strong>Summary</strong>
+                <ul>
+                    <li>We use Firebase services for analytics, crash reporting, performance monitoring, and remote
+                        configuration.</li>
+                    <li>We use Google AdMob to display ads.</li>
+                    <li>We do not knowingly collect sensitive personal data such as national ID, bank details, or health
+                        data.</li>
+                    <li>We do not sell your personal data.</li>
+                </ul>
+            </div>
+
+            <h2>Information We Collect</h2>
+
+            <h3>1) App Usage and Diagnostics</h3>
+            <p>We collect usage and diagnostic data to improve stability and performance. This may include:</p>
+            <ul>
+                <li>App interaction events (screen views, button taps)</li>
+                <li>App performance metrics (load times, startup performance)</li>
+                <li>Crash logs and error reports</li>
+                <li>Device information (OS version, device model, language, approximate location from IP)</li>
+            </ul>
+            <p>Services used: Firebase Analytics, Firebase Crashlytics, Firebase Performance Monitoring.</p>
+
+            <h3>2) Advertising Data</h3>
+            <p>We use Google AdMob to serve ads. AdMob may collect:</p>
+            <ul>
+                <li>Advertising identifiers (such as Google Advertising ID)</li>
+                <li>Device and app usage data for ad delivery and measurement</li>
+            </ul>
+            <p>For more information, see Google's policies:</p>
+            <ul>
+                <li><a href="https://policies.google.com/privacy" target="_blank"
+                        rel="noopener">https://policies.google.com/privacy</a></li>
+                <li><a href="https://support.google.com/admob/answer/6128543" target="_blank"
+                        rel="noopener">https://support.google.com/admob/answer/6128543</a></li>
+            </ul>
+
+            <h3>3) Local Storage</h3>
+            <p>
+                We store user preferences and app data locally on your device (for example, settings, saved
+                calculations, and appliance lists). This data does not leave your device unless you choose
+                to share it.
+            </p>
+
+            <h2>How We Use Information</h2>
+            <ul>
+                <li>Provide and maintain app features</li>
+                <li>Diagnose and fix crashes</li>
+                <li>Understand usage trends to improve the app</li>
+                <li>Measure and improve app performance</li>
+                <li>Serve and measure ads</li>
+            </ul>
+
+            <h2>Sharing of Information</h2>
+            <p>We share data only with service providers required to operate the app:</p>
+            <ul>
+                <li>Google Firebase (Analytics, Crashlytics, Performance, Remote Config)</li>
+                <li>Google AdMob (Ads)</li>
+            </ul>
+            <p>We do not sell personal data to third parties.</p>
+
+            <h2>Children's Privacy</h2>
+            <p>
+                The App is not directed to children under 13. We do not knowingly collect personal
+                information from children. If you believe a child has provided personal information,
+                contact us to request deletion.
+            </p>
+
+            <h2>Your Choices</h2>
+            <ul>
+                <li>You can limit ad personalization in your device settings.</li>
+                <li>You can reset your advertising ID in your device settings.</li>
+                <li>You can stop all data collection by uninstalling the app.</li>
+            </ul>
+
+            <h2>Data Retention</h2>
+            <p>
+                We retain data only as long as necessary to provide and improve the service. Some analytics
+                or crash data may be retained by Firebase per their policies.
+            </p>
+
+            <h2>Security</h2>
+            <p>
+                We use reasonable safeguards to protect information. However, no method of transmission
+                or storage is 100% secure.
+            </p>
+
+            <h2>Changes to This Policy</h2>
+            <p>
+                We may update this policy from time to time. Changes will be reflected in this file with
+                an updated date.
+            </p>
+
+            <h2>Contact</h2>
+            <p>
+                CodEnity<br />
+                Email: codenity.developer@gmail.com<br />
+                Website: https://codenity-dev.github.io
+            </p>
+
+            <h2>App Links</h2>
+            <ul>
+                <li>Privacy Policy URL (in app): https://codenity-dev.github.io/billkoto/privacypolicy/</li>
+                <li>Support URL: https://codenity-dev.github.io/billkoto/support.html</li>
+                <li>Terms URL: https://codenity-dev.github.io/billkoto/terms-of-service.html</li>
+            </ul>
+
+            <div class="footer">
+                <p>BillKoto is built by CodEnity for transparent, responsible data use.</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
