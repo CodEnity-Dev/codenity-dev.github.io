@@ -37,7 +37,7 @@
   version: "1.0.0"
   platforms:
     - name: Chrome Web Store
-      url: "https://chromewebstore.google.com/detail/the-researcher/llbjpocoibimamoaehplmkhdgplcaclg"
+      url: "https://chromewebstore.google.com/detail/snapvista/bhochbllnkanhdgamlkhpnmjclfajefm"
   screenshots:
     - /snapvista/assets/screenshot_1.png
     - /snapvista/assets/screenshot_2.png
