@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnapVista | Premium Screen Capture & Vector Graphics Editor</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Capture entire web pages, visible viewports, custom areas, or DOM elements. Edit instantly with high-performance vector graphics, blur redaction, and rich exports—all 100% offline.">
+  <meta name="keywords" content="screen capture, screenshot editor, chrome extension, vector annotations, blur sensitive data, offline screenshot tool, page cleaner">
+  <link rel="canonical" href="https://codenity-dev.github.io/snapvista/">
+  
+  <!-- OpenGraph Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://codenity-dev.github.io/snapvista/">
+  <meta property="og:title" content="SnapVista | Premium Screen Capture & Editor">
+  <meta property="og:description" content="A fully-featured vector graphics editor built directly inside your browser tab. 100% private and offline-first.">
+  <meta property="og:image" content="https://codenity-dev.github.io/snapvista/assets/screenshot_1.png">
+  
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SnapVista | Premium Screen Capture & Editor">
+  <meta name="twitter:description" content="Stitch full-page scrolls, crop elements, annotate with vector paths, and blur credentials locally.">
+  <meta name="twitter:image" content="https://codenity-dev.github.io/snapvista/assets/screenshot_1.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/screenshot_2.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #030014;
+      --bg-accent: #0b0726;
+      --panel: rgba(255, 255, 255, 0.03);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --panel-hover: rgba(255, 255, 255, 0.06);
+      --text: #f9fafb;
+      --text-dim: #9ca3af;
+      --text-muted: #6b7280;
+      
+      /* Vibrant Glow Theme */
+      --primary: #8b5cf6;       /* Violet */
+      --primary-hover: #a78bfa;
+      --primary-glow: rgba(139, 92, 246, 0.25);
+      --secondary: #06b6d4;     /* Cyan */
+      --secondary-glow: rgba(6, 182, 212, 0.25);
+      --accent: #f43f5e;        /* Rose */
+      --accent-glow: rgba(244, 63, 94, 0.2);
+      --success: #10b981;       /* Emerald */
+      
+      --font-heading: 'Sora', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+      
+      --container-width: 1200px;
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      font-family: var(--font-body);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Grid Spotlight Background */
+    .spotlight-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      background: 
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
+    }
+
+    .grid-lines {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+      opacity: 0.8;
+    }
+
+    /* Typography Utilities */
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      letter-spacing: -0.02em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--text) 30%, var(--primary-hover) 70%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .container {
+      width: min(var(--container-width), calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    /* Nav Bar Layout */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(3, 0, 20, 0.7);
+      border-bottom: 1px solid var(--panel-border);
+      transition: var(--transition-smooth);
+    }
+
+    header.scrolled {
+      background: rgba(3, 0, 20, 0.85);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo-icon {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .logo-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+
+    .logo-text {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-text span {
+      background: linear-gradient(135deg, var(--primary-hover), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: var(--transition-smooth);
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .cta-btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+      color: #fff;
+      box-shadow: 0 8px 24px var(--primary-glow);
+    }
+
+    .cta-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px var(--primary-glow);
+      filter: brightness(1.1);
+    }
+
+    .cta-btn-secondary {
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--panel-border);
+    }
+
+    .cta-btn-secondary:hover {
+      background: var(--panel-hover);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding-top: 170px;
+      padding-bottom: 90px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 99px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary-hover);
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      line-height: 1.1;
+      max-width: 22ch;
+      margin-inline: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-desc {
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      color: var(--text-dim);
+      max-width: 60ch;
+      margin-inline: auto;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      margin-bottom: 4.5rem;
+    }
+
+    /* Workspace Showcase Frame */
+    .showcase-wrapper {
+      position: relative;
+      max-width: 1080px;
+      margin-inline: auto;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
+      padding: 6px;
+      border: 1px solid var(--panel-border);
+      box-shadow: 
+        0 30px 100px rgba(0, 0, 0, 0.8),
+        0 0 60px rgba(139, 92, 246, 0.15);
+      transition: var(--transition-smooth);
+    }
+
+    .showcase-wrapper:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: 
+        0 40px 120px rgba(0, 0, 0, 0.9),
+        0 0 80px rgba(139, 92, 246, 0.25);
+    }
+
+    /* Mac-Style OS Window Frame Controls */
+    .window-header {
+      height: 38px;
+      background: rgba(3, 0, 20, 0.6);
+      display: flex;
+      align-items: center;
+      padding-inline: 1.2rem;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .window-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .dot-close { background-color: #ff5f56; }
+    .dot-minimize { background-color: #ffbd2e; }
+    .dot-maximize { background-color: #27c93f; }
+
+    .window-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: 0.02em;
+    }
+
+    .showcase-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .section-header p {
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      max-width: 55ch;
+      margin-inline: auto;
+    }
+
+    /* Features Section - Interactive Tab Showcase */
+    .features-section {
+      padding: 90px 0;
+      border-top: 1px solid var(--panel-border);
+      background: linear-gradient(180deg, transparent 0%, rgba(11, 7, 38, 0.4) 50%, transparent 100%);
+    }
+
+    .features-showcase-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .feature-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .feature-tab {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text-dim);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-tab:hover {
+      background: var(--panel-hover);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateX(4px);
+    }
+
+    .feature-tab.active {
+      color: var(--text);
+      background: rgba(139, 92, 246, 0.05);
+      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: inset 0 0 12px rgba(139, 92, 246, 0.08);
+    }
+
+    .feature-tab::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: var(--transition-smooth);
+    }
+
+    .feature-tab.active::before {
+      opacity: 1;
+    }
+
+    .feature-tab h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .feature-tab p {
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .showcase-viewer {
+      position: relative;
+      border-radius: var(--radius-md);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 5px;
+      border: 1px solid var(--panel-border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .viewer-slide {
+      position: absolute;
+      inset: 5px;
+      border-radius: 12px;
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0.97) translateY(5px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .viewer-slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .viewer-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Benefits / Trust Grid */
+    .benefits-section {
+      padding: 90px 0;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .benefit-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.005) 100%);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.15);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    }
+
+    .benefit-card::after {
+      content: "";
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: var(--glow, var(--primary));
+      filter: blur(80px);
+      opacity: 0.08;
+      pointer-events: none;
+      transition: var(--transition-smooth);
+    }
+
+    .benefit-card:hover::after {
+      opacity: 0.15;
+    }
+
+    .benefit-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--panel-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      color: var(--theme-color, var(--primary-hover));
+    }
+
+    .benefit-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+    }
+
+    .benefit-card p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Privacy Banner */
+    .privacy-cta-banner {
+      background: radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+                  var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg);
+      padding: 4rem;
+      margin-block: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .privacy-cta-content {
+      max-width: 600px;
+    }
+
+    .privacy-cta-content h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .privacy-cta-content p {
+      color: var(--text-dim);
+      font-size: 1.05rem;
+    }
+
+    .privacy-cta-action {
+      flex-shrink: 0;
+    }
+
+    /* Accordion FAQ */
+    .faq-section {
+      padding: 90px 0;
+      border-top: 1px solid var(--panel-border);
+    }
+
+    .faq-list {
+      max-width: 760px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+
+    .faq-item:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .faq-trigger {
+      width: 100%;
+      padding: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .faq-icon-wrapper {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition-smooth);
+      color: var(--primary-hover);
+    }
+
+    .faq-icon-wrapper svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+      transition: var(--transition-smooth);
+    }
+
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq-content-inner {
+      padding: 0 1.5rem 1.5rem;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .faq-item.open .faq-content {
+      max-height: 300px;
+    }
+
+    .faq-item.open .faq-icon-wrapper {
+      transform: rotate(180deg);
+      background: rgba(139, 92, 246, 0.15);
+    }
+
+    /* CTA Section Footer */
+    .cta-banner-bottom {
+      padding: 100px 0;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+      border-top: 1px solid var(--panel-border);
+    }
+
+    .cta-banner-bottom h2 {
+      font-size: 2.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .cta-banner-bottom p {
+      color: var(--text-dim);
+      font-size: 1.15rem;
+      max-width: 50ch;
+      margin-inline: auto;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--panel-border);
+      background: rgba(2, 1, 10, 0.6);
+      padding: 5rem 0 2.5rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-brand-col p {
+      color: var(--text-dim);
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      max-width: 32ch;
+    }
+
+    .footer-col-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition-smooth);
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+      transform: translateX(2px);
+      display: inline-block;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .footer-bottom a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .footer-bottom a:hover {
+      color: var(--text-dim);
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    /* Mobile Responsive styles */
+    @media (max-width: 1024px) {
+      .features-showcase-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .features-showcase-grid .feature-tabs {
+        order: 2;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .feature-tab {
+        flex: 1 1 calc(50% - 0.5rem);
+      }
+      .showcase-viewer {
+        order: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding-top: 130px;
+        padding-bottom: 60px;
+      }
+      .hero-ctas {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .hero-ctas .cta-btn {
+        width: 100%;
+        max-width: 280px;
+      }
+      .privacy-cta-banner {
+        flex-direction: column;
+        padding: 2.5rem;
+        gap: 1.5rem;
+        text-align: center;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      .feature-tab {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Layer -->
+  <div class="spotlight-bg"></div>
+  <div class="grid-lines"></div>
+
+  <!-- Header Nav -->
+  <header id="header">
+    <div class="container nav-inner">
+      <a href="#" class="logo-container">
+        <div class="logo-icon">
+          <!-- Inline Camera/Viewport vector icon -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
+          </svg>
+        </div>
+        <div class="logo-text">Snap<span>Vista</span></div>
+      </a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#faq">FAQ</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+      </nav>
+      <div>
+        <a href="https://chromewebstore.google.com/detail/the-researcher/llbjpocoibimamoaehplmkhdgplcaclg" target="_blank" rel="noopener" class="cta-btn cta-btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 4px;">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.12 0 2-.88 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+          Add to Chrome
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 3px; vertical-align: middle;">
+          <path d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
+        </svg>
+        100% Offline & Private Processing
+      </div>
+      <h1 class="gradient-text">Welcome to SnapVista Workspace</h1>
+      <p class="hero-desc">A fully-featured vector graphics editor built directly inside your browser tab. Capture, annotate, redact, and export instantly without leaving the safety of your device.</p>
+      
+      <div class="hero-ctas">
+        <a href="https://chromewebstore.google.com/detail/the-researcher/llbjpocoibimamoaehplmkhdgplcaclg" target="_blank" rel="noopener" class="cta-btn cta-btn-primary">Get the Chrome Extension</a>
+        <a href="#features" class="cta-btn cta-btn-secondary">Explore Features</a>
+      </div>
+
+      <!-- Main Workspace Screenshot -->
+      <div class="showcase-wrapper">
+        <div class="window-header">
+          <div class="window-dots">
+            <span class="window-dot dot-close"></span>
+            <span class="window-dot dot-minimize"></span>
+            <span class="window-dot dot-maximize"></span>
+          </div>
+          <div class="window-title">SnapVista Editor Workspace</div>
+        </div>
+        <img src="assets/screenshot_1.png" alt="SnapVista Workspace Screenshot" class="showcase-img">
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Features Section -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Supercharge Your Screenshots</h2>
+        <p>Go beyond simple image capture. SnapVista provides pro-level capture modes combined with an advanced vector editing suite right in your browser.</p>
+      </div>
+
+      <div class="features-showcase-grid">
+        <!-- Interactive Left Tabs -->
+        <div class="feature-tabs">
+          <div class="feature-tab active" data-slide="0">
+            <h3>5 Versatile Capture Modes</h3>
+            <p>Grab full scrolls, selected coordinates, active viewports, DOM elements, or clean page clutter before saving.</p>
+          </div>
+          <div class="feature-tab" data-slide="1">
+            <h3>Gaussian Blur Redaction</h3>
+            <p>Protect sensitive information like API keys, passwords, profiles, and emails with a single click.</p>
+          </div>
+          <div class="feature-tab" data-slide="2">
+            <h3>High-Performance Vector Annotations</h3>
+            <p>Add pixel-perfect arrows, outlines, custom text callouts, freehand pen drawings, and step counters instantly.</p>
+          </div>
+          <div class="feature-tab" data-slide="3">
+            <h3>Clipboard Copy & Rich Export</h3>
+            <p>Instantly copy captured frames or export to 24-bit PNG, high-quality JPEG, or multi-page PDF documents.</p>
+          </div>
+        </div>
+
+        <!-- Dynamic Right Screenshot Viewer -->
+        <div class="showcase-viewer">
+          <div class="viewer-slide active">
+            <img src="assets/screenshot_2.png" alt="5 Versatile Capture Modes Popup UI">
+          </div>
+          <div class="viewer-slide">
+            <img src="assets/screenshot_3.png" alt="Gaussian Blur Redaction Tool in Action">
+          </div>
+          <div class="viewer-slide">
+            <img src="assets/screenshot_4.png" alt="High-Performance Vector Graphics Toolbar">
+          </div>
+          <div class="viewer-slide">
+            <img src="assets/screenshot_5.png" alt="Clipboard Copy & Export Format Select Options">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy Focus Section -->
+  <section class="benefits-section" id="privacy">
+    <div class="container">
+      <div class="section-header">
+        <h2>Designed to Protect Your Flow</h2>
+        <p>Built as a local-first browser extension, we guarantee security and high performance by eliminating cloud dependencies entirely.</p>
+      </div>
+
+      <div class="benefits-grid">
+        <!-- Benefit 1 -->
+        <div class="benefit-card" style="--glow: rgba(6, 182, 212, 0.3); --theme-color: var(--secondary)">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM11 7H13V9H11V7ZM11 11H13V17H11V11Z"/>
+            </svg>
+          </div>
+          <h3>100% Offline Processing</h3>
+          <p>Stitching, vector path rendering, and file format compilations occur directly inside your local browser sandbox. No internet required.</p>
+        </div>
+
+        <!-- Benefit 2 -->
+        <div class="benefit-card" style="--glow: rgba(16, 185, 129, 0.3); --theme-color: var(--success)">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+            </svg>
+          </div>
+          <h3>Zero Server Uploads</h3>
+          <p>We never host or upload your captured images. Your sensitive charts, private communications, or code remains exclusively on your device.</p>
+        </div>
+
+        <!-- Benefit 3 -->
+        <div class="benefit-card" style="--glow: rgba(244, 63, 94, 0.3); --theme-color: var(--accent)">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/>
+            </svg>
+          </div>
+          <h3>No Tracking or Analytics</h3>
+          <p>SnapVista contains no telemetry scripts, performance tracker libraries, or cookies. We focus 100% on the core utility utility without spywares.</p>
+        </div>
+      </div>
+
+      <!-- Inner Banner -->
+      <div class="privacy-cta-banner">
+        <div class="privacy-cta-content">
+          <h2>Private. Sandboxed. Secure.</h2>
+          <p>Check out our complete, transparent Privacy Policy. Find out exactly how browser permissions (like scripting and activeTab) are utilized strictly for the extension's rendering logic.</p>
+        </div>
+        <div class="privacy-cta-action">
+          <a href="privacy-policy.html" class="cta-btn cta-btn-secondary">Read Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <h2>Frequently Asked Questions</h2>
+        <p>Got questions about SnapVista? Here are quick answers to the most common queries.</p>
+      </div>
+
+      <div class="faq-list">
+        <!-- Item 1 -->
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Why does SnapVista require the `activeTab` permission?</span>
+            <span class="faq-icon-wrapper">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 15l-6-6h12z"/></svg>
+            </span>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              The `activeTab` permission allows SnapVista to capture the visible screen area when you click the extension popup. It does not monitor your browser background or have access to any other open tabs.
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>How does the Page Cleaner tool work?</span>
+            <span class="faq-icon-wrapper">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 15l-6-6h12z"/></svg>
+            </span>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              The Page Cleaner uses the standard `scripting` API to temporarily hide visual clutter like cookie banners, sticky headers, or floating sidebars, giving you a clean page before taking your screenshot. It doesn't modify the permanent files or remote data.
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Can I edit screenshots taken with other tools?</span>
+            <span class="faq-icon-wrapper">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 15l-6-6h12z"/></svg>
+            </span>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              Yes! You can load external PNG or JPEG images directly into the SnapVista vector editor tab and use our full suite of shapes, text tools, and Gaussian blur overlays.
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Where are my edits and downloads saved?</span>
+            <span class="faq-icon-wrapper">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 15l-6-6h12z"/></svg>
+            </span>
+          </button>
+          <div class="faq-content">
+            <div class="faq-content-inner">
+              All exports (PNG, JPEG, PDF) are processed inside the browser and downloaded directly into your system's default Downloads folder, or saved onto your clipboard based on your clicks.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ End -->
+
+  <!-- CTA Bottom -->
+  <section class="cta-banner-bottom">
+    <div class="container">
+      <h2>Capture and Annotate Instantly</h2>
+      <p>Transform how you save and share mockups, reports, code snippets, and designs. Add SnapVista to your browser today.</p>
+      <a href="https://chromewebstore.google.com/detail/the-researcher/llbjpocoibimamoaehplmkhdgplcaclg" target="_blank" rel="noopener" class="cta-btn cta-btn-primary" style="font-size: 1.05rem; padding: 0.95rem 2rem;">
+        Install SnapVista Workspace
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand-col">
+        <a href="#" class="logo-container">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
+            </svg>
+          </div>
+          <div class="logo-text">Snap<span>Vista</span></div>
+        </a>
+        <p>Premium screen capture and high-performance vector graphics editor built directly inside your browser tab.</p>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Extension</h4>
+        <ul class="footer-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#privacy">Privacy</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Support</h4>
+        <ul class="footer-links">
+          <li><a href="https://codenity-dev.github.io">Developer Site</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="mailto:support@codenity.dev">Email Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 CodEnity. All rights reserved. SnapVista is a trademark of CodEnity.</p>
+      <div class="footer-bottom-links">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="https://codenity-dev.github.io">CodEnity</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Spotlight cursor tracking
+    const spotlight = document.querySelector('.spotlight-bg');
+    document.addEventListener('mousemove', (e) => {
+      const x = ((e.clientX / window.innerWidth) * 100).toFixed(2);
+      const y = ((e.clientY / window.innerHeight) * 100).toFixed(2);
+      document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+      document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+    });
+
+    // Sticky header class update on scroll
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Interactive Showcase tabs & screenshots
+    const tabs = document.querySelectorAll('.feature-tab');
+    const slides = document.querySelectorAll('.viewer-slide');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs & slides
+        tabs.forEach(t => t.classList.remove('active'));
+        slides.forEach(s => s.classList.remove('active'));
+
+        // Add active to current
+        tab.classList.add('active');
+        const index = parseInt(tab.getAttribute('data-slide'), 10);
+        if (slides[index]) {
+          slides[index].classList.add('active');
+        }
+      });
+    });
+
+    // FAQ Accordion Toggle
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach((item) => {
+      const trigger = item.querySelector('.faq-trigger');
+      trigger.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        
+        // Close all other items
+        faqItems.forEach(i => i.classList.remove('open'));
+
+        // Toggle current item
+        if (!isOpen) {
+          item.classList.add('open');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

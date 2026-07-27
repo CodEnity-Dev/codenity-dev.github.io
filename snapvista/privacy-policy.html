@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - SnapVista | Premium Screen Capture & Editor</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Official Privacy Policy for SnapVista. 100% offline, local-first browser extension with zero data collection, no trackers, and no server uploads.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://codenity-dev.github.io/snapvista/privacy-policy.html">
+  
+  <!-- OpenGraph Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://codenity-dev.github.io/snapvista/privacy-policy.html">
+  <meta property="og:title" content="Privacy Policy - SnapVista Browser Extension">
+  <meta property="og:description" content="100% private. All screenshot capture, stitching, vector annotations, and exports are performed locally on your device.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/screenshot_2.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #030014;
+      --bg-accent: #0b0726;
+      --panel: rgba(255, 255, 255, 0.03);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --panel-hover: rgba(255, 255, 255, 0.06);
+      --text: #f9fafb;
+      --text-dim: #9ca3af;
+      --text-muted: #6b7280;
+      
+      /* Vibrant Glow Theme */
+      --primary: #8b5cf6;       /* Violet */
+      --primary-hover: #a78bfa;
+      --primary-glow: rgba(139, 92, 246, 0.25);
+      --secondary: #06b6d4;     /* Cyan */
+      --secondary-glow: rgba(6, 182, 212, 0.25);
+      
+      --font-heading: 'Sora', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      
+      --container-width: 1000px;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      font-family: var(--font-body);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Grid Spotlight Background */
+    .spotlight-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 40%);
+    }
+
+    .grid-lines {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+      opacity: 0.8;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .container {
+      width: min(var(--container-width), calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    /* Header Nav */
+    header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(3, 0, 20, 0.7);
+      border-bottom: 1px solid var(--panel-border);
+      transition: var(--transition-smooth);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo-icon {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .logo-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+
+    .logo-text {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-text span {
+      background: linear-gradient(135deg, var(--primary-hover), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: var(--transition-smooth);
+      border: 1px solid var(--panel-border);
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: var(--panel);
+    }
+
+    .back-btn:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.15);
+      background: var(--panel-hover);
+      transform: translateX(-2px);
+    }
+
+    /* Content Wrapper */
+    .policy-wrapper {
+      padding: 60px 0 100px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* Sticky Sidebar Navigation */
+    .sidebar {
+      position: sticky;
+      top: 110px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      padding-left: 0.75rem;
+    }
+
+    .sidebar-link {
+      display: block;
+      padding: 0.6rem 0.95rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 8px;
+      border-left: 2px solid transparent;
+      transition: var(--transition-smooth);
+    }
+
+    .sidebar-link:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .sidebar-link.active {
+      color: var(--primary-hover);
+      background: rgba(139, 92, 246, 0.05);
+      border-left-color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Main Doc styles */
+    .policy-content {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .doc-header {
+      border-bottom: 1px solid var(--panel-border);
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .doc-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .last-updated {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .highlight-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .highlight-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary-hover);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .highlight-card p {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Document Structure Markup */
+    section {
+      scroll-margin-top: 110px;
+      margin-bottom: 3rem;
+    }
+
+    section:last-of-type {
+      margin-bottom: 0;
+    }
+
+    section h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--primary-hover);
+    }
+
+    section p {
+      color: var(--text-dim);
+      font-size: 0.98rem;
+      margin-bottom: 1.2rem;
+    }
+
+    section strong {
+      color: var(--text);
+    }
+
+    section ul {
+      margin-bottom: 1.2rem;
+      padding-left: 1.5rem;
+      list-style-type: square;
+    }
+
+    section li {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .permission-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .permission-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .permission-name {
+      font-family: monospace;
+      color: var(--secondary);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-details {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-details a {
+      color: var(--primary-hover);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition-smooth);
+    }
+
+    .contact-details a:hover {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--panel-border);
+      background: rgba(2, 1, 10, 0.6);
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .policy-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .sidebar {
+        display: none; /* Hide sticky sidebar outline on mobile views */
+      }
+      .policy-content {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Layer -->
+  <div class="spotlight-bg"></div>
+  <div class="grid-lines"></div>
+
+  <!-- Header Nav -->
+  <header>
+    <div class="container nav-inner">
+      <a href="index.html" class="logo-container">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
+          </svg>
+        </div>
+        <div class="logo-text">Snap<span>Vista</span></div>
+      </a>
+      <a href="index.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Workspace
+      </a>
+    </div>
+  </header>
+
+  <!-- Content Container -->
+  <div class="container">
+    <div class="policy-wrapper">
+      
+      <!-- Left outline navigation -->
+      <aside class="sidebar">
+        <div class="sidebar-title">Sections</div>
+        <a href="#no-data" class="sidebar-link active">1. Local Processing</a>
+        <a href="#permissions" class="sidebar-link">2. Permissions Details</a>
+        <a href="#third-party" class="sidebar-link">3. Third-Party Links</a>
+        <a href="#compliance" class="sidebar-link">4. Google Compliance</a>
+        <a href="#changes" class="sidebar-link">5. Policy Changes</a>
+        <a href="#contact" class="sidebar-link">6. Contact Developer</a>
+      </aside>
+
+      <!-- Main Policy Document -->
+      <main class="policy-content">
+        <div class="doc-header">
+          <h1>Privacy Policy for SnapVista</h1>
+          <div class="last-updated">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            Last Updated: July 27, 2026
+          </div>
+        </div>
+
+        <div class="highlight-card">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            100% Client-Side Protection
+          </h3>
+          <p>This Privacy Policy describes how <strong>CodEnity</strong> ("we", "us", or "our") handles information when you use <strong>SnapVista - Premium Screen Capture & Editor</strong> (the "Extension"). We take your privacy extremely seriously. Our core philosophy is simple: <strong>we do not collect, store, transmit, or share your data.</strong></p>
+        </div>
+
+        <!-- Section 1 -->
+        <section id="no-data">
+          <h2>1. No Data Collection (100% Local Processing)</h2>
+          <p>The Extension does not collect, record, log, or transmit any user data. All operations, stitching, annotations, and file creations are performed entirely locally within your browser sandbox.</p>
+          <ul>
+            <li><strong>No Server Uploads:</strong> Your captured screenshots, edited images, and drawings are never uploaded to any remote server or third-party database.</li>
+            <li><strong>No Web History Tracking:</strong> We do not track, log, or store your browsing history, URLs visited, or web usage metrics.</li>
+            <li><strong>No Analytics or Trackers:</strong> We do not include any third-party analytics libraries, advertising trackers, or telemetry scripts in the Extension code.</li>
+          </ul>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="permissions">
+          <h2>2. Explanation of Browser Permissions</h2>
+          <p>To perform its functions, the Extension requests specific browser permissions in `manifest.json`. Below is a transparent breakdown of why each permission is required:</p>
+          
+          <div class="permission-item">
+            <div class="permission-name">activeTab</div>
+            <p>Allows the Extension to capture the visible frame of the active tab. This permission only triggers when you explicitly click the Extension icon or use a keyboard shortcut to capture the page. It does not grant the Extension continuous or broad access to your browsing history or other open tabs.</p>
+          </div>
+
+          <div class="permission-item">
+            <div class="permission-name">scripting</div>
+            <p>Used to programmatically inject the Extension's core capture and cleaning utilities (<code>content.js</code> and <code>content.css</code>) into the active tab. This injection is used strictly to handle page scrolling calculations for stitching full-page screenshots, overlaying the custom selection box, highlighting hovered elements for element-capture, and hiding webpage clutter (ads/cookie banners) via the Page Cleaner tool.</p>
+          </div>
+
+          <div class="permission-item">
+            <div class="permission-name">storage</div>
+            <p>Used to store your customized preferences and settings. If used, the data (such as default canvas color schemes, shadow depth configurations, or line thickness preferences) is saved locally in the browser's sandboxed storage and is never synced to external servers.</p>
+          </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="third-party">
+          <h2>3. Third-Party Services & Links</h2>
+          <p>The Extension operates fully offline. It contains no integrations with third-party cloud services, sharing portals, or social media platforms.</p>
+          <ul>
+            <li>Any exports (PNG, JPEG, PDF) are processed locally and saved directly to your local file system or copied to your clipboard.</li>
+            <li>When you click links to external portals (such as the developer support website or CWS reviews), those external pages operate under their own respective privacy policies.</li>
+          </ul>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="compliance">
+          <h2>4. Compliance with Google Developer Policies</h2>
+          <p>We certify that SnapVista complies fully with the Chrome Web Store Developer Program Policies, including the User Data Privacy Policy's "Limited Use" requirements. We process data strictly to support the single-purpose utility of screen capturing and editing as described in the Extension metadata.</p>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="changes">
+          <h2>5. Changes to This Privacy Policy</h2>
+          <p>We may update this Privacy Policy from time to time to reflect changes in our practices or browser security policies. Any updates will be pushed alongside new extension updates on the Chrome Web Store and will be updated on our website.</p>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="contact">
+          <h2>6. Contact Us</h2>
+          <p>If you have any questions or feedback regarding this Privacy Policy or our practices, please contact us at:</p>
+          <div class="contact-details">
+            <p><strong>Developer Portal:</strong> <a href="https://codenity-dev.github.io" target="_blank" rel="noopener">https://codenity-dev.github.io</a></p>
+            <p><strong>Email:</strong> <a href="mailto:support@codenity.dev">support@codenity.dev</a></p>
+          </div>
+        </section>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 CodEnity. All rights reserved. SnapVista is a trademark of CodEnity.</p>
+      <p style="margin-top: 0.5rem;"><a href="index.html">Back to Home</a> &middot; <a href="https://codenity-dev.github.io">Developer Portal</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Spotlight cursor tracking
+    document.addEventListener('mousemove', (e) => {
+      const x = ((e.clientX / window.innerWidth) * 100).toFixed(2);
+      const y = ((e.clientY / window.innerHeight) * 100).toFixed(2);
+      document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+      document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+    });
+
+    // Sticky Sidebar ScrollSpy
+    const sections = document.querySelectorAll('section');
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= (sectionTop - 150)) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      sidebarLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').slice(1) === current) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

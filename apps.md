@@ -12,7 +12,13 @@ Below are quick links to the stores. Each item will have install badges, screens
 <div class="cards">
   {% for app in site.data.apps %}
     <article class="card">
-      <h3><a href="{{ '/apps/' | append: app.slug | relative_url }}">{{ app.name }}</a></h3>
+      <h3>
+        {% if app.url %}
+          <a href="{{ app.url | relative_url }}">{{ app.name }}</a>
+        {% else %}
+          <a href="{{ '/apps/' | append: app.slug | relative_url }}">{{ app.name }}</a>
+        {% endif %}
+      </h3>
       <p>{{ app.short }}</p>
       <p>Version {{ app.version }}</p>
       <p>
